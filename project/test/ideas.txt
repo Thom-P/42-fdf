@@ -1,0 +1,34 @@
+recup tableau[y][x] = z
+
+struct t_pt3d 
+	int	x  //actually float better?
+	int	y
+	int	z
+	t_pt3d	*next_r //right
+	t_pt3d	*next_d //dow
+
+actually can separate the poiny part, easy to just make an N points by 2 array of inds that point to!
+
+pt3_arr = malloc (sizeof t_pt3d * ny * nx )
+while y < dernier
+	while x < dernier
+	pt3_arr[nx * yy + xx].x = 
+						 .y = 
+						 .z =
+						 .nxt_r = &pt3_arr[" + 1]
+						 .nxt_d = &pt3_arr[" + nx]
+	dernier x nxt_r =NULL
+				nxt_d same
+
+dernier y
+while (x < dernier)
+	nx_r = +1
+	nx_d = NULL
+dernier x et y
+both null
+
+make copy of struct to apply rotation and projection
+(by passin val instead of address shld work?)
+
+no need to go down to 2D, jusk skip the z val?
+
