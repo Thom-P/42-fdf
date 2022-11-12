@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.h                                        :+:      :+:    :+:   */
+/*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 12:38:30 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/11 17:09:22 by tplanes          ###   ########.fr       */
+/*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
+/*   Updated: 2022/11/12 13:53:46 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_LINE_H
-# define DRAW_LINE_H
+#ifndef FDF_H
+# define FDF_H
 
+# include <stdio.h>  //to remove at the end
 # include <stdlib.h>
 # include <limits.h>
+# include <math.h>
 
-typedef struct s_pt2d
-{
-	int	x;
-	int	y;
-}				t_pt2d;
+# include "mlx.h"
 
-typedef struct s_buffer
-{
-	int	nx;
-	int	ny;
-	int	*buff;
-}				t_buffer;
+# include "draw_line.h"
 
-typedef struct s_draw
+// Struct for pointers to display session and window
+typedef struct	s_xptr
 {
-	int	dx;
-	int	dy;
-	int	sx;
-	int	sy;
-	int	error;
-}				t_draw;
+	void	*mlx;
+	void	*win;
+}				t_xptr;
 
 #endif

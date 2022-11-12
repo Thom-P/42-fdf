@@ -6,64 +6,64 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:35:19 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/11 17:06:23 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/12 14:04:36 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "draw_line.h"
+#include "fdf.h"
 
-int	_draw_pix_buff(t_pt2d *t_p0, t_pt2d *t_p1, t_draw *t_d, t_buffer *t_buff);
+static int	_put_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d, t_buffer *buffer);
 
 // Bresenham's line algo using integer computations only
-void	draw_line_buff(t_pt2d *t_p0, t_pt2d *t_p1, t_buffer *t_buff)
+void	draw_line_buff(t_pt2d *p0, t_pt2d *p1, t_buffer *buffer)
 //nb: could add in box check for p1 and p0
 {
-	t_draw	t_d;
-	t_pt2d	t_p0_cpy;
+	t_draw	d;
+	t_pt2d	p0_cpy;
 
-	t_p0_cpy.x = t_p0 -> x;
-	t_p0_cpy.y = t_p0 -> y;
-	t_d.dx = abs(t_p1 -> x - t_p0 -> x);
-	if (t_p0 -> x < t_p1 -> x)
-		t_d.sx = 1;
+	p0_cpy.x = p0 -> x;
+	p0_cpy.y = p0 -> y;
+	d.dx = abs(p1 -> x - p0 -> x);
+	if (p0 -> x < p1 -> x)
+		d.sx = 1;
 	else
-		t_d.sx = -1;
-	t_d.dy = -abs(t_p1 -> y - t_p0 -> y);
-	if (t_p0 -> y < t_p1 -> y)
-		t_d.sy = 1;
+		d.sx = -1;
+	d.dy = -abs(p1 -> y - p0 -> y);
+	if (p0 -> y < p1 -> y)
+		d.sy = 1;
 	else
-		t_d.sy = -1;
-	t_d.error = t_d.dx + t_d.dy;
+		d.sy = -1;
+	d.error = d.dx + d.dy;
 	while (1)
 	{
-		if (_draw_pix_buff(&t_p0_cpy, t_p1, &t_d, t_buff))
+		if (_put_pix(&p0_cpy, p1, &d, buffer))
 			break ;
 	}
 	return ;
 }
 
 // copy of t_p0 is provided so that point is not modified during draw
-int	_draw_pix_buff(t_pt2d *t_p0, t_pt2d *t_p1, t_draw *t_d, t_buffer *t_buff)
+int	_put_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d, t_buffer *buffer)
 {
 	int	e2;
 
-	(t_buff -> buff)[(t_p0 -> y) * (t_buff -> nx) + t_p0 -> x] = INT_MAX;
-	if (t_p0 -> x == t_p1 -> x && t_p0 -> y == t_p1 -> y)
+	(buffer -> buff)[(p0 -> y) * (buffer -> nx) + p0 -> x] = INT_MAX;
+	if (p0 -> x == p1 -> x && p0 -> y == p1 -> y)
 		return (1);
-	e2 = 2 * t_d -> error;
-	if (e2 >= t_d -> dy)
+	e2 = 2 * d -> error;
+	if (e2 >= d -> dy)
 	{
-		if (t_p0 -> x == t_p1 -> x)
+		if (p0 -> x == p1 -> x)
 			return (1);
-		t_d -> error += t_d -> dy;
-		t_p0 -> x += t_d -> sx;
+		d -> error += d -> dy;
+		p0 -> x += d -> sx;
 	}
-	if (e2 <= t_d -> dx)
+	if (e2 <= d -> dx)
 	{
-		if (t_p0 -> y == t_p1 -> y)
+		if (p0 -> y == p1 -> y)
 			return (1);
-		t_d -> error += t_d -> dx;
-		t_p0 -> y += t_d -> sy;
+		d -> error += d -> dx;
+		p0 -> y += d -> sy;
 	}
 	return (0);
 }
