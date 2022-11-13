@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/12 15:12:37 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/13 13:20:11 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	main(void)
 	int		win_nx;
 	int		win_ny;
 	
-	win_nx = 1280; //values for macbook pro full
+	ft_putstr_fd("Starting Fdf...\n", 1);
+
+	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
 
-	//fprintf(stderr, "1");
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
-	//fprintf(stderr, "2");
 
 	int	nx = 1000;
 	int ny = 500;
