@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/13 13:20:11 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/13 14:12:11 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,37 @@ void	_draw_buffer(t_buffer *buffer, t_xptr *xp);
 
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
-int	main(void)
+int	main(int ac, char **av)
 {
 	t_xptr	xp;
 	int		win_nx;
 	int		win_ny;
-	
+	t_buffer buffer;
+	int		*buff;
+	t_mat	data_in;
+
 	ft_putstr_fd("Starting Fdf...\n", 1);
+	if (ac != 2)
+	{
+		ft_putstr_fd("Incorrect number of arguments (expected 1).\n", 1);
+		return (-1);
+	}
+	ft_putstr_fd(av[1], 1);
+	data_in = get_input(av[1]);
+
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
+	buffer.nx = floor(0.75 * win_nx);
+	buffer.ny = floor(0.75 * win_ny);
+	buff = (int *)ft_calloc(buffer.ny * buffer.nx, sizeof(int));
+	buffer.buff = buff;
 
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
 
-	int	nx = 1000;
-	int ny = 500;
-	int *buff;
-	buff = (int *)calloc(ny * nx, sizeof(int));
-
-	t_buffer buffer;
 	t_pt2d	p0;
 	t_pt2d	p1;
 
-	buffer.nx = nx;
-	buffer.ny = ny;
-	buffer.buff = buff;
 	p0.x = 600;
 	p1.x = 400;
 	p0.y = 400;
