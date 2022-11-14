@@ -6,13 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 15:13:20 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 17:00:02 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static t_imat	_parse_file(int fd);
+static int		_parse_file(int fd, t_imat *data_in, t_list **row_list);
 
 static void		_parse_first_line(t_imat *data_in, t_list **row_list, int fd);
 
@@ -20,20 +20,24 @@ static int		_parse_line(char *line, int **row);
 
 static int		*_list2mat(t_list **row_list, int m, int n);
 
-static void		_free_and_exit(t_list **row_list, int *row, char *msg);
-
 t_imat	get_input(char *f_name)
 {
 	int		fd;
 	t_imat	data_in;
-	
+	t_list	*row_list;
+
 	fd = open(f_name, O_RDONLY);
 	if (fd == -1)
 	{
 		perror(NULL);
 		exit(EXIT_FAILURE);
 	}
-	data_in = _parse_file(fd);
+	if (_parse_file(fd, &data_in, &row_list) == -1)
+	{
+		ft_lstclear(&row_list, &free);
+		exit(EXIT_FAILURE);
+	}
+	data_in.imat = _list2mat(&row_list, data_in.m, data_in.n);
 	if (close(fd))
 	{
 		perror(NULL);
@@ -42,38 +46,32 @@ t_imat	get_input(char *f_name)
 	return (data_in);
 }
 
-static	t_imat	_parse_file(int fd)
+static int	_parse_file(int fd, t_imat *data_in, t_list **row_list)
 {
-	t_imat	data_in;
 	int		*row;
-	t_list	*row_list;
 	t_list	*node;
 	char	*line;
+	char	*err_msg;
 
-	_parse_first_line(&data_in, &row_list, fd);
+	_parse_first_line(data_in, row_list, fd);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		if (_parse_line(line, &row) != data_in.n)
-			_free_and_exit(&row_list, row, "Invalid format file! \n");
+		if (_parse_line(line, &row) != data_in -> n)
+			err_msg = "Invalid format file!";
 		node = ft_lstnew(row);
-		if (node == NULL)
-			_free_and_exit(&row_list, row, "Failed malloc during parsing! \n");
-		ft_lstadd_back(&row_list, node);
-		(data_in.m)++;
+		if (node == NULL || err_msg != NULL)
+		{	
+			perror(err_msg);
+			free(row);
+			return (-1);
+		}
+		ft_lstadd_back(row_list, node);
+		(data_in -> m)++;
 	}
-	data_in.imat = _list2mat(&row_list, data_in.m, data_in.n);
-	return (data_in);
-}
-
-static void	_free_and_exit(t_list **row_list, int *row, char *msg)
-{
-	ft_putstr_fd(msg, 1);
-	free(row);
-	ft_lstclear(row_list, &free);
-	exit(EXIT_FAILURE);
+	return (0);
 }
 
 static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
@@ -97,6 +95,7 @@ static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
 	*row_list = ft_lstnew(row);
 	if (*row_list == NULL)
 	{
+		perror(NULL);
 		free(row);
 		exit(EXIT_FAILURE);
 	}	
