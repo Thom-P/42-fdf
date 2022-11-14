@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 12:12:14 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:44:49 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_imat	get_input(char *f_name)
 	int		fd;
 	t_imat	data_in;
 	
-	fprintf(stderr, "entred\n");
 	fd = open(f_name, O_RDONLY);
 	if (fd == -1)
 	{
@@ -51,8 +50,6 @@ static	t_imat	_parse_file(int fd)
 	t_list	*node;
 	char	*line;
 
-
-	fprintf(stderr, "enter parse file\n");
 	_parse_first_line(&data_in, &row_list, fd);
 	while (1)
 	{
@@ -84,7 +81,6 @@ static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
 	char	*line;
 	int		*row;					
 
-	fprintf(stderr, "enter parse 1st line\n");
 	line = get_next_line(fd);
 	if (line == NULL)
 	{	
@@ -115,12 +111,10 @@ static int	*_list2mat(t_list **row_list, int m, int n)
 	int	j;
 	int	*row;
 
-	fprintf(stderr, "enter list2mat\n");
 	i = 0;
 	data_mat = (int *)malloc(sizeof(int) * m * n);
 	while (*row_list != NULL)
 	{	
-		fprintf(stderr, "enter mainloop\n");
 		row = (*row_list)-> content;
 		j = 0;
 		while (j < n)
@@ -140,7 +134,6 @@ static int	_parse_line(char *line, int **row)
 	char	**word_arr;
 	int		n;
 
-	fprintf(stderr, "enter parse line\n");
 	word_arr = ft_split(line, ' ');
 	free(line);
 	if (word_arr == NULL)
