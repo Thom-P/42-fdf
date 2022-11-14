@@ -6,11 +6,21 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 10:28:01 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:00:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static t_imat	_parse_file(int fd);
+
+static void		_parse_first_line(t_imat *data_in, t_list **row_list, int fd);
+
+static int		_parse_line(char *line, int **row);
+
+static int		*_list2mat(t_list **row_list, int m, int n);
+
+static void		_free_and_exit(t_list **row_list, int *row, char *msg);
 
 t_imat	get_input(char *f_name)
 {
@@ -21,90 +31,109 @@ t_imat	get_input(char *f_name)
 	if (fd == -1)
 	{
 		perror(NULL);
-		exit();
+		exit(EXIT_FAILURE);
 	}
-	data_in = _parse_file(fd); //protect?
+	data_in = _parse_file(fd);
 	if (close(fd))
 	{
 		perror(NULL);
-		exit();
+		exit(EXIT_FAILURE);
 	}
 	return (data_in);
 }
 
-t_imat	_parse_file(int fd)
+static	t_imat	_parse_file(int fd)
 {
 	t_imat	data_in;
 	int		*row;
 	t_list	*row_list;
+	t_list	*node;
+	char	*line;
+
+	_parse_first_line(&data_in, &row_list, fd);
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		if (_parse_line(line, &row) != data_in.n)
+			_free_and_exit(&row_list, row, "Invalid format file! \n");
+		node = ft_lstnew(row);
+		if (node == NULL)
+			_free_and_exit(&row_list, row, "Failed malloc during parsing! \n");
+		ft_lstadd_back(&row_list, node);
+		(data_in.m)++;
+	}
+	data_in.imat = _list2mat(&row_list, data_in.m, data_in.n);
+	return (data_in);
+}
+
+static void	_free_and_exit(t_list **row_list, int *row, char *msg)
+{
+	ft_putstr_fd(msg, 1);
+	free(row);
+	ft_lstclear(row_list, &free);
+	exit(EXIT_FAILURE);
+}
+
+static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
+{	
+	char	*line;
+	int		*row;					
 
 	line = get_next_line(fd);
 	if (line == NULL)
 	{	
-		ft_putstr_fd("Empty file...\n");
-		exit();
+		ft_putstr_fd("Empty file...\n", 1);
+		exit(EXIT_FAILURE);
 	}
-	nn = _parse_line(line, &row);
-	free(line);
-	if (row.n < 2) //possibly remove at the end
+	data_in -> n = _parse_line(line, &row);
+	if (data_in -> n < 2)
 	{
-		ft_putstr_fd("Error: at least two columns required!\n");
-		
-		exit();
+		ft_putstr_fd("Error: at least two columns required!\n", 1);
+		free(row);
+		exit(EXIT_FAILURE);
 	}
-	data_in.n = row.n;
-	row_list = ft_lst_new(row.imat); //shld protect lst_new...
-	//ft_lst_addback(&row_list, ft_lst_new(row.imat)); //shld protect lst_new...
-	data_in.m = 1;
-	while (get_next_line(fd))
+	*row_list = ft_lstnew(row);
+	if (*row_list == NULL)
 	{
-		
-		row = _parse_line(line);
-		if (row.n != data_in.n)
-		{	
-			ft_putstr_fd("Invalid format file!\n");
-			ft_lstclear(&row_list, &free);
-			
-			exit();
-		}
-		ft_lst_addback(&row_list, ft_lst_new(row.imat));
-		(data_in.m)++;
-	}
-	data_in.imat = list2mat(&row_list, data_in.m, data_in.n);
-	ft_lstclear(&row_list, &free);
-	return (data_in);
+		free(row);
+		exit(EXIT_FAILURE);
+	}	
+	data_in -> m = 1;
+	return ;
 }
 
-int	*_list2mat(t_list **row_list, int m, int n)
+static int	*_list2mat(t_list **row_list, int m, int n)
 {
-	int *data_mat;
-	int i;
-	int j;
-	int *row;
+	int	*data_mat;
+	int	i;
+	int	j;
+	int	*row;
 
 	i = 0;
 	data_mat = (int *)malloc(sizeof(int) * m * n);
 	while (*row_list != NULL)
 	{	
-		row = row_list -> content;
+		row = (*row_list)-> content;
 		j = 0;
-		while(j < n)	
+		while (j < n)
 		{
 			data_mat[i * n + j] = row[j];
 			j++;
 		}
 		i++;
 	}
+	ft_lstclear(row_list, &free);
 	return (data_mat);
 }
 
-int	_parse_line(char **line, int **row)
+static int	_parse_line(char *line, int **row)
 {
 	char	**word_arr;
-	int		*row_mat;
 	int		n;
 
-	word_arr = ft_split(line);
+	word_arr = ft_split(line, ' ');
 	free(line);
 	if (word_arr == NULL)
 		return (-1);
