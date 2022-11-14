@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/13 14:41:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 09:53:33 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ typedef struct	s_imat
 {
 	int	m;
 	int	n;
-	float *imat;
+	int *imat;
 }				t_imat;
 
 // Struct for 2D float matrix (size m, n)
 typedef struct	s_fmat
 {
-	int	m;
-	int	n;
-	float *fmat;
+	int		m;
+	int		n;
+	float	*fmat;
 }				t_fmat;
 
 #endif
