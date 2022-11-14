@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 12:01:58 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 22:16:39 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "libft.h"
 
 # include "draw_line.h"
+
+# define ON_DESTROY 17  //closing window event
 
 // Struct for pointers to display session and window
 typedef struct	s_xptr
