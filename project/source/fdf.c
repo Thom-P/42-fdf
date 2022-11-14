@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 12:12:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:41:09 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,20 @@ int	main(int ac, char **av)
 	ft_putstr_fd(av[1], 1);
 	ft_putchar_fd('\n', 1);
 	data_in = get_input(av[1]);
-	while(data)
-
+	int i = 0;
+	int	j = 0;
+	while (i < data_in.m)
+	{
+		j = 0;
+		while (j < data_in.n)
+		{
+			ft_putnbr_fd((data_in.imat)[i * data_in.n + j],1);
+			ft_putchar_fd(' ', 1);
+			j++;
+		}
+		ft_putchar_fd('\n', 1);
+		i++;
+	}
 	exit(0);
 
 	win_nx = 1280; //values for macbook pro full screen
