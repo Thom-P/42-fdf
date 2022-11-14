@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 09:53:33 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 10:52:47 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include "libft.h"
 
 # include "draw_line.h"
-# include "parsing.h"
 
 // Struct for pointers to display session and window
 typedef struct	s_xptr
@@ -47,5 +46,9 @@ typedef struct	s_fmat
 	int		n;
 	float	*fmat;
 }				t_fmat;
+
+//Parsing
+//t_imat	get_input(char *f_name);
+
 
 #endif
