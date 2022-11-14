@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 10:51:17 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 12:12:51 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int ac, char **av)
 	int		win_ny;
 	t_buffer buffer;
 	int		*buff;
-	//t_mat	data_in;
+	t_imat	data_in;
 
 	ft_putstr_fd("Starting Fdf...\n", 1);
 	if (ac != 2)
@@ -36,8 +36,11 @@ int	main(int ac, char **av)
 		return (-1);
 	}
 	ft_putstr_fd(av[1], 1);
-	//data_in = get_input(av[1]);
+	ft_putchar_fd('\n', 1);
+	data_in = get_input(av[1]);
+	while(data)
 
+	exit(0);
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
