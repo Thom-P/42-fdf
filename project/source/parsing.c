@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 12:44:49 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 15:13:20 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ static int	_parse_line(char *line, int **row)
 	if (*row == NULL)
 		return (-1);
 	n = 0;
-	while (word_arr[n] != NULL)
+	while (word_arr[n] != NULL && *word_arr[n] != '\n')
 	{	
 		(*row)[n] = ft_atoi(word_arr[n]);
 		free(word_arr[n]);
