@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 12:41:09 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 22:36:36 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int		_key_hook(int keycode, void *t_p);
 
-int		_loop_hook(void *xp);
+int		_destroy_hook(void *xp);
+
+//int		_loop_hook(void *xp);
 
 void	_draw_buffer(t_buffer *buffer, t_xptr *xp);
 
@@ -37,7 +39,11 @@ int	main(int ac, char **av)
 	}
 	ft_putstr_fd(av[1], 1);
 	ft_putchar_fd('\n', 1);
+	fprintf(stderr, "toto\n");
 	data_in = get_input(av[1]);
+	
+	fprintf(stderr, "tutu\n");
+
 	int i = 0;
 	int	j = 0;
 	while (i < data_in.m)
@@ -52,7 +58,7 @@ int	main(int ac, char **av)
 		ft_putchar_fd('\n', 1);
 		i++;
 	}
-	exit(0);
+	//exit(0);
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
@@ -82,6 +88,8 @@ int	main(int ac, char **av)
 	mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
+    mlx_hook(xp.win, ON_DESTROY, 0, &_destroy_hook, &xp);	
+
 	//mlx_loop_hook(mlx, &_loop_hook, &xp); doesnt work for detecting closure
 
 	mlx_loop(xp.mlx);
@@ -113,6 +121,14 @@ int	_key_hook(int keycode, void *xp)
 		mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
 		exit(0);
 	}
+	return (0);
+}
+
+//called when closing window from clicking cross (ON_DESTROY event)
+int	_destroy_hook(void *xp)
+{
+	mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
+	exit(0);
 	return (0);
 }
 
