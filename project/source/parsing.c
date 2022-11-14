@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 17:00:02 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/14 22:34:04 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ t_imat	get_input(char *f_name)
 }
 
 static int	_parse_file(int fd, t_imat *data_in, t_list **row_list)
+//nb: on macbook, need err_msg to be initialized to NULL (not automatic!!)
 {
 	int		*row;
 	t_list	*node;
 	char	*line;
 	char	*err_msg;
 
+	err_msg = NULL;
 	_parse_first_line(data_in, row_list, fd);
 	while (1)
 	{
