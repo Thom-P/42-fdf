@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 09:57:20 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 12:09:09 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int		_destroy_hook(void *xp);
 
 //int		_loop_hook(void *xp);
 
-void	_draw_buffer(t_buffer *buffer, t_xptr *xp);
+//void	_draw_buffer(t_buffer *buffer, t_xptr *xp);
+
+//void	_put_pix_image(&im, int x, int y, int color);
 
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
@@ -27,8 +29,8 @@ int	main(int ac, char **av)
 	t_xptr	xp;
 	int		win_nx;
 	int		win_ny;
-	t_buffer buffer;
-	int		*buff;
+	//t_buffer buffer;
+	//int		*buff;
 	t_imat	data_in;
 
 	ft_putstr_fd("Starting Fdf...\n", 1);
@@ -44,10 +46,10 @@ int	main(int ac, char **av)
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
-	buffer.nx = floor(0.75 * win_nx);
-	buffer.ny = floor(0.75 * win_ny);
-	buff = (int *)ft_calloc(buffer.ny * buffer.nx, sizeof(int));
-	buffer.buff = buff;
+	//buffer.nx = floor(0.75 * win_nx);
+	//buffer.ny = floor(0.75 * win_ny);
+	//buff = (int *)ft_calloc(buffer.ny * buffer.nx, sizeof(int));
+	//buffer.buff = buff;
 
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
 
@@ -58,26 +60,25 @@ int	main(int ac, char **av)
 	p1.x = 400;
 	p0.y = 400;
 	p1.y = 200;
-		
 
-	void	*im_ptr;
-	char 	*im_buff;
-	int 	*bits_per_pixel;
-	int		*size_line;
-	int		*endian;
+	//t_image	buff; //for later to avoid screen tearing
+	t_image	im;
 
-	im_ptr = mlx_new_image(mlx, buffer.nx, buffer.ny);
-	im_buff = mlx_get_data_addr(im_ptr, bits_per_pixel, size_line, endian);
-
-	//draw_line_buff(&p0, &p1, &buffer);
-	//_draw_buffer(&buffer, &xp);
+	im.nx = floor(0.75 * win_nx);
+	im.ny = floor(0.75 * win_ny);
+	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
+	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
+	
+	draw_line_image(&p0, &p1, &im);
+	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
+	
 	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
 	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, ON_DESTROY, 0, &_destroy_hook, &xp);	
+	
 	//mlx_loop_hook(mlx, &_loop_hook, &xp); //needed?
-
 	mlx_loop(xp.mlx);
 	printf("Never gets here...\n");
 
@@ -124,7 +125,7 @@ int	_destroy_hook(void *xp)
 	return (0);
 }*/
 
-void	_draw_buffer(t_buffer *buffer, t_xptr *xp)
+/*void	_draw_buffer(t_buffer *buffer, t_xptr *xp)
 //to be replaced by put_image later
 {
 	int	xx;
@@ -145,4 +146,4 @@ void	_draw_buffer(t_buffer *buffer, t_xptr *xp)
 		yy++;
 	}
 	return ;
-}
+}*/

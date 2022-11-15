@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 09:28:23 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 12:00:21 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include "mlx.h"
 # include "libft.h"
 
-# include "draw_line.h"
 
 # define ON_DESTROY 17  //closing window event
 
@@ -32,6 +31,18 @@ typedef struct	s_xptr
 	void	*mlx;
 	void	*win;
 }				t_xptr;
+
+// Struct for mlx_image info
+typedef struct	s_image
+{
+	void	*id;
+	char 	*addr;
+	int 	bpp;
+	int		line_size;
+	int		endian;
+	int		nx;
+	int		ny;
+}				t_image;
 
 // Struct for 2D int matrix (size m, n)
 typedef struct	s_imat
@@ -48,6 +59,9 @@ typedef struct	s_fmat
 	int		n;
 	float	*fmat;
 }				t_fmat;
+
+//Drawing
+# include "draw_line.h"
 
 //Parsing
 t_imat	get_input(char *f_name);
