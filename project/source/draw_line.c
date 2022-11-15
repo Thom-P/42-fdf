@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:35:19 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 16:06:58 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:43:33 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 	int		*proj_mat;
 	
 	proj_mat = _get_proj_mat(fmat, fmat -> n);
+	
+	t_imat proj;
+	proj.m = 2;
+	proj.n = fmat -> n;
+	proj.imat = proj_mat;
+	print_imat(proj);
+	//exit(0);
+	
 	i = 0;
 	while (i < data_in -> m - 1)	
 	{
@@ -64,8 +72,12 @@ static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_ima
 	nb_pts = nx * ny;
 	p.x = proj_mat[i * nx + j];
 	p.y = proj_mat[i * nx + j + nb_pts];
+	if (p.x < 0 || p.y < 0 || p.x >= im -> nx || p.y >= im -> ny)
+		return ;
 	p_right.x = proj_mat[i * nx + j + 1];
 	p_right.y = proj_mat[i * nx + j + 1 + nb_pts];
+	if (p_right.x < 0 || p_right.y < 0 || p_right.x >= im -> nx || p_right.y >= im -> ny)
+		return ;
 	draw_line_image(&p, &p_right, im);
 	return ;
 }
@@ -83,8 +95,12 @@ static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_imag
 	nb_pts = nx * ny;
 	p.x = proj_mat[i * nx + j];
 	p.y = proj_mat[i * nx + j + nb_pts];
-	p_down.x = proj_mat[i * nx + j + nb_pts];
-	p_down.y = proj_mat[i * nx + j + nb_pts + nb_pts];
+	if (p.x < 0 || p.y < 0 || p.x >= im -> nx || p.y >= im -> ny)
+		return ;
+	p_down.x = proj_mat[i * nx + j + nx];
+	p_down.y = proj_mat[i * nx + j + nx + nb_pts];
+	if (p_down.x < 0 || p_down.y < 0 || p_down.x >= im -> nx || p_down.y >= im -> ny)
+		return ;
 	draw_line_image(&p, &p_down, im);
 	return ;
 }

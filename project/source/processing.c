@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 14:33:10 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:26:04 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	create_init_mat(t_imat *data_in, t_fmat *init_mat)
 		exit(EXIT_FAILURE);
 	}
 	_fill_fmat(data_in, init_mat, x_cent, y_cent);
-	return ;
+	return ; //need to free data in here?
 }
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float x_cent, float y_cent)
@@ -46,7 +46,7 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float x_cent, float y_
  	int	nb_pts;
 
 	nb_pts = data_in -> m * data_in -> n;
-	norm = sqrt(x_cent * x_cent + y_cent * y_cent);
+	norm = 1;// sqrt(x_cent * x_cent + y_cent * y_cent); //remove 1 later (used for debug)
 	cc = 0;
 	i = 0;
 	while (i < data_in -> m)

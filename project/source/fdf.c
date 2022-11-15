@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 15:41:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 17:44:05 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ int	main(int ac, char **av)
 	
 	t_fmat	init_mat;
 
-	nx = data_in.n;
-	ny = data_in.m;
+	//nx = data_in.n;
+	//ny = data_in.m;
 	create_init_mat(&data_in, &init_mat);
+	fprintf(stderr, "init mat created\n");	
+	//print_fmat(init_mat);
+	//exit(0);
 	//rotate_mat
 	
 	// rendering
@@ -57,13 +60,13 @@ int	main(int ac, char **av)
 
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
 
-	/*t_pt2d	p0;
+	t_pt2d	p0;
 	t_pt2d	p1;
 
 	p0.x = 600;
 	p1.x = 400;
 	p0.y = 400;
-	p1.y = 200;*/
+	p1.y = 200;
 
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
@@ -73,10 +76,14 @@ int	main(int ac, char **av)
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
 	
-	draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
-	//draw_line_image(&p0, &p1, &im);
+	//fprintf(stderr, "before drawing\n");	
+	//draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	//fprintf(stderr, "after drawing\n");	
+	draw_line_image(&p0, &p1, &im);
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
 	
+	fprintf(stderr, "after put image\n");	
+
 	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
 	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
