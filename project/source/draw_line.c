@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:35:19 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 17:43:33 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 22:13:19 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 	
 	proj_mat = _get_proj_mat(fmat, fmat -> n);
 	
-	t_imat proj;
-	proj.m = 2;
-	proj.n = fmat -> n;
-	proj.imat = proj_mat;
-	print_imat(proj);
+	//t_imat proj;
+	//proj.m = 2;
+	//proj.n = fmat -> n;
+	//proj.imat = proj_mat;
+	//print_imat(proj);
 	//exit(0);
 	
 	i = 0;
@@ -123,7 +123,7 @@ static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
 	{
 		proj_mat[i] = round((fmat -> fmat)[i]);
 		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts]);
-		proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
+		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
 		i++;
 	}
 	return (proj_mat);
@@ -189,6 +189,7 @@ void	_put_pix_image(t_image *im, int x, int y, int color)
 	char	*pix_addr;
 
 	pix_addr = im -> addr + y * im -> line_size + x * (im -> bpp / 8);
+	//fprintf(stderr, "%p %i\n", pix_addr, color);
 	*((unsigned int *)pix_addr) = color;
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 17:44:05 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 22:21:24 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int ac, char **av)
 	create_init_mat(&data_in, &init_mat);
 	fprintf(stderr, "init mat created\n");	
 	//print_fmat(init_mat);
-	//exit(0);
+	
 	//rotate_mat
 	
 	// rendering
@@ -77,12 +77,13 @@ int	main(int ac, char **av)
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
 	
 	//fprintf(stderr, "before drawing\n");	
-	//draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+
+	draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	//draw_line_image(&p0, &p1, &im);
 	//fprintf(stderr, "after drawing\n");	
-	draw_line_image(&p0, &p1, &im);
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
 	
-	fprintf(stderr, "after put image\n");	
+	//fprintf(stderr, "after put image\n");	
 
 	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
 	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
