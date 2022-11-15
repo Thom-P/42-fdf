@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:35:19 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 12:05:14 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:02:58 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,103 @@
 static int	_get_next_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d);
 
 void	_put_pix_image(t_image *im, int x, int y, int color);
+
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
+
+static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
+
+static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
+
+void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in);
+{
+	int		i;
+	int 	j;
+	int		*proj_mat;
+	
+	proj_mat = _get_proj_mat(fmat, fmat -> n);
+	i = 0;
+	while (i < data_in -> m - 1)	
+	{
+		j = 0;
+		while (j < data_in -> n - 1)
+		{
+			_draw_edge_right(proj_mat, i, j, data_in, im);
+			_draw_edge_down(proj_mat, i, j, data_in, im);
+			j++;
+		}
+		_draw_edge_down(proj_mat, i, j, data_in, im);
+		i++;
+	}
+	j = 0
+	while (j < data_in -> n - 1)
+	{
+		_draw_edge_right(proj_mat, i, j, data_in, im);
+		j++;
+	}
+	return ;
+}
+
+static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im)
+{	
+	int	nx;
+	int	ny;
+	int nb_pts;
+	t_pt2d	p;
+	t_pt2d	p_right;
+
+	nx = data_in -> n; 
+	ny = data_in -> m; 
+	nb_pts = nx * ny;
+	p.x = proj_mat[i * nx + j];
+	p.y = proj_mat[i * nx + j + nb_pts];
+	p_right.x = proj_mat[i * nx + j + 1];
+	p_right.y = proj_mat[i * nx + j + 1 + nb_pts];
+	draw_line_image(&p0, &p_right, im);
+	return ;
+}
+
+static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_image *im)
+{	
+	int	nx;
+	int	ny;
+	int nb_pts;
+	t_pt2d	p;
+	t_pt2d	p_down;
+
+	nx = data_in -> n; 
+	ny = data_in -> m; 
+	nb_pts = nx * ny;
+	p.x = proj_mat[i * nx + j];
+	p.y = proj_mat[i * nx + j + nb_pts];
+	p_down.x = proj_mat[i * nx + j + nb_pts];
+	p_down.y = proj_mat[i * nx + j + nb_pts + nb_pts];
+	draw_line_image(&p0, &p_down, im);
+	return ;
+}
+
+//get projected matrix
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
+{
+	int	*proj_mat;
+	int	i;
+
+	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
+	if (proj_mat == NULL)
+	{
+		free(fmat -> fmat); //shd also close window and all... create clean fct!
+		perror("In proj_mat");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < nb_pts)
+	{
+		proj_mat[i] = round((fmat -> fmat)[i]);
+		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts]);
+		proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
+		i++;
+	}
+	return (proj_mat);
+}
 
 // Bresenham's line algo using integer computations only
 void	draw_line_image(t_pt2d *p0, t_pt2d *p1, t_image *im)

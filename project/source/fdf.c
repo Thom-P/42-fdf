@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 12:09:09 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 15:41:30 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,14 @@ int		_destroy_hook(void *xp);
 
 //int		_loop_hook(void *xp);
 
-//void	_draw_buffer(t_buffer *buffer, t_xptr *xp);
-
-//void	_put_pix_image(&im, int x, int y, int color);
-
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 int	main(int ac, char **av)
 {
-	t_xptr	xp;
-	int		win_nx;
-	int		win_ny;
-	//t_buffer buffer;
-	//int		*buff;
-	t_imat	data_in;
+	//Parsing
 
+	t_imat	data_in;
+	
 	ft_putstr_fd("Starting Fdf...\n", 1);
 	if (ac != 2)
 	{
@@ -44,22 +37,33 @@ int	main(int ac, char **av)
 	data_in = get_input(av[1]);
 	print_imat(data_in);	
 
+	// Processing
+	
+	t_fmat	init_mat;
+
+	nx = data_in.n;
+	ny = data_in.m;
+	create_init_mat(&data_in, &init_mat);
+	//rotate_mat
+	
+	// rendering
+	
+	t_xptr	xp;
+	int		win_nx;
+	int		win_ny;
+
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
-	//buffer.nx = floor(0.75 * win_nx);
-	//buffer.ny = floor(0.75 * win_ny);
-	//buff = (int *)ft_calloc(buffer.ny * buffer.nx, sizeof(int));
-	//buffer.buff = buff;
 
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
 
-	t_pt2d	p0;
+	/*t_pt2d	p0;
 	t_pt2d	p1;
 
 	p0.x = 600;
 	p1.x = 400;
 	p0.y = 400;
-	p1.y = 200;
+	p1.y = 200;*/
 
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
@@ -69,7 +73,8 @@ int	main(int ac, char **av)
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
 	
-	draw_line_image(&p0, &p1, &im);
+	draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	//draw_line_image(&p0, &p1, &im);
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
 	
 	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
