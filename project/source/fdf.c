@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 22:36:36 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:57:20 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,8 @@ int	main(int ac, char **av)
 	}
 	ft_putstr_fd(av[1], 1);
 	ft_putchar_fd('\n', 1);
-	fprintf(stderr, "toto\n");
 	data_in = get_input(av[1]);
-	
-	fprintf(stderr, "tutu\n");
-
-	int i = 0;
-	int	j = 0;
-	while (i < data_in.m)
-	{
-		j = 0;
-		while (j < data_in.n)
-		{
-			ft_putnbr_fd((data_in.imat)[i * data_in.n + j],1);
-			ft_putchar_fd(' ', 1);
-			j++;
-		}
-		ft_putchar_fd('\n', 1);
-		i++;
-	}
-	//exit(0);
+	print_imat(data_in);	
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
@@ -78,19 +60,23 @@ int	main(int ac, char **av)
 	p1.y = 200;
 		
 
-	//void	*im;
-	//void *mlx_new_image(void *mlx_ptr, int width, int height);
-	//im = mlx_new_image(mlx, int width, int height);
+	void	*im_ptr;
+	char 	*im_buff;
+	int 	*bits_per_pixel;
+	int		*size_line;
+	int		*endian;
 
-	draw_line_buff(&p0, &p1, &buffer);
-	_draw_buffer(&buffer, &xp);
-	mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
-	mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
+	im_ptr = mlx_new_image(mlx, buffer.nx, buffer.ny);
+	im_buff = mlx_get_data_addr(im_ptr, bits_per_pixel, size_line, endian);
+
+	//draw_line_buff(&p0, &p1, &buffer);
+	//_draw_buffer(&buffer, &xp);
+	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
+	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, ON_DESTROY, 0, &_destroy_hook, &xp);	
-
-	//mlx_loop_hook(mlx, &_loop_hook, &xp); doesnt work for detecting closure
+	//mlx_loop_hook(mlx, &_loop_hook, &xp); //needed?
 
 	mlx_loop(xp.mlx);
 	printf("Never gets here...\n");
@@ -132,13 +118,9 @@ int	_destroy_hook(void *xp)
 	return (0);
 }
 
-/*int _loop_hook(void *xp) //doesnt work for closure detection
+/*int _loop_hook(void *xp)
 {
-	if (((t_xptr *)xp) -> win == NULL)
-	{	
-		printf("Window closed, exiting program...\n");
-		exit(0);
-	}
+	//do what?
 	return (0);
 }*/
 

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 22:16:39 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 09:28:23 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,7 @@ typedef struct	s_fmat
 //Parsing
 t_imat	get_input(char *f_name);
 
+//Debug utils (to remove)
+void	print_imat(t_imat imat);
 
 #endif
