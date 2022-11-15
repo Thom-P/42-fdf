@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 12:35:19 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 16:02:58 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/15 16:06:58 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static int	_get_next_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d);
 
 void	_put_pix_image(t_image *im, int x, int y, int color);
 
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts);
 
 static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
 
 static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
 
-void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in);
+void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 {
 	int		i;
 	int 	j;
@@ -42,7 +42,7 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in);
 		_draw_edge_down(proj_mat, i, j, data_in, im);
 		i++;
 	}
-	j = 0
+	j = 0;
 	while (j < data_in -> n - 1)
 	{
 		_draw_edge_right(proj_mat, i, j, data_in, im);
@@ -66,7 +66,7 @@ static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_ima
 	p.y = proj_mat[i * nx + j + nb_pts];
 	p_right.x = proj_mat[i * nx + j + 1];
 	p_right.y = proj_mat[i * nx + j + 1 + nb_pts];
-	draw_line_image(&p0, &p_right, im);
+	draw_line_image(&p, &p_right, im);
 	return ;
 }
 
@@ -85,7 +85,7 @@ static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_imag
 	p.y = proj_mat[i * nx + j + nb_pts];
 	p_down.x = proj_mat[i * nx + j + nb_pts];
 	p_down.y = proj_mat[i * nx + j + nb_pts + nb_pts];
-	draw_line_image(&p0, &p_down, im);
+	draw_line_image(&p, &p_down, im);
 	return ;
 }
 
