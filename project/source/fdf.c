@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 15:20:09 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 15:49:38 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,17 @@ int	main(int ac, char **av)
 	
 	_draw_box_image(&im); //draw a box around the image to see its size while testing
 
+	//test duplicate OK
+	/*t_fmat	fmat_bis;
+	fmat_bis = fmat_dup(&init_fmat);
+	free(init_fmat.fmat);
+	init_fmat.fmat = NULL;
+	draw_grid_image(&fmat_bis, &im, &data_in); */
+	
+
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	
+
 	//draw_line_image(&p0, &p1, &im);
 	//fprintf(stderr, "after drawing\n");	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
