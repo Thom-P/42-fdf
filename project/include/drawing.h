@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   draw_line.h                                        :+:      :+:    :+:   */
+/*   drawing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/11 12:38:30 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 16:50:12 by tplanes          ###   ########.fr       */
+/*   Created: 2022/11/16 10:19:30 by tplanes           #+#    #+#             */
+/*   Updated: 2022/11/16 10:20:04 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DRAW_LINE_H
-# define DRAW_LINE_H
+#ifndef DRAWING_H
+# define DRAWING_H
 
 typedef struct s_pt2d
 {

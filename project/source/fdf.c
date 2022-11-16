@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 22:21:24 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 11:04:04 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,48 +37,60 @@ int	main(int ac, char **av)
 	data_in = get_input(av[1]);
 	print_imat(data_in);	
 
-	// Processing
+	// Initiate win/image params (needed for scaling processing)
 	
-	t_fmat	init_mat;
-
-	//nx = data_in.n;
-	//ny = data_in.m;
-	create_init_mat(&data_in, &init_mat);
-	fprintf(stderr, "init mat created\n");	
-	//print_fmat(init_mat);
-	
-	//rotate_mat
-	
-	// rendering
-	
-	t_xptr	xp;
 	int		win_nx;
 	int		win_ny;
 
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
 
-	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
-
-	t_pt2d	p0;
-	t_pt2d	p1;
-
-	p0.x = 600;
-	p1.x = 400;
-	p0.y = 400;
-	p1.y = 200;
-
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
 
 	im.nx = floor(0.75 * win_nx);
 	im.ny = floor(0.75 * win_ny);
+
+	// Processing
+	
+	t_fmat	init_fmat;
+
+	create_init_mat(&data_in, &init_fmat, &im);
+	fprintf(stderr, "init float mat created\n");	
+	print_fmat(init_fmat);
+	//exit(0);
+	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	//t_fmat	rot_fmat;
+
+	//rot_fmat = init_fmat;
+	
+	//project mat
+	//t_imat	proj_mat;
+
+	//proj_mat = get_proj_mat(&rot_fmat);
+
+	//apply zoom (eg +/- ?)  do both directly in proj op?
+	//apply shift (arrows /maj for small)
+
+	// rendering
+	
+	t_xptr	xp;
+	
+	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
+
+	/*t_pt2d	p0;
+	t_pt2d	p1;
+	p0.x = 600;
+	p1.x = 400;
+	p0.y = 400;
+	p1.y = 200;*/
+
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
 	
 	//fprintf(stderr, "before drawing\n");	
 
-	draw_grid_image(&init_mat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	//draw_line_image(&p0, &p1, &im);
 	//fprintf(stderr, "after drawing\n");	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
@@ -89,7 +101,7 @@ int	main(int ac, char **av)
 	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
-    mlx_hook(xp.win, ON_DESTROY, 0, &_destroy_hook, &xp);	
+    mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
 	
 	//mlx_loop_hook(mlx, &_loop_hook, &xp); //needed?
 	mlx_loop(xp.mlx);
@@ -116,7 +128,7 @@ void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title)
 
 int	_key_hook(int keycode, void *xp)
 {
-	if (keycode == 53)
+	if (keycode == ESCAPE_KEY)
 	{	
 		mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
 		exit(0);
@@ -124,7 +136,7 @@ int	_key_hook(int keycode, void *xp)
 	return (0);
 }
 
-//called when closing window from clicking cross (ON_DESTROY event)
+//called when closing window from clicking cross (DESTROY_WIN event)
 int	_destroy_hook(void *xp)
 {
 	mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);

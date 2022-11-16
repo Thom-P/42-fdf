@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 17:23:06 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 10:48:03 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@
 # include "libft.h"
 
 
-# define ON_DESTROY 17  //closing window event
+# define DESTROY_WIN 17  //closing window event
+# define ESCAPE_KEY 53
 
 // Struct for pointers to display session and window
 typedef struct	s_xptr
@@ -64,10 +65,10 @@ typedef struct	s_fmat
 t_imat	get_input(char *f_name);
 
 //Processing
-void	create_init_mat(t_imat *data_in, t_fmat *init_mat);
+void	create_init_mat(t_imat *data_in, t_fmat *init_mat, t_image *im);
 
 //Drawing
-# include "draw_line.h"
+# include "drawing.h"
 
 //Debug utils (to remove)
 void	print_imat(t_imat imat);
