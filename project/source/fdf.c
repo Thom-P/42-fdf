@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 11:04:04 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 11:22:57 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int ac, char **av)
 
 	create_init_mat(&data_in, &init_fmat, &im);
 	fprintf(stderr, "init float mat created\n");	
-	print_fmat(init_fmat);
+	//print_fmat(init_fmat);
 	//exit(0);
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	//t_fmat	rot_fmat;

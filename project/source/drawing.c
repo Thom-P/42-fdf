@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 10:18:31 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 11:20:39 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	_get_next_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d);
 
 void	_put_pix_image(t_image *im, int x, int y, int color);
 
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts);
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im);
 
 static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
 
@@ -28,7 +28,7 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 	int 	j;
 	int		*proj_mat;
 	
-	proj_mat = _get_proj_mat(fmat, fmat -> n);
+	proj_mat = _get_proj_mat(fmat, fmat -> n, im);
 	
 	//t_imat proj;
 	//proj.m = 2;
@@ -106,7 +106,7 @@ static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_imag
 }
 
 //get projected matrix
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
 {
 	int	*proj_mat;
 	int	i;
@@ -121,8 +121,8 @@ static int	*_get_proj_mat(t_fmat *fmat, int nb_pts)
 	i = 0;
 	while (i < nb_pts)
 	{
-		proj_mat[i] = round((fmat -> fmat)[i]);
-		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts]);
+		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx); // also recenter
+		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny);
 		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
 		i++;
 	}
