@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 11:35:18 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 14:37:17 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,10 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float i
 		j = 0;
 		while (j < data_in -> n)
 		{
-			(init_mat -> fmat)[cc] = (i - center[0]) * scale_fact;
-			(init_mat -> fmat)[cc + nb_pts] = (j - center[1]) * scale_fact;
+			(init_mat -> fmat)[cc] = (j - center[0]) * scale_fact; //x
+			(init_mat -> fmat)[cc + nb_pts] = (i - center[1]) * scale_fact; //y
 			(init_mat -> fmat)[cc + 2 * nb_pts] =
-				(data_in -> imat)[i * data_in -> n + j] * scale_fact;
+				(data_in -> imat)[i * data_in -> n + j] * scale_fact; //z
 			j++;
 			cc++;
 		}

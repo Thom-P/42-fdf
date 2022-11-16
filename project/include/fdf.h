@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 10:48:03 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 15:13:13 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct	s_image
 	int		endian;
 	int		nx;
 	int		ny;
+	int		pos_x;
+	int		pos_y;
 }				t_image;
 
 // Struct for 2D int matrix (size m, n)

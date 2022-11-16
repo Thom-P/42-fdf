@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 11:22:57 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 15:20:09 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int		_key_hook(int keycode, void *t_p);
 
 int		_destroy_hook(void *xp);
+
+void	_draw_box_image(t_image *im);
 
 //int		_loop_hook(void *xp);
 
@@ -41,16 +43,21 @@ int	main(int ac, char **av)
 	
 	int		win_nx;
 	int		win_ny;
-
+	
 	win_nx = 1280; //values for macbook pro full screen
 	win_ny = 750;
+	float im_win_ratio;
+
+	im_win_ratio = 0.75;
 
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
 
-	im.nx = floor(0.75 * win_nx);
-	im.ny = floor(0.75 * win_ny);
-
+	im.nx = round(im_win_ratio * win_nx);
+	im.ny = round(im_win_ratio * win_ny);
+	im.pos_x = round(0.5 * (win_nx - im.nx));
+	im.pos_y = round(0.5 * (win_ny - im.ny));
+	
 	// Processing
 	
 	t_fmat	init_fmat;
@@ -87,13 +94,15 @@ int	main(int ac, char **av)
 
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
-	
+
 	//fprintf(stderr, "before drawing\n");	
+	
+	_draw_box_image(&im); //draw a box around the image to see its size while testing
 
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	//draw_line_image(&p0, &p1, &im);
 	//fprintf(stderr, "after drawing\n");	
-	mlx_put_image_to_window(xp.mlx, xp.win, im.id, 0, 0);
+	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
 	
 	//fprintf(stderr, "after put image\n");	
 
@@ -143,6 +152,29 @@ int	_destroy_hook(void *xp)
 	exit(0);
 	return (0);
 }
+
+void _draw_box_image(t_image *im)
+{	
+	t_pt2d	top_left;
+	t_pt2d	top_right;
+	t_pt2d	bottom_left;
+	t_pt2d	bottom_right;
+
+	top_left.x = 0;
+	top_right.x = im -> nx - 1;
+	bottom_left.x = 0;
+	bottom_right.x = im -> nx - 1;
+	top_left.y = 0;
+	top_right.y = 0;
+	bottom_left.y = im -> ny - 1;
+	bottom_right.y = im -> ny - 1;
+	draw_line_image(&top_left, &top_right, im);
+	draw_line_image(&top_right, &bottom_right, im);
+	draw_line_image(&bottom_right, &bottom_left, im);
+	draw_line_image(&bottom_left, &top_left, im);
+	return ;
+}
+
 
 /*int _loop_hook(void *xp)
 {
