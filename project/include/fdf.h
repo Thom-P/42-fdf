@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 15:41:36 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:09:35 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 # include "mlx.h"
 # include "libft.h"
-
 
 # define DESTROY_WIN 17  //closing window event
 # define ESCAPE_KEY 53
@@ -74,6 +73,7 @@ void	create_init_mat(t_imat *data_in, t_fmat *init_mat, t_image *im);
 
 //Matrix utils
 t_fmat fmat_dup(t_fmat *fmat_in);
+void premult_fmat(t_fmat *B, t_fmat *A);
 
 //Debug utils (to remove)
 void	print_imat(t_imat imat);

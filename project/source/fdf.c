@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 15:49:38 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:25:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,22 @@ int	main(int ac, char **av)
 	fprintf(stderr, "init float mat created\n");	
 	//print_fmat(init_fmat);
 	//exit(0);
+	
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	float theta;
+	t_fmat rotZ;
+	rotZ.m = 3;
+	rotZ.n = 3;
+	theta = 45. / 180 * M_PI;
+	float rotz_mat[9] = {cosf(theta), -sinf(theta), 0,
+						sinf(theta), cosf(theta), 0,
+						0, 0, 1};
+	rotZ.fmat = rotz_mat;
+	//print_fmat(rotZ);
+	premult_fmat(&rotZ, &init_fmat);  
+	
+	//print_fmat(init_fmat);
 	//t_fmat	rot_fmat;
-
 	//rot_fmat = init_fmat;
 	
 	//project mat
@@ -84,13 +97,6 @@ int	main(int ac, char **av)
 	t_xptr	xp;
 	
 	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
-
-	/*t_pt2d	p0;
-	t_pt2d	p1;
-	p0.x = 600;
-	p1.x = 400;
-	p0.y = 400;
-	p1.y = 200;*/
 
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
@@ -109,13 +115,9 @@ int	main(int ac, char **av)
 
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	
-
-	//draw_line_image(&p0, &p1, &im);
 	//fprintf(stderr, "after drawing\n");	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
-	
 	//fprintf(stderr, "after put image\n");	
-
 	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
 	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
@@ -185,32 +187,8 @@ void _draw_box_image(t_image *im)
 	return ;
 }
 
-
 /*int _loop_hook(void *xp)
 {
 	//do what?
 	return (0);
-}*/
-
-/*void	_draw_buffer(t_buffer *buffer, t_xptr *xp)
-//to be replaced by put_image later
-{
-	int	xx;
-	int	yy;
-	int color;
-
-	yy = 0;
-	while (yy < buffer -> ny)
-	{
-		xx = 0;
-		while (xx < buffer -> nx)
-		{
-			color = (buffer -> buff)[yy * buffer -> nx + xx];
-			if (color > 0)
-				mlx_pixel_put(xp -> mlx, xp -> win, xx, yy, color);
-			xx++;
-		}
-		yy++;
-	}
-	return ;
 }*/

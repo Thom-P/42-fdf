@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 14:37:17 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:20:17 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	create_init_mat(t_imat *data_in, t_fmat *init_mat, t_image *im)
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_radius)
 //normalisation so that model fits exactly within image (accounting x y only)
+//0.95 prefact to allow some margin
 {
 	int	cc;
 	int	i;
@@ -48,7 +49,7 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float i
 
 	nb_pts = data_in -> m * data_in -> n;
 	//norm = 0.01;// sqrt(x_cent * x_cent + y_cent * y_cent); //remove 1 later (used for debug)
-	scale_fact = im_radius / sqrt(center[0] * center[0] + center[1] * center[1]);
+	scale_fact = 0.95 * im_radius / sqrt(center[0] * center[0] + center[1] * center[1]);
 	cc = 0;
 	i = 0;
 	while (i < data_in -> m)
