@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 18:25:37 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/16 18:38:00 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,29 @@ int	main(int ac, char **av)
 	//exit(0);
 	
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
-	float theta;
+	float theta_z;
 	t_fmat rotZ;
 	rotZ.m = 3;
 	rotZ.n = 3;
-	theta = 45. / 180 * M_PI;
-	float rotz_mat[9] = {cosf(theta), -sinf(theta), 0,
-						sinf(theta), cosf(theta), 0,
+	theta_z = 45. / 180 * M_PI;
+	float rotz_mat[9] = {cosf(theta_z), -sinf(theta_z), 0,
+						sinf(theta_z), cosf(theta_z), 0,
 						0, 0, 1};
 	rotZ.fmat = rotz_mat;
 	//print_fmat(rotZ);
 	premult_fmat(&rotZ, &init_fmat);  
+	
+	float theta_x;
+	t_fmat rotX;
+	rotX.m = 3;
+	rotX.n = 3;
+	theta_x = 35.3 / 180 * M_PI;
+	float rotx_mat[9] = {1, 0, 0,
+						0, cosf(theta_x), -sinf(theta_x),
+						0, sinf(theta_x), cosf(theta_x)};
+	rotX.fmat = rotx_mat;
+	//print_fmat(rotX);
+	premult_fmat(&rotX, &init_fmat);  
 	
 	//print_fmat(init_fmat);
 	//t_fmat	rot_fmat;
