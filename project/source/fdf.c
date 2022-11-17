@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:18:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:29:06 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,39 +28,27 @@ void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_
 
 int	main(int ac, char **av)
 {
-	//Parsing
 	t_imat	data_in;
-	
+	t_fmat	init_fmat; // the unrotated one
+	t_xptr	xp;
+	t_image	im;
+
 	_verify_arguments(ac, av);		
 	data_in = get_input(av[1]);
 	//print_imat(data_in);	
 
-	//Create window and image and buff
-	
-	t_xptr	xp;
-	t_image	im;
-	//t_image	buff; //for later to avoid screen tearing?
-
 	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
 	create_image(&xp, &im);
 	
-	// Process and render
-	
-	t_fmat	init_fmat; // the unrotated one
 	create_init_fmat(&data_in, &init_fmat, &im);
-	//fprintf(stderr, "init float mat created\n");	
 	//print_fmat(init_fmat);
 	
+	//float theta_z;
+	//theta_z = 45. / 180. * M_PI;
+	//float theta_x;
+	//theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
 	
-	//start fct to call if hook
-	// dup init mat to always start back from init state and not prop error
-	float theta_z;
-	theta_z = 45. / 180. * M_PI;
-	float theta_x;
-	theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
-	
-	process_and_render(&init_fmat, &xp, &im, theta_z, theta_x, &data_in);
-	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	process_and_render(&init_fmat, &xp, &im, THETA_Z_ISO, THETA_X_ISO, &data_in);
 	
 	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &xp);
@@ -76,14 +64,15 @@ void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_
 	t_fmat fmat;
 		
 	fmat = fmat_dup(init_fmat); //need to free init at closure?
+	// dup init mat to always start back from init state and not prop error
 	rotate_fmat(&fmat, theta_z, theta_x);
 	//apply zoom (eg +/- ?)  do both directly in proj op?
 	//apply shift (arrows /maj for small)
 	draw_grid_image(&fmat, im, data_in); //data in passed only for dimensions (only mat freed)
 	free(fmat.fmat);
 	mlx_put_image_to_window(xp -> mlx, xp -> win, im -> id, im -> pos_x, im -> pos_y);
-	mlx_destroy_image(xp -> mlx, im -> id);
-	//create_image(xp, im);
+	mlx_destroy_image(xp -> mlx, im -> id); // replace destroy and create by a image_clean fct to reset pix?
+	create_image(xp, im);
 	return ;
 }
 
@@ -136,6 +125,8 @@ int	_key_hook(int keycode, void *xp)
 		mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
 		exit(0);
 	}
+
+	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	return (0);
 }
 

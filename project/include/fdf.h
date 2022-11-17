@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 13:34:00 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:25:45 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 # define WIN_NX 2560 //values for 42 mac
 # define WIN_NY 1395
 
+# define THETA_Z_ISO (45. / 180. * M_PI)
+# define THETA_X_ISO  (-(90. - 35.2644) / 180. * M_PI)
+	
 // Struct for pointers to display session and window
 typedef struct	s_xptr
 {
