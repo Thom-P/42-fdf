@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:52:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:59:36 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	main(int ac, char **av)
 	
 	t_fmat	init_fmat; // the unrotated one
 
-	create_init_mat(&data_in, &init_fmat, &im);
-	fprintf(stderr, "init float mat created\n");	
+	create_init_fmat(&data_in, &init_fmat, &im);
+	//fprintf(stderr, "init float mat created\n");	
 	//print_fmat(init_fmat);
 	//exit(0);
 	

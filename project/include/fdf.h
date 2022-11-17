@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:41:40 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:00:48 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct	s_fmat
 t_imat	get_input(char *f_name);
 
 //Processing
-void	create_init_mat(t_imat *data_in, t_fmat *init_mat, t_image *im);
+void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
 
 //Drawing
 # include "drawing.h"
