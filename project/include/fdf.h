@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:25:45 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:32:03 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct	s_image
 	int		pos_x;
 	int		pos_y;
 }				t_image;
+
+// Struct for view/transform
+typedef struct	s_view
+{
+	float	theta_z;
+	float	theta_x;
+}				t_view;
 
 // Struct for 2D int matrix (size m, n)
 typedef struct	s_imat

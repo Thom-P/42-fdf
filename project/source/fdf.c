@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:29:06 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:37:21 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 void 	create_image(t_xptr *xp, t_image *im);
 
-void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_z, float theta_x, t_imat *data_in);
+void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, t_view *view, t_imat *data_in);
 
 int	main(int ac, char **av)
 {
@@ -32,6 +32,7 @@ int	main(int ac, char **av)
 	t_fmat	init_fmat; // the unrotated one
 	t_xptr	xp;
 	t_image	im;
+	t_view	view;
 
 	_verify_arguments(ac, av);		
 	data_in = get_input(av[1]);
@@ -43,35 +44,32 @@ int	main(int ac, char **av)
 	create_init_fmat(&data_in, &init_fmat, &im);
 	//print_fmat(init_fmat);
 	
-	//float theta_z;
-	//theta_z = 45. / 180. * M_PI;
-	//float theta_x;
-	//theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
-	
-	process_and_render(&init_fmat, &xp, &im, THETA_Z_ISO, THETA_X_ISO, &data_in);
+	view.theta_z = THETA_Z_ISO;
+	view.theta_x = THETA_X_ISO;
+	process_and_render(&init_fmat, &xp, &im, &view, &data_in);
 	
 	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
-	
 	mlx_loop(xp.mlx);
 	//never gets here
 	return (0);
 }
 
-void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_z, float theta_x, t_imat *data_in)
+void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, t_view *view, t_imat *data_in)
 {
+	//nb: need to put data_in sizes in struct to avoid carrying it around
 	t_fmat fmat;
-		
+
 	fmat = fmat_dup(init_fmat); //need to free init at closure?
 	// dup init mat to always start back from init state and not prop error
-	rotate_fmat(&fmat, theta_z, theta_x);
+	rotate_fmat(&fmat, view -> theta_z, view -> theta_x);
 	//apply zoom (eg +/- ?)  do both directly in proj op?
 	//apply shift (arrows /maj for small)
 	draw_grid_image(&fmat, im, data_in); //data in passed only for dimensions (only mat freed)
 	free(fmat.fmat);
 	mlx_put_image_to_window(xp -> mlx, xp -> win, im -> id, im -> pos_x, im -> pos_y);
-	mlx_destroy_image(xp -> mlx, im -> id); // replace destroy and create by a image_clean fct to reset pix?
+	mlx_destroy_image(xp -> mlx, im -> id); //replace destr and creat by a ima_clean fct to reset pix?
 	create_image(xp, im);
 	return ;
 }
