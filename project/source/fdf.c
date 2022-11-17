@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 15:24:10 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:57:18 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,23 @@ int	main(int ac, char **av)
 	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
 	create_image(&xp, &im);
 	
-	// Processing
+	// Process and render
 	
 	t_fmat	init_fmat; // the unrotated one
 	create_init_fmat(&data_in, &init_fmat, &im);
 	//fprintf(stderr, "init float mat created\n");	
 	//print_fmat(init_fmat);
 	
+	
+	//start fct to call if hook
+	// dup init mat to always start back from init state and not prop error
+	
+	//process_and_render(&init_mat)
+
+	t_fmat fmat;
+		
+	fmat = fmat_dup(&init_fmat); //need to free init at closure?
+
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	
 	float theta_z;
@@ -56,18 +66,19 @@ int	main(int ac, char **av)
 	float theta_x;
 	theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
 	
-	rotate_fmat(&init_fmat, theta_z, theta_x);
+	rotate_fmat(&fmat, theta_z, theta_x);
 
 	//apply zoom (eg +/- ?)  do both directly in proj op?
 	//apply shift (arrows /maj for small)
 
 	// rendering
 
-	//t_fmat fmat_dup(t_fmat *fmat_in)
-
-	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	draw_grid_image(&fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
+	free(fmat.fmat);
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
 
+
+	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
 	

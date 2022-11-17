@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:53:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:53:54 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 		_draw_edge_right(proj_mat, i, j, data_in, im);
 		j++;
 	}
+	free(proj_mat);
 	return ;
 }
 
