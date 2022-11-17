@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:47:53 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 17:28:47 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	_verify_arguments(int ac, char **av);
 
-int		_key_hook(int keycode, void *t_p);
+int		_key_hook(int keycode, t_meta *meta);
 
 int		_destroy_hook(void *xp);
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av)
 	meta.im = &im;
 	meta.xp = &xp;
 	meta.view = &view;
+	meta.data_in = &data_in;
 
 	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &meta);
@@ -122,18 +123,36 @@ void create_image(t_xptr *xp, t_image *im)
 	return ;
 }
 
-int	_key_hook(int keycode, void *meta)
+int	_key_hook(int keycode, t_meta *meta)
 {
+	
 	t_xptr	*xp;
+	t_view	*view;
+	float d_theta;
 
-	xp = ((t_meta *)meta) -> xp; 
+	//xp = ((t_meta *)meta) -> xp; 
+	xp = meta -> xp; 
 	if (keycode == ESCAPE_KEY)
 	{	
 		mlx_destroy_window(xp -> mlx, xp -> win);
 		exit(0);
 	}
-
+	//fprintf(stderr, "%i\n", keycode);
+	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
+	view = meta -> view; //nb will need rotation from current pos, not init_mat
+	d_theta = M_PI / 15;
+	if (keycode < 123 || keycode > 126)
+	   return (0);	
+	if (keycode == 123) //left arr (will need y axis rot implement..., use z for the moment)
+		view -> theta_z += d_theta;
+	if (keycode == 124) //right arr (will need y axis rot implement..., use z for the moment)
+		view -> theta_z -= d_theta;
+	if (keycode == 126) //up arr (rot on x)
+		view -> theta_x += d_theta;
+	if (keycode == 125) //down arr 
+		view -> theta_x -= d_theta;
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	process_and_render(meta -> init_fmat, meta -> xp, meta -> im, meta -> view, meta -> data_in);
 	return (0);
 }
 

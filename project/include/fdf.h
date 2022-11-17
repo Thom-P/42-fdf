@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:48:42 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 17:09:14 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ typedef struct	s_meta
 	t_fmat		*init_fmat;
 	t_xptr		*xp;
 	t_image		*im;
-	t_view		*view; 
+	t_view		*view;
+   	t_imat		*data_in; // to remove later		
 }				t_meta;
 
 //Parsing
