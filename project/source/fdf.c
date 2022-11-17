@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:59:36 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:37:47 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,38 +55,13 @@ int	main(int ac, char **av)
 	//exit(0);
 	
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	
 	float theta_z;
-	t_fmat rotZ;
-	rotZ.m = 3;
-	rotZ.n = 3;
 	theta_z = 45. / 180. * M_PI;
-	float rotz_mat[9] = {cosf(theta_z), -sinf(theta_z), 0,
-						sinf(theta_z), cosf(theta_z), 0,
-						0, 0, 1.};
-	rotZ.fmat = rotz_mat;
-	//print_fmat(rotZ);
-	premult_fmat(&rotZ, &init_fmat);  
-	
 	float theta_x;
-	t_fmat rotX;
-	rotX.m = 3;
-	rotX.n = 3;
 	theta_x = - 1. * (90. - 35.3) / 180. * M_PI;
-	float rotx_mat[9] = {1., 0, 0,
-						0, cosf(theta_x), -sinf(theta_x),
-						0, sinf(theta_x), cosf(theta_x)};
-	rotX.fmat = rotx_mat;
-	//print_fmat(rotX);
-	premult_fmat(&rotX, &init_fmat);  
 	
-	//print_fmat(init_fmat);
-	//t_fmat	rot_fmat;
-	//rot_fmat = init_fmat;
-	
-	//project mat
-	//t_imat	proj_mat;
-
-	//proj_mat = get_proj_mat(&rot_fmat);
+	rotate_fmat(&init_fmat, theta_z, theta_x);
 
 	//apply zoom (eg +/- ?)  do both directly in proj op?
 	//apply shift (arrows /maj for small)
@@ -99,8 +74,6 @@ int	main(int ac, char **av)
 
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
-
-	//fprintf(stderr, "before drawing\n");	
 	
 	draw_box_around_image(&im); //draw a box around the image to see its size while testing
 

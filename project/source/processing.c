@@ -6,13 +6,15 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 12:00:34 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 12:36:51 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_diag);
+
+void	_assign_rotmats(float *rotz_mat, float *rotx_mat, float theta_z, float theta_x);
 
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
@@ -69,3 +71,48 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
 	}
 	return ;
 }
+
+void	rotate_fmat(t_fmat *fmat, float theta_z, float theta_x)
+{
+	t_fmat	rotZ;
+	t_fmat	rotX;
+	float	rotz_mat[9];
+	float	rotx_mat[9];
+
+	rotZ.m = 3;
+	rotZ.n = 3;
+	rotX.m = 3;
+	rotX.n = 3;
+	_assign_rotmats(rotz_mat, rotx_mat, theta_z, theta_x);
+	rotZ.fmat = rotz_mat;
+	rotX.fmat = rotx_mat;
+	//print_fmat(rotZ);
+	//print_fmat(rotX);
+	premult_fmat(&rotZ, fmat);
+	premult_fmat(&rotX, fmat);
+	return ;
+}
+
+void	_assign_rotmats(float *rotz_mat, float *rotx_mat, float theta_z, float theta_x)
+{
+	rotz_mat[0] = cosf(theta_z);
+	rotz_mat[1] = -sinf(theta_z);
+	rotz_mat[2] = 0.;
+	rotz_mat[3] = sinf(theta_z);
+	rotz_mat[4] = cosf(theta_z);
+	rotz_mat[5] = 0.;
+	rotz_mat[6] = 0.;
+	rotz_mat[7] = 0.;
+	rotz_mat[8] = 1.;
+	rotx_mat[0] = 1.;
+	rotx_mat[1] = 0.;
+	rotx_mat[2] = 0.;
+	rotx_mat[3] = 0.;
+	rotx_mat[4] = cosf(theta_x);
+	rotx_mat[5] = -sinf(theta_x);
+	rotx_mat[6] = 0.;
+	rotx_mat[7] = sinf(theta_x);
+	rotx_mat[8] = cosf(theta_x);
+	return ;
+}
+
