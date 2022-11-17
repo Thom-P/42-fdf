@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 14:27:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:13:57 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,43 +22,32 @@ int		_destroy_hook(void *xp);
 
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
+void 	create_image(t_xptr *xp, t_image *im);
+
 int	main(int ac, char **av)
 {
 	//Parsing
 	t_imat	data_in;
 	
-	_verify_arguments(ac, av);	
-		
+	_verify_arguments(ac, av);		
 	data_in = get_input(av[1]);
-	print_imat(data_in);	
+	//print_imat(data_in);	
 
 	//Create window and image and buff
 	
 	t_xptr	xp;
-	
-	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
-	
 	t_image	im;
-	//t_image	buff; //for later to avoid screen tearing
+	//t_image	buff; //for later to avoid screen tearing?
 
-	im.nx = round(0.9 * WIN_NX);
-	im.ny = round(0.9 * WIN_NY);
-	im.pos_x = round(0.5 * (WIN_NX - im.nx));
-	im.pos_y = round(0.5 * (WIN_NY - im.ny));
+	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
+	create_image(&xp, &im);
 	
-	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
-	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
-	draw_box_around_image(&im); //draw a box around the image to see its size while testing
-
-
 	// Processing
 	
 	t_fmat	init_fmat; // the unrotated one
-
 	create_init_fmat(&data_in, &init_fmat, &im);
 	//fprintf(stderr, "init float mat created\n");	
 	//print_fmat(init_fmat);
-	//exit(0);
 	
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	
@@ -115,6 +104,18 @@ void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title)
 		exit(-1);
 	xp -> mlx = mlx;
 	xp -> win = win;
+	return ;
+}
+
+void create_image(t_xptr *xp, t_image *im)
+{
+	im -> nx = round(0.9 * WIN_NX);
+	im -> ny = round(0.9 * WIN_NY);
+	im -> pos_x = round(0.5 * (WIN_NX - im -> nx));
+	im -> pos_y = round(0.5 * (WIN_NY - im -> ny));
+	im -> id = mlx_new_image(xp -> mlx, im -> nx, im -> ny);
+	im -> addr = mlx_get_data_addr(im -> id, &im -> bpp, &im -> line_size, &im -> endian);
+	draw_box_around_image(im);
 	return ;
 }
 
