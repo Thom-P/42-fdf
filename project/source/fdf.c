@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 10:08:35 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:18:34 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int	main(int ac, char **av)
 	t_fmat rotZ;
 	rotZ.m = 3;
 	rotZ.n = 3;
-	theta_z = 45. / 180 * M_PI;
+	theta_z = 45. / 180. * M_PI;
 	float rotz_mat[9] = {cosf(theta_z), -sinf(theta_z), 0,
 						sinf(theta_z), cosf(theta_z), 0,
-						0, 0, 1};
+						0, 0, 1.};
 	rotZ.fmat = rotz_mat;
 	//print_fmat(rotZ);
 	premult_fmat(&rotZ, &init_fmat);  
@@ -84,8 +84,8 @@ int	main(int ac, char **av)
 	t_fmat rotX;
 	rotX.m = 3;
 	rotX.n = 3;
-	theta_x = - 1. * (90 - 35.3) / 180 * M_PI;
-	float rotx_mat[9] = {1, 0, 0,
+	theta_x = - 1. * (90. - 35.3) / 180. * M_PI;
+	float rotx_mat[9] = {1., 0, 0,
 						0, cosf(theta_x), -sinf(theta_x),
 						0, sinf(theta_x), cosf(theta_x)};
 	rotX.fmat = rotx_mat;
