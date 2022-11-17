@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:37:21 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:47:53 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int ac, char **av)
 	t_xptr	xp;
 	t_image	im;
 	t_view	view;
+	t_meta	meta;
 
 	_verify_arguments(ac, av);		
 	data_in = get_input(av[1]);
@@ -47,9 +48,14 @@ int	main(int ac, char **av)
 	view.theta_z = THETA_Z_ISO;
 	view.theta_x = THETA_X_ISO;
 	process_and_render(&init_fmat, &xp, &im, &view, &data_in);
-	
+
+	meta.init_fmat = &init_fmat;
+	meta.im = &im;
+	meta.xp = &xp;
+	meta.view = &view;
+
 	// hooks
-	mlx_key_hook(xp.win, &_key_hook, &xp);
+	mlx_key_hook(xp.win, &_key_hook, &meta);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
 	mlx_loop(xp.mlx);
 	//never gets here
@@ -116,11 +122,14 @@ void create_image(t_xptr *xp, t_image *im)
 	return ;
 }
 
-int	_key_hook(int keycode, void *xp)
+int	_key_hook(int keycode, void *meta)
 {
+	t_xptr	*xp;
+
+	xp = ((t_meta *)meta) -> xp; 
 	if (keycode == ESCAPE_KEY)
 	{	
-		mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
+		mlx_destroy_window(xp -> mlx, xp -> win);
 		exit(0);
 	}
 

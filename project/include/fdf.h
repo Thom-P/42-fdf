@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 16:32:03 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:48:42 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,15 @@ typedef struct	s_fmat
 	int		n;
 	float	*fmat;
 }				t_fmat;
+
+// Meta-struct of other structs to use in hooks
+typedef struct	s_meta
+{
+	t_fmat		*init_fmat;
+	t_xptr		*xp;
+	t_image		*im;
+	t_view		*view; 
+}				t_meta;
 
 //Parsing
 t_imat	get_input(char *f_name);
