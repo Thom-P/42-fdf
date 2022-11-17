@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 18:38:00 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 10:08:35 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	main(int ac, char **av)
 	t_fmat rotX;
 	rotX.m = 3;
 	rotX.n = 3;
-	theta_x = 35.3 / 180 * M_PI;
+	theta_x = - 1. * (90 - 35.3) / 180 * M_PI;
 	float rotx_mat[9] = {1, 0, 0,
 						0, cosf(theta_x), -sinf(theta_x),
 						0, sinf(theta_x), cosf(theta_x)};
