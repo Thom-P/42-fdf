@@ -6,11 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 12:37:47 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:02:45 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+void	_verify_arguments(int ac, char **av);
 
 int		_key_hook(int keycode, void *t_p);
 
@@ -25,14 +27,8 @@ int	main(int ac, char **av)
 	//Parsing
 	t_imat	data_in;
 	
-	ft_putstr_fd("Starting Fdf...\n", 1);
-	if (ac != 2)
-	{
-		ft_putstr_fd("Incorrect number of arguments (expected 1).\n", 1);
-		return (-1);
-	}
-	ft_putstr_fd(av[1], 1);
-	ft_putchar_fd('\n', 1);
+	_verify_arguments(ac, av);	
+		
 	data_in = get_input(av[1]);
 	print_imat(data_in);	
 
@@ -59,7 +55,7 @@ int	main(int ac, char **av)
 	float theta_z;
 	theta_z = 45. / 180. * M_PI;
 	float theta_x;
-	theta_x = - 1. * (90. - 35.3) / 180. * M_PI;
+	theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
 	
 	rotate_fmat(&init_fmat, theta_z, theta_x);
 
@@ -90,6 +86,20 @@ int	main(int ac, char **av)
 
 	return (0);
 }
+
+void	_verify_arguments(int ac, char **av)
+{	
+	ft_putstr_fd("Starting Fil de Fer...\n", 1);
+	if (ac != 2)
+	{
+		ft_putstr_fd("Incorrect number of arguments (expected 1).\n", 1);
+		exit (EXIT_FAILURE);
+	}
+	ft_putstr_fd("Loading ", 1);
+	ft_putstr_fd(av[1], 1);
+	ft_putstr_fd("...\n", 1);
+	return ;
+}	
 
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title)
 {
