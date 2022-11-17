@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 14:02:45 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 14:27:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,25 @@ int	main(int ac, char **av)
 	data_in = get_input(av[1]);
 	print_imat(data_in);	
 
-	// Initiate win/image params (needed for scaling processing)
-	//t_image	buff; //for later to avoid screen tearing
+	//Create window and image and buff
+	
+	t_xptr	xp;
+	
+	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
+	
 	t_image	im;
+	//t_image	buff; //for later to avoid screen tearing
 
 	im.nx = round(0.9 * WIN_NX);
 	im.ny = round(0.9 * WIN_NY);
 	im.pos_x = round(0.5 * (WIN_NX - im.nx));
 	im.pos_y = round(0.5 * (WIN_NY - im.ny));
 	
+	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
+	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
+	draw_box_around_image(&im); //draw a box around the image to see its size while testing
+
+
 	// Processing
 	
 	t_fmat	init_fmat; // the unrotated one
@@ -64,15 +74,6 @@ int	main(int ac, char **av)
 
 	// rendering
 	
-	t_xptr	xp;
-	
-	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
-
-	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
-	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
-	
-	draw_box_around_image(&im); //draw a box around the image to see its size while testing
-
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
