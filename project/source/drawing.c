@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 11:20:39 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:53:30 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,28 @@ static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
 		i++;
 	}
 	return (proj_mat);
+}
+
+void draw_box_around_image(t_image *im)
+{	
+	t_pt2d	top_left;
+	t_pt2d	top_right;
+	t_pt2d	bottom_left;
+	t_pt2d	bottom_right;
+
+	top_left.x = 0;
+	top_right.x = im -> nx - 1;
+	bottom_left.x = 0;
+	bottom_right.x = im -> nx - 1;
+	top_left.y = 0;
+	top_right.y = 0;
+	bottom_left.y = im -> ny - 1;
+	bottom_right.y = im -> ny - 1;
+	draw_line_image(&top_left, &top_right, im);
+	draw_line_image(&top_right, &bottom_right, im);
+	draw_line_image(&bottom_right, &bottom_left, im);
+	draw_line_image(&bottom_left, &top_left, im);
+	return ;
 }
 
 // Bresenham's line algo using integer computations only

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:43:49 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:52:51 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int		_key_hook(int keycode, void *t_p);
 
 int		_destroy_hook(void *xp);
 
-void	_draw_box_image(t_image *im);
-
 //int		_loop_hook(void *xp);
 
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
@@ -25,7 +23,6 @@ void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 int	main(int ac, char **av)
 {
 	//Parsing
-
 	t_imat	data_in;
 	
 	ft_putstr_fd("Starting Fdf...\n", 1);
@@ -105,7 +102,7 @@ int	main(int ac, char **av)
 
 	//fprintf(stderr, "before drawing\n");	
 	
-	_draw_box_image(&im); //draw a box around the image to see its size while testing
+	draw_box_around_image(&im); //draw a box around the image to see its size while testing
 
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	
@@ -153,28 +150,6 @@ int	_destroy_hook(void *xp)
 	mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
 	exit(0);
 	return (0);
-}
-
-void _draw_box_image(t_image *im)
-{	
-	t_pt2d	top_left;
-	t_pt2d	top_right;
-	t_pt2d	bottom_left;
-	t_pt2d	bottom_right;
-
-	top_left.x = 0;
-	top_right.x = im -> nx - 1;
-	bottom_left.x = 0;
-	bottom_right.x = im -> nx - 1;
-	top_left.y = 0;
-	top_right.y = 0;
-	bottom_left.y = im -> ny - 1;
-	bottom_right.y = im -> ny - 1;
-	draw_line_image(&top_left, &top_right, im);
-	draw_line_image(&top_right, &bottom_right, im);
-	draw_line_image(&bottom_right, &bottom_left, im);
-	draw_line_image(&bottom_left, &top_left, im);
-	return ;
 }
 
 /*int _loop_hook(void *xp)
