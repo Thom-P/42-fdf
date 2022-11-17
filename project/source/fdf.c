@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 18:18:53 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 18:40:43 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ int	_key_hook(int keycode, t_meta *meta)
 	t_view	*view;
 	float d_theta;
 
+	d_theta = M_PI / 20;
 	//xp = ((t_meta *)meta) -> xp; 
 	xp = meta -> xp; 
 	if (keycode == ESCAPE_KEY)
@@ -139,10 +140,14 @@ int	_key_hook(int keycode, t_meta *meta)
 		mlx_destroy_window(xp -> mlx, xp -> win);
 		exit(0);
 	}
+	/*if (keycode == 257) //MAJ
+	{
+		if (d_theta == 
+	}*/
+	
 	//fprintf(stderr, "%i\n", keycode);
 	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
 	view = meta -> view; //nb will need rotation from current pos, not init_mat
-	d_theta = M_PI / 20;
 	if (keycode < 123 || keycode > 126)
 	   return (0);	
 	if (keycode == 123) //left arr (will need y axis rot implement..., use z for the moment)
