@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 11:23:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:43:49 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,17 @@ int	main(int ac, char **av)
 	print_imat(data_in);	
 
 	// Initiate win/image params (needed for scaling processing)
-	
-	int		win_nx;
-	int		win_ny;
-	
-	//win_nx = 1280; //values for macbook pro full screen
-	//win_ny = 750;
-	
-	win_nx = 2560; //values for mac42
-	win_ny = 1395;
-	
-	
-	float im_win_ratio;
-
-	im_win_ratio = 0.90;
-
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
 
-	im.nx = round(im_win_ratio * win_nx);
-	im.ny = round(im_win_ratio * win_ny);
-	im.pos_x = round(0.5 * (win_nx - im.nx));
-	im.pos_y = round(0.5 * (win_ny - im.ny));
+	im.nx = round(0.9 * WIN_NX);
+	im.ny = round(0.9 * WIN_NY);
+	im.pos_x = round(0.5 * (WIN_NX - im.nx));
+	im.pos_y = round(0.5 * (WIN_NY - im.ny));
 	
 	// Processing
 	
-	t_fmat	init_fmat;
+	t_fmat	init_fmat; // the unrotated one
 
 	create_init_mat(&data_in, &init_fmat, &im);
 	fprintf(stderr, "init float mat created\n");	
@@ -113,7 +98,7 @@ int	main(int ac, char **av)
 	
 	t_xptr	xp;
 	
-	create_win(&xp, win_ny, win_nx, "***Fil de Fer***");
+	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
 
 	im.id = mlx_new_image(xp.mlx, im.nx, im.ny);
 	im.addr = mlx_get_data_addr(im.id, &im.bpp, &im.line_size, &im.endian);
@@ -122,21 +107,9 @@ int	main(int ac, char **av)
 	
 	_draw_box_image(&im); //draw a box around the image to see its size while testing
 
-	//test duplicate OK
-	/*t_fmat	fmat_bis;
-	fmat_bis = fmat_dup(&init_fmat);
-	free(init_fmat.fmat);
-	init_fmat.fmat = NULL;
-	draw_grid_image(&fmat_bis, &im, &data_in); */
-	
-
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	
-	//fprintf(stderr, "after drawing\n");	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
-	//fprintf(stderr, "after put image\n");	
-	//mlx_pixel_put(xp.mlx, xp.win, p0.x, p0.y, 255);
-	//mlx_pixel_put(xp.mlx, xp.win, p1.x, p1.y, 255);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	

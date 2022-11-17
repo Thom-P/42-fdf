@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 18:09:35 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:41:40 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,12 @@
 
 # define DESTROY_WIN 17  //closing window event
 # define ESCAPE_KEY 53
+
+//# define WIN_NX 1280 //values for macbook pro full screen
+//# define WIN_NY 750
+
+# define WIN_NX 2560 //values for 42 mac
+# define WIN_NY 1395
 
 // Struct for pointers to display session and window
 typedef struct	s_xptr
