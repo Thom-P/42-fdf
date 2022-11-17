@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 22:23:48 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 22:47:05 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@
 # define DESTROY_WIN 17  //closing window event
 # define ESCAPE_KEY 53
 
-# define WIN_NX 1280 //values for macbook pro full screen
-# define WIN_NY 750
+//# define WIN_NX 1280 //values for macbook pro full screen
+//# define WIN_NY 750
+
+# define WIN_NX 1920 //values for AOC screen
+# define WIN_NY 1030
 
 //# define WIN_NX 2560 //values for 42 mac
 //# define WIN_NY 1395
