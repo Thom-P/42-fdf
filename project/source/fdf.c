@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 15:57:18 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:59:56 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int ac, char **av)
 	draw_grid_image(&fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
 	free(fmat.fmat);
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
-
+	mlx_destroy_image(xp.mlx, im.id);
 
 	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &xp);
