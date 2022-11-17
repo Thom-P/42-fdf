@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 17:44:49 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 18:18:53 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ int	main(int ac, char **av)
 	meta.data_in = &data_in;
 
 	// hooks
-	mlx_key_hook(xp.win, &_key_hook, &meta);
-    mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
+	//mlx_key_hook(xp.win, &_key_hook, &meta);
+    mlx_hook(xp.win, 2, 0, &_key_hook, &meta); //key_down	
+    
+	mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
 	mlx_loop(xp.mlx);
 	//never gets here
 	return (0);
