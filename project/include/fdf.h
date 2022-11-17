@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 17:09:14 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 22:23:48 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 # define DESTROY_WIN 17  //closing window event
 # define ESCAPE_KEY 53
 
-//# define WIN_NX 1280 //values for macbook pro full screen
-//# define WIN_NY 750
+# define WIN_NX 1280 //values for macbook pro full screen
+# define WIN_NY 750
 
-# define WIN_NX 2560 //values for 42 mac
-# define WIN_NY 1395
+//# define WIN_NX 2560 //values for 42 mac
+//# define WIN_NY 1395
 
 # define THETA_Z_ISO (45. / 180. * M_PI)
 # define THETA_X_ISO  (-(90. - 35.2644) / 180. * M_PI)
