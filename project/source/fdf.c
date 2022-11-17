@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 15:59:56 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 16:18:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int		_destroy_hook(void *xp);
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 void 	create_image(t_xptr *xp, t_image *im);
+
+void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_z, float theta_x, t_imat *data_in);
 
 int	main(int ac, char **av)
 {
@@ -52,32 +54,14 @@ int	main(int ac, char **av)
 	
 	//start fct to call if hook
 	// dup init mat to always start back from init state and not prop error
-	
-	//process_and_render(&init_mat)
-
-	t_fmat fmat;
-		
-	fmat = fmat_dup(&init_fmat); //need to free init at closure?
-
-	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
-	
 	float theta_z;
 	theta_z = 45. / 180. * M_PI;
 	float theta_x;
 	theta_x = - 1. * (90. - 35.2644) / 180. * M_PI;
 	
-	rotate_fmat(&fmat, theta_z, theta_x);
-
-	//apply zoom (eg +/- ?)  do both directly in proj op?
-	//apply shift (arrows /maj for small)
-
-	// rendering
-
-	draw_grid_image(&fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
-	free(fmat.fmat);
-	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
-	mlx_destroy_image(xp.mlx, im.id);
-
+	process_and_render(&init_fmat, &xp, &im, theta_z, theta_x, &data_in);
+	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
+	
 	// hooks
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
@@ -85,6 +69,22 @@ int	main(int ac, char **av)
 	mlx_loop(xp.mlx);
 	//never gets here
 	return (0);
+}
+
+void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, float theta_z, float theta_x, t_imat *data_in)
+{
+	t_fmat fmat;
+		
+	fmat = fmat_dup(init_fmat); //need to free init at closure?
+	rotate_fmat(&fmat, theta_z, theta_x);
+	//apply zoom (eg +/- ?)  do both directly in proj op?
+	//apply shift (arrows /maj for small)
+	draw_grid_image(&fmat, im, data_in); //data in passed only for dimensions (only mat freed)
+	free(fmat.fmat);
+	mlx_put_image_to_window(xp -> mlx, xp -> win, im -> id, im -> pos_x, im -> pos_y);
+	mlx_destroy_image(xp -> mlx, im -> id);
+	//create_image(xp, im);
+	return ;
 }
 
 void	_verify_arguments(int ac, char **av)
