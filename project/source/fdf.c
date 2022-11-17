@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 15:13:57 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 15:24:10 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,17 @@ int	main(int ac, char **av)
 	//apply shift (arrows /maj for small)
 
 	// rendering
-	
+
+	//t_fmat fmat_dup(t_fmat *fmat_in)
+
 	draw_grid_image(&init_fmat, &im, &data_in); //data in passed only for dimensions (only mat freed)
-	
 	mlx_put_image_to_window(xp.mlx, xp.win, im.id, im.pos_x, im.pos_y);
 
 	mlx_key_hook(xp.win, &_key_hook, &xp);
     mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
 	
-	//mlx_loop_hook(mlx, &_loop_hook, &xp); //needed?
 	mlx_loop(xp.mlx);
-	printf("Never gets here...\n");
-
+	//never gets here
 	return (0);
 }
 
@@ -136,9 +135,3 @@ int	_destroy_hook(void *xp)
 	exit(0);
 	return (0);
 }
-
-/*int _loop_hook(void *xp)
-{
-	//do what?
-	return (0);
-}*/
