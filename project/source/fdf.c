@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 17:28:47 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 17:44:49 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,13 @@ int	_key_hook(int keycode, t_meta *meta)
 	//fprintf(stderr, "%i\n", keycode);
 	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
 	view = meta -> view; //nb will need rotation from current pos, not init_mat
-	d_theta = M_PI / 15;
+	d_theta = M_PI / 20;
 	if (keycode < 123 || keycode > 126)
 	   return (0);	
 	if (keycode == 123) //left arr (will need y axis rot implement..., use z for the moment)
-		view -> theta_z += d_theta;
-	if (keycode == 124) //right arr (will need y axis rot implement..., use z for the moment)
 		view -> theta_z -= d_theta;
+	if (keycode == 124) //right arr (will need y axis rot implement..., use z for the moment)
+		view -> theta_z += d_theta;
 	if (keycode == 126) //up arr (rot on x)
 		view -> theta_x += d_theta;
 	if (keycode == 125) //down arr 
