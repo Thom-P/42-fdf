@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 12:36:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 13:31:48 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ void	rotate_fmat(t_fmat *fmat, float theta_z, float theta_x)
 	rotX.fmat = rotx_mat;
 	//print_fmat(rotZ);
 	//print_fmat(rotX);
+	premult_fmat(&rotX, &rotZ);
 	premult_fmat(&rotZ, fmat);
-	premult_fmat(&rotX, fmat);
+	
+	//premult_fmat(&rotZ, fmat);
+	//premult_fmat(&rotX, fmat);
 	return ;
 }
 
