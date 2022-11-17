@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 10:18:34 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/17 11:23:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,16 @@ int	main(int ac, char **av)
 	int		win_nx;
 	int		win_ny;
 	
-	win_nx = 1280; //values for macbook pro full screen
-	win_ny = 750;
+	//win_nx = 1280; //values for macbook pro full screen
+	//win_ny = 750;
+	
+	win_nx = 2560; //values for mac42
+	win_ny = 1395;
+	
+	
 	float im_win_ratio;
 
-	im_win_ratio = 0.75;
+	im_win_ratio = 0.90;
 
 	//t_image	buff; //for later to avoid screen tearing
 	t_image	im;
