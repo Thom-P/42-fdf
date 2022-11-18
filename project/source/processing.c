@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 19:04:48 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:36:32 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_diag);
 
-void	_assign_transfo_mat(float *rotz_mat, float *rotx_mat, t_view *view);
+//void	_assign_transfo_mat(float *rotz_mat, float *rotx_mat, t_view *view);
+void	_assign_transfo_mat(float *transfo_mat, t_view *view);
 
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
@@ -71,50 +72,42 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
 	return ;
 }
 
-//print_fmat(rotz);
-//print_fmat(rotx);
 //rotation and zoom/z-stretch
 void	transform_fmat(t_fmat *fmat, t_view *view)
 {
-	t_fmat	rotz;
-	t_fmat	rotx;
-	float	rotz_mat[9];
-	float	rotx_mat[9];
+	t_fmat	transfo;
+	float	transfo_mat[9];
 
-	rotz.m = 3;
-	rotz.n = 3;
-	rotx.m = 3;
-	rotx.n = 3;
-	_assign_transfo_mat(rotz_mat, rotx_mat, view);
-	rotz.fmat = rotz_mat;
-	rotx.fmat = rotx_mat;
-	premult_fmat(&rotx, &rotz);
-	premult_fmat(&rotz, fmat);
-	//premult_fmat(&rotz, fmat);
-	//premult_fmat(&rotx, fmat);
+	transfo.m = 3;
+	transfo.n = 3;
+	_assign_transfo_mat(transfo_mat, view);
+	transfo.fmat = transfo_mat;
+	premult_fmat(&transfo, fmat);
 	return ;
 }
 
-void	_assign_transfo_mat(float *rotz_mat, float *rotx_mat, t_view *view)
+void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 {
-	rotz_mat[0] = view -> zoom * cosf(view -> theta_z);
-	rotz_mat[1] = view -> zoom * -sinf(view -> theta_z);
-	rotz_mat[2] = 0.;
-	rotz_mat[3] = view -> zoom * sinf(view -> theta_z);
-	rotz_mat[4] = view -> zoom * cosf(view -> theta_z);
-	rotz_mat[5] = 0.;
-	rotz_mat[6] = 0.;
-	rotz_mat[7] = 0.;
-	rotz_mat[8] = view -> zoom * 1.;
-	rotx_mat[0] = 1.;
-	rotx_mat[1] = 0.;
-	rotx_mat[2] = 0.;
-	rotx_mat[3] = 0.;
-	rotx_mat[4] = cosf(view -> theta_x);
-	rotx_mat[5] = -sinf(view -> theta_x);
-	rotx_mat[6] = 0.;
-	rotx_mat[7] = sinf(view -> theta_x);
-	rotx_mat[8] = cosf(view -> theta_x);
+	float 	cz;
+	float	sz;
+	float	cx;
+	float	sx;
+	float 	zoom;
+
+	cz = cosf(view -> theta_z); 
+	sz = sinf(view -> theta_z); 
+	cx = cosf(view -> theta_x); 
+	sx = sinf(view -> theta_x); 
+	zoom = view -> zoom;
+	transfo_mat[0] = zoom * cz;
+	transfo_mat[1] = zoom * -sz;
+	transfo_mat[2] = 0.;
+	transfo_mat[3] = zoom * cx * sz;
+	transfo_mat[4] = zoom * cx * cz;
+	transfo_mat[5] = zoom * -sx;
+	transfo_mat[6] = zoom * sx * sz;
+	transfo_mat[7] = zoom * sx * cz;
+	transfo_mat[8] = zoom * cx;
 	return ;
 }
 
