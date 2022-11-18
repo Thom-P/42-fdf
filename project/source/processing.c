@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 13:31:48 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 18:19:29 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
  	int	nb_pts;
 
 	nb_pts = data_in -> m * data_in -> n;
-	//norm = 0.01;// sqrt(x_cent * x_cent + y_cent * y_cent); //remove 1 later (used for debug)
 	scale_fact = 0.95 * im_radius / sqrt(center[0] * center[0] + center[1] * center[1]);
 	cc = 0;
 	i = 0;
@@ -72,27 +71,27 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
 	return ;
 }
 
+//print_fmat(rotz);
+//print_fmat(rotx);
 void	rotate_fmat(t_fmat *fmat, float theta_z, float theta_x)
 {
-	t_fmat	rotZ;
-	t_fmat	rotX;
+	t_fmat	rotz;
+	t_fmat	rotx;
 	float	rotz_mat[9];
 	float	rotx_mat[9];
 
-	rotZ.m = 3;
-	rotZ.n = 3;
-	rotX.m = 3;
-	rotX.n = 3;
+	rotz.m = 3;
+	rotz.n = 3;
+	rotx.m = 3;
+	rotx.n = 3;
 	_assign_rotmats(rotz_mat, rotx_mat, theta_z, theta_x);
-	rotZ.fmat = rotz_mat;
-	rotX.fmat = rotx_mat;
-	//print_fmat(rotZ);
-	//print_fmat(rotX);
-	premult_fmat(&rotX, &rotZ);
-	premult_fmat(&rotZ, fmat);
+	rotz.fmat = rotz_mat;
+	rotx.fmat = rotx_mat;
+	premult_fmat(&rotx, &rotz);
+	premult_fmat(&rotz, fmat);
 	
-	//premult_fmat(&rotZ, fmat);
-	//premult_fmat(&rotX, fmat);
+	//premult_fmat(&rotz, fmat);
+	//premult_fmat(&rotx, fmat);
 	return ;
 }
 
