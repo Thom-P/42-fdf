@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 17:10:13 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 17:43:42 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,9 @@ typedef struct	s_meta
 	t_view		view;
    	t_imat		data_in; // to remove later	?	
 }				t_meta;
+
+//main
+void	process_and_render(t_meta *meta);
 
 //Parsing
 t_imat	get_input(char *f_name);
