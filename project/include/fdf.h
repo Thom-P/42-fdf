@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 20:42:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 21:19:12 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@
 # define KEY_DOWN 2
 
 # define ESCAPE_KEY 53
+# define I_KEY 34
+# define O_KEY 31
+# define K_KEY 40
+# define L_KEY 37
+# define LEFT_ARROW_KEY 123
+# define RIGHT_ARROW_KEY 124
+# define DOWN_ARROW_KEY 125
+# define UP_ARROW_KEY 126
 
 //# define WIN_NX 1280 //values for macbook pro full screen
 //# define WIN_NY 750

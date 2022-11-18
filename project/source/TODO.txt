@@ -1,6 +1,3 @@
-- gather Rotx and Rotz in one 3x3 mat
-- implement zoom by diag matrix to mult in above one
-- implement z scaling by scaling matrix element 
 - implement color? based on z value? or slope angle?
 - implement translation... where?
 - rework condition of point inclusion in image before drawing (optimize by checking each point only once) 
