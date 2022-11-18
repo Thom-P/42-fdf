@@ -6,13 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 17:39:58 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 17:49:42 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	_key_hook(int keycode, t_meta *meta)
+int	key_hook(int keycode, t_meta *meta)
 {
 	
 	t_xptr	*xp;
@@ -51,7 +51,7 @@ int	_key_hook(int keycode, t_meta *meta)
 }
 
 //called when closing window from clicking cross (DESTROY_WIN event)
-int	_destroy_hook(void *xp)
+int	destroy_hook(void *xp)
 {
 	mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
 	exit(0);
