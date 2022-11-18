@@ -6,13 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 15:53:54 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 10:55:52 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	_get_next_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d);
+static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d);
 
 void	_put_pix_image(t_image *im, int x, int y, int color);
 
@@ -65,8 +65,8 @@ static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_ima
 	int	nx;
 	int	ny;
 	int nb_pts;
-	t_pt2d	p;
-	t_pt2d	p_right;
+	t_ipt2	p;
+	t_ipt2	p_right;
 
 	nx = data_in -> n; 
 	ny = data_in -> m; 
@@ -88,8 +88,8 @@ static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_imag
 	int	nx;
 	int	ny;
 	int nb_pts;
-	t_pt2d	p;
-	t_pt2d	p_down;
+	t_ipt2	p;
+	t_ipt2	p_down;
 
 	nx = data_in -> n; 
 	ny = data_in -> m; 
@@ -132,10 +132,10 @@ static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
 
 void draw_box_around_image(t_image *im)
 {	
-	t_pt2d	top_left;
-	t_pt2d	top_right;
-	t_pt2d	bottom_left;
-	t_pt2d	bottom_right;
+	t_ipt2	top_left;
+	t_ipt2	top_right;
+	t_ipt2	bottom_left;
+	t_ipt2	bottom_right;
 
 	top_left.x = 0;
 	top_right.x = im -> nx - 1;
@@ -153,11 +153,11 @@ void draw_box_around_image(t_image *im)
 }
 
 // Bresenham's line algo using integer computations only
-void	draw_line_image(t_pt2d *p0, t_pt2d *p1, t_image *im)
+void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im)
 //nb: could add in box check for p1 and p0
 {
 	t_draw	d;
-	t_pt2d	p0_cpy;
+	t_ipt2	p0_cpy;
 
 	p0_cpy.x = p0 -> x;
 	p0_cpy.y = p0 -> y;
@@ -182,7 +182,7 @@ void	draw_line_image(t_pt2d *p0, t_pt2d *p1, t_image *im)
 }
 
 // copy of t_p0 is provided so that point is not modified during draw
-static int	_get_next_pix(t_pt2d *p0, t_pt2d *p1, t_draw *d)
+static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d)
 {
 	int	e2;
 

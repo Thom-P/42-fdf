@@ -6,17 +6,17 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/17 22:47:05 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 10:53:36 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include <stdio.h>  //not to remove at the end cause used for perror...
+# include <stdio.h>  //used for perror
 # include <stdlib.h>
-# include <limits.h>
-# include <math.h> // to replace by -lm flag in gcc?
+# include <limits.h> // to remove if INT_MAX not used
+# include <math.h> // nb: need gcc -lm on Linux?
 # include <fcntl.h>
 
 # include "mlx.h"
@@ -37,14 +37,14 @@
 # define THETA_Z_ISO (45. / 180. * M_PI)
 # define THETA_X_ISO  (-(90. - 35.2644) / 180. * M_PI)
 	
-// Struct for pointers to display session and window
+// Pointers to display session and window
 typedef struct	s_xptr
 {
 	void	*mlx;
 	void	*win;
 }				t_xptr;
 
-// Struct for mlx_image info
+// Mlx_image info
 typedef struct	s_image
 {
 	void	*id;
@@ -58,14 +58,21 @@ typedef struct	s_image
 	int		pos_y;
 }				t_image;
 
-// Struct for view/transform
+// View/transform
 typedef struct	s_view
 {
 	float	theta_z;
 	float	theta_x;
 }				t_view;
 
-// Struct for 2D int matrix (size m, n)
+// int point 2D
+typedef struct s_ipt2
+{
+	int	x;
+	int	y;
+}				t_ipt2;
+
+// int matrix (size m, n)
 typedef struct	s_imat
 {
 	int	m;
@@ -73,13 +80,23 @@ typedef struct	s_imat
 	int *imat;
 }				t_imat;
 
-// Struct for 2D float matrix (size m, n)
+// float matrix (size m, n)
 typedef struct	s_fmat
 {
 	int		m;
 	int		n;
 	float	*fmat;
 }				t_fmat;
+
+// Variables for Bresenham's segment tracing algo
+typedef struct s_draw
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	error;
+}				t_draw;
 
 // Meta-struct of other structs to use in hooks
 typedef struct	s_meta
@@ -99,7 +116,9 @@ void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
 void	rotate_fmat(t_fmat *fmat, float theta_z, float theta_x);
 
 //Drawing
-# include "drawing.h"
+void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im);
+void	draw_grid_image(t_fmat *init_mat, t_image *im, t_imat *data_in);
+void	draw_box_around_image(t_image *im);
 
 //Matrix utils
 t_fmat fmat_dup(t_fmat *fmat_in);
