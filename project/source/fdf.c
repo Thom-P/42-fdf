@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 18:09:17 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 18:40:43 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int ac, char **av)
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
 	meta.view.theta_z = THETA_Z_ISO;
 	meta.view.theta_x = THETA_X_ISO;
+	meta.view.zoom = 1;
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_hook, &meta);
 	mlx_hook(meta.xp.win, DESTROY_WIN, 0, &destroy_hook, &meta.xp);
@@ -49,7 +50,7 @@ void	process_and_render(t_meta *meta)
 	t_fmat	fmat;
 
 	fmat = fmat_dup(&meta -> init_fmat);
-	rotate_fmat(&fmat, meta -> view.theta_z, meta -> view.theta_x);
+	transform_fmat(&fmat, &meta -> view);
 	draw_grid_image(&fmat, &meta -> im, &meta -> data_in);
 	free(fmat.fmat);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,

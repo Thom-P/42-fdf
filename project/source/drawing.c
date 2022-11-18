@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 11:18:10 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 18:34:05 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,30 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 	return ;
 }
 
+//get projected matrix
+static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
+{
+	int	*proj_mat;
+	int	i;
+
+	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
+	if (proj_mat == NULL)
+	{
+		free(fmat -> fmat); //shd also close window and all... create clean fct!
+		perror("In proj_mat");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < nb_pts)
+	{
+		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx); // also recenter
+		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny);
+		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
+		i++;
+	}
+	return (proj_mat);
+}
+
 static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im)
 {	
 	int	nx;
@@ -104,30 +128,6 @@ static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_imag
 		return ;
 	draw_line_image(&p, &p_down, im);
 	return ;
-}
-
-//get projected matrix
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
-{
-	int	*proj_mat;
-	int	i;
-
-	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
-	if (proj_mat == NULL)
-	{
-		free(fmat -> fmat); //shd also close window and all... create clean fct!
-		perror("In proj_mat");
-		exit(EXIT_FAILURE);
-	}
-	i = 0;
-	while (i < nb_pts)
-	{
-		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx); // also recenter
-		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny);
-		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
-		i++;
-	}
-	return (proj_mat);
 }
 
 void draw_box_around_image(t_image *im)

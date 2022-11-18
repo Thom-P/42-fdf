@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 17:49:42 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 18:52:46 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ int	key_hook(int keycode, t_meta *meta)
 	{
 		if (d_theta == 
 	}*/
-	
+	if (keycode == 34) // zoom in
+		meta -> view.zoom *= 1.1; 	
+	if (keycode == 31) // zoom out
+		meta -> view.zoom /= 1.1;
+
 	//fprintf(stderr, "%i\n", keycode);
 	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
 	view = &meta -> view; //nb will need rotation from current pos, not init_mat
-	if (keycode < 123 || keycode > 126)
-	   return (0);	
+	//if (keycode < 123 || keycode > 126)
+	//   return (0);	
 	if (keycode == 123) //left arr (will need y axis rot implement..., use z for the moment)
 		view -> theta_z -= d_theta;
 	if (keycode == 124) //right arr (will need y axis rot implement..., use z for the moment)
