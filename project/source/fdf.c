@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 11:17:35 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 17:15:10 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int		_key_hook(int keycode, t_meta *meta);
 
 int		_destroy_hook(void *xp);
 
-//int		_loop_hook(void *xp);
-
 void	create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 void 	create_image(t_xptr *xp, t_image *im);
@@ -28,39 +26,28 @@ void	process_and_render(t_fmat *init_fmat, t_xptr *xp, t_image *im, t_view *view
 
 int	main(int ac, char **av)
 {
-	t_imat	data_in;
-	t_fmat	init_fmat; // the unrotated one
-	t_xptr	xp;
-	t_image	im;
-	t_view	view;
 	t_meta	meta;
 
 	_verify_arguments(ac, av);		
-	data_in = get_input(av[1]);
-	//print_imat(data_in);	
-
-	create_win(&xp, WIN_NY, WIN_NX, "***Fil de Fer***");
-	create_image(&xp, &im);
+	meta.data_in = get_input(av[1]);
+	//print_imat(meta.data_in);	
+	create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
+	create_image(&meta.xp, &meta.im);
 	
-	create_init_fmat(&data_in, &init_fmat, &im);
-	//print_fmat(init_fmat);
+	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
+	//print_fmat(meta.init_fmat);
 	
-	view.theta_z = THETA_Z_ISO;
-	view.theta_x = THETA_X_ISO;
-	process_and_render(&init_fmat, &xp, &im, &view, &data_in);
+	meta.view.theta_z = THETA_Z_ISO;
+	meta.view.theta_x = THETA_X_ISO;
 
-	meta.init_fmat = &init_fmat;
-	meta.im = &im;
-	meta.xp = &xp;
-	meta.view = &view;
-	meta.data_in = &data_in;
-
+	process_and_render(&meta.init_fmat, &meta.xp, &meta.im, &meta.view, &meta.data_in);
+	
 	// hooks
 	//mlx_key_hook(xp.win, &_key_hook, &meta);
-    mlx_hook(xp.win, 2, 0, &_key_hook, &meta); //key_down	
+    mlx_hook(meta.xp.win, 2, 0, &_key_hook, &meta); //key_down	
     
-	mlx_hook(xp.win, DESTROY_WIN, 0, &_destroy_hook, &xp);	
-	mlx_loop(xp.mlx);
+	mlx_hook(meta.xp.win, DESTROY_WIN, 0, &_destroy_hook, &meta.xp);	
+	mlx_loop(meta.xp.mlx);
 	//never gets here
 	return (0);
 }
@@ -138,7 +125,7 @@ int	_key_hook(int keycode, t_meta *meta)
 
 	d_theta = M_PI / 20;
 	//xp = ((t_meta *)meta) -> xp; 
-	xp = meta -> xp; 
+	xp = &meta -> xp; 
 	if (keycode == ESCAPE_KEY)
 	{	
 		mlx_destroy_window(xp -> mlx, xp -> win);
@@ -151,7 +138,7 @@ int	_key_hook(int keycode, t_meta *meta)
 	
 	//fprintf(stderr, "%i\n", keycode);
 	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
-	view = meta -> view; //nb will need rotation from current pos, not init_mat
+	view = &meta -> view; //nb will need rotation from current pos, not init_mat
 	if (keycode < 123 || keycode > 126)
 	   return (0);	
 	if (keycode == 123) //left arr (will need y axis rot implement..., use z for the moment)
@@ -163,7 +150,7 @@ int	_key_hook(int keycode, t_meta *meta)
 	if (keycode == 125) //down arr 
 		view -> theta_x -= d_theta;
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
-	process_and_render(meta -> init_fmat, meta -> xp, meta -> im, meta -> view, meta -> data_in);
+	process_and_render(&meta -> init_fmat, &meta -> xp, &meta -> im, &meta -> view, &meta -> data_in);
 	return (0);
 }
 
