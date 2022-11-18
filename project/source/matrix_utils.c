@@ -6,19 +6,19 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:30:14 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/16 18:11:39 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 18:16:26 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static float	_dot_prod(float *a, float *b, int dim); 
+static float	_dot_pro(float *a, float *b, int dim);
 
-//duplicate float matrix by malloc
-t_fmat fmat_dup(t_fmat *fmat_in)
+// Duplicate float matrix using malloc
+t_fmat	fmat_dup(t_fmat *fmat_in)
 {
 	t_fmat	fmat_out;
-	int i;
+	int		i;
 
 	fmat_out.m = fmat_in -> m;
 	fmat_out.n = fmat_in -> n;
@@ -39,11 +39,11 @@ t_fmat fmat_dup(t_fmat *fmat_in)
 }
 
 /* In place (pre)multiplication of matrix A (3, n) by matrix B(3, 3)
-A = B*A */
-void premult_fmat(t_fmat *B, t_fmat *A)
+A = BxA */
+void	premult_fmat(t_fmat *B, t_fmat *A)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 	float	tmp_col[3];
 
 	if (B -> m != 3 || B -> n != 3 || A -> m != 3)
@@ -61,7 +61,7 @@ void premult_fmat(t_fmat *B, t_fmat *A)
 		i = 0;
 		while (i < 3)
 		{
-			A -> fmat[j + i * A -> n] = _dot_prod(B -> fmat + i * 3, tmp_col, 3);
+			A -> fmat[j + i * A -> n] = _dot_pro(B -> fmat + i * 3, tmp_col, 3);
 			i++;
 		}
 		j++;
@@ -69,15 +69,15 @@ void premult_fmat(t_fmat *B, t_fmat *A)
 	return ;
 }
 
-// dot product
-static float	_dot_prod(float *a, float *b, int dim) 
+// Dot product
+static float	_dot_pro(float *a, float *b, int dim)
 {
 	int		i;
 	float	res;
 
 	res = 0;
 	i = 0;
-	while (i < dim)	
+	while (i < dim)
 	{
 		res += a[i] * b[i];
 		i++;

@@ -8,3 +8,4 @@ can create a bool array to check whether or not included
 - can pre-compute neighbors for edge tracing
 - bonus...
 - remove CAPS from var names (see norm)
+- need to understand if have to free all alloc vars when 1 malloc fails
