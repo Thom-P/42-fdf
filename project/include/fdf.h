@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 21:19:12 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:35:52 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 
 # define DESTROY_WIN 17  //closing window event
 # define KEY_DOWN 2
+# define KEY_UP 3
 
 # define ESCAPE_KEY 53
 # define I_KEY 34
@@ -75,6 +76,7 @@ typedef struct	s_view
 	float	theta_x;
 	float	zoom;
 	float	z_scale;
+	float	d_theta;
 }				t_view;
 
 // int point 2D
@@ -136,7 +138,8 @@ void	draw_grid_image(t_fmat *init_mat, t_image *im, t_imat *data_in);
 void	draw_box_around_image(t_image *im);
 
 //Hooks
-int	key_hook(int keycode, t_meta *meta);
+int	key_down_hook(int keycode, t_meta *meta);
+int	key_up_hook(int keycode, t_meta *meta);
 int	destroy_hook(void *xp);
 
 //Matrix utils

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 20:43:24 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:35:21 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	main(int ac, char **av)
 	meta.view.theta_x = THETA_X_ISO;
 	meta.view.zoom = 1;
 	meta.view.z_scale = 1;
+	meta.view.d_theta = M_PI / 20;	
 	process_and_render(&meta);
-	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_hook, &meta);
+	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
+	mlx_hook(meta.xp.win, KEY_UP, 0, &key_up_hook, &meta);
 	mlx_hook(meta.xp.win, DESTROY_WIN, 0, &destroy_hook, &meta.xp);
 	mlx_loop(meta.xp.mlx);
 	return (0);

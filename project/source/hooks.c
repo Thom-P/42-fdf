@@ -6,24 +6,25 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 21:19:25 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 23:39:55 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	key_hook(int keycode, t_meta *meta)
+int	key_down_hook(int keycode, t_meta *meta)
 {
-	
 	t_xptr	*xp;
 	float d_theta;
 
 	//fprintf(stderr, "%i\n", keycode);
-	d_theta = M_PI / 20;
+	//d_theta = M_PI / 20;
 	xp = &meta -> xp; 
 	if (keycode == ESCAPE_KEY)
 		destroy_hook(xp);
-	//if (keycode == 257) //MAJ
+	if (keycode == 257) //MAJ
+		meta -> view.d_theta /= 3;
+	d_theta = meta -> view.d_theta;
 	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	if (keycode == I_KEY) //zoom in
 		meta -> view.zoom *= 1.1; 	
@@ -42,6 +43,13 @@ int	key_hook(int keycode, t_meta *meta)
 	if (keycode == DOWN_ARROW_KEY)
 		meta -> view.theta_x -= d_theta;
 	process_and_render(meta);
+	return (0);
+}
+
+int	key_up_hook(int keycode, t_meta *meta)
+{
+	if (keycode == 257) //MAJ
+		meta -> view.d_theta *= 3;
 	return (0);
 }
 
