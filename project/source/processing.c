@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 20:36:32 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:42:30 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 	transfo_mat[2] = 0.;
 	transfo_mat[3] = zoom * cx * sz;
 	transfo_mat[4] = zoom * cx * cz;
-	transfo_mat[5] = zoom * -sx;
+	transfo_mat[5] = view -> z_scale * zoom * -sx;
 	transfo_mat[6] = zoom * sx * sz;
 	transfo_mat[7] = zoom * sx * cz;
-	transfo_mat[8] = zoom * cx;
+	transfo_mat[8] = view -> z_scale * zoom * cx;
 	return ;
 }
 

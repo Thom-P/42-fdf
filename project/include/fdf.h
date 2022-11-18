@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 18:42:29 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:42:51 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct	s_view
 	float	theta_z;
 	float	theta_x;
 	float	zoom;
+	float	z_scale;
 }				t_view;
 
 // int point 2D

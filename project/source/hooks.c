@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 18:52:46 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 20:46:01 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,14 @@ int	key_hook(int keycode, t_meta *meta)
 	{
 		if (d_theta == 
 	}*/
-	if (keycode == 34) // zoom in
+	if (keycode == 34) // i, zoom in
 		meta -> view.zoom *= 1.1; 	
-	if (keycode == 31) // zoom out
+	if (keycode == 31) // o, zoom out
 		meta -> view.zoom /= 1.1;
-
+	if (keycode == 40) //k, scale z +
+		meta -> view.z_scale *= 1.1;
+	if (keycode == 37) //l, scale z -
+		meta -> view.z_scale /= 1.1;
 	//fprintf(stderr, "%i\n", keycode);
 	//view = ((t_meta *)meta) -> view; //nb will need rotation from current pos, not init_mat
 	view = &meta -> view; //nb will need rotation from current pos, not init_mat
