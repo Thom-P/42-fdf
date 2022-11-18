@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 17:50:58 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 17:55:27 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include "libft.h"
 
 # define DESTROY_WIN 17  //closing window event
+# define KEY_DOWN 2
+
 # define ESCAPE_KEY 53
 
 //# define WIN_NX 1280 //values for macbook pro full screen
