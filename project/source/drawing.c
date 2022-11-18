@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 10:55:52 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 11:18:10 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im)
 	d.error = d.dx + d.dy;
 	while (1)
 	{
-		_put_pix_image(im, p0_cpy.x, p0_cpy.y, INT_MAX);
+	//_put_pix_image(im, p0_cpy.x, p0_cpy.y, INT_MAX);
+	_put_pix_image(im, p0_cpy.x, p0_cpy.y, pow(2, 24) - 1);
 		if (_get_next_pix(&p0_cpy, p1, &d))
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 10:54:17 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/18 11:17:35 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,10 @@ void create_image(t_xptr *xp, t_image *im)
 	im -> pos_y = round(0.5 * (WIN_NY - im -> ny));
 	im -> id = mlx_new_image(xp -> mlx, im -> nx, im -> ny);
 	im -> addr = mlx_get_data_addr(im -> id, &im -> bpp, &im -> line_size, &im -> endian);
+	
+	//fprintf(stderr, "bpp=%i\n", im -> bpp);
+	//fprintf(stderr, "INT_MAX=%i\n", INT_MAX);
+	//exit(0);
 	draw_box_around_image(im);
 	return ;
 }
