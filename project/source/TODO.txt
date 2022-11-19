@@ -1,5 +1,4 @@
 - implement color? based on z value? or slope angle?
-- implement translation... where?
 - rework condition of point inclusion in image before drawing (optimize by checking each point only once) 
 can create a bool array to check whether or not included
 - can pre-compute neighbors for edge tracing
