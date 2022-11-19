@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 12:07:50 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:38:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av)
 	_verify_arguments(ac, av);
 	meta.data_in = get_input(av[1]);
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
+	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS, Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE");
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
 	meta.view.theta_z = THETA_Z_ISO;
@@ -65,7 +66,6 @@ void	process_and_render(t_meta *meta)
 	free(proj_mat);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
-	mlx_string_put(meta -> xp.mlx, meta -> xp.win, 1, 1, BLUE, "Test blablabla");
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
 	return ;
