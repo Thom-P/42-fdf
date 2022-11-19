@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 23:35:52 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 10:54:40 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@
 # define RIGHT_ARROW_KEY 124
 # define DOWN_ARROW_KEY 125
 # define UP_ARROW_KEY 126
+
+// Colors
+# define WHITE 16777215 //White
+# define RED 16711680 //Red
+# define GREEN 65280 //Green
+# define BLUE 255 //Blue
+
 
 //# define WIN_NX 1280 //values for macbook pro full screen
 //# define WIN_NY 750
