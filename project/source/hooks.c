@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 23:39:55 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:11:55 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ int	key_down_hook(int keycode, t_meta *meta)
 	float d_theta;
 
 	//fprintf(stderr, "%i\n", keycode);
-	//d_theta = M_PI / 20;
 	xp = &meta -> xp; 
 	if (keycode == ESCAPE_KEY)
 		destroy_hook(xp);
 	if (keycode == 257) //MAJ
 		meta -> view.d_theta /= 3;
 	d_theta = meta -> view.d_theta;
-	//rotate_mat (eg ctrl + arrow (+ maj for small ones))
 	if (keycode == I_KEY) //zoom in
 		meta -> view.zoom *= 1.1; 	
 	if (keycode == O_KEY) //zoom out
@@ -42,6 +40,14 @@ int	key_down_hook(int keycode, t_meta *meta)
 		meta -> view.theta_x += d_theta;
 	if (keycode == DOWN_ARROW_KEY)
 		meta -> view.theta_x -= d_theta;
+	if (keycode == A_KEY)
+		meta -> view.off_x += round(meta -> im.nx / 20);
+	if (keycode == D_KEY)
+		meta -> view.off_x -= round(meta -> im.nx / 20);
+	if (keycode == W_KEY)
+		meta -> view.off_y += round(meta -> im.ny / 20);
+	if (keycode == S_KEY)
+		meta -> view.off_y -= round(meta -> im.ny / 20);
 	process_and_render(meta);
 	return (0);
 }

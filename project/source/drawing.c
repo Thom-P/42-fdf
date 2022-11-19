@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 10:55:26 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:07:09 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,16 @@ static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d);
 
 void	_put_pix_image(t_image *im, int x, int y, int color);
 
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im);
+int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view);
 
 static void	_draw_edge_right(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
 
 static void	_draw_edge_down(int *proj_mat, int i, int j, t_imat *data_in, t_image *im);
 
-void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
+void	draw_grid_image(int *proj_mat, t_image *im, t_imat *data_in)
 {
 	int		i;
 	int 	j;
-	int		*proj_mat;
-	
-	proj_mat = _get_proj_mat(fmat, fmat -> n, im);
 	
 	//t_imat proj;
 	//proj.m = 2;
@@ -56,16 +53,17 @@ void	draw_grid_image(t_fmat *fmat, t_image *im, t_imat *data_in)
 		_draw_edge_right(proj_mat, i, j, data_in, im);
 		j++;
 	}
-	free(proj_mat);
 	return ;
 }
 
-//get projected matrix
-static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
+//get projected and shifted matrix
+int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view)
 {
 	int	*proj_mat;
+	int nb_pts;
 	int	i;
 
+	nb_pts = fmat -> n;
 	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
 	if (proj_mat == NULL)
 	{
@@ -76,8 +74,8 @@ static int	*_get_proj_mat(t_fmat *fmat, int nb_pts, t_image *im)
 	i = 0;
 	while (i < nb_pts)
 	{
-		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx); // also recenter
-		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny);
+		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x); // also recenter and shift
+		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny + view -> off_y);
 		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]);
 		i++;
 	}
@@ -174,8 +172,7 @@ void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im)
 	d.error = d.dx + d.dy;
 	while (1)
 	{
-	//_put_pix_image(im, p0_cpy.x, p0_cpy.y, INT_MAX);
-	_put_pix_image(im, p0_cpy.x, p0_cpy.y, RED);
+		_put_pix_image(im, p0_cpy.x, p0_cpy.y, WHITE);
 		if (_get_next_pix(&p0_cpy, p1, &d))
 			break ;
 	}

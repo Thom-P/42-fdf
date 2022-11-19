@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 10:36:20 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 12:07:50 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	main(int ac, char **av)
 	meta.view.zoom = 1;
 	meta.view.z_scale = 1;
 	meta.view.d_theta = M_PI / 20;	
+	meta.view.off_x = 0;
+	meta.view.off_y = 0;
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
 	mlx_hook(meta.xp.win, KEY_UP, 0, &key_up_hook, &meta);
@@ -51,14 +53,19 @@ int	main(int ac, char **av)
 void	process_and_render(t_meta *meta)
 {
 	t_fmat	fmat;
+	int		*proj_mat;
+	//add bool arr var here? as well as links to neighbs?
 
 	fmat = fmat_dup(&meta -> init_fmat);
 	transform_fmat(&fmat, &meta -> view);
-	draw_grid_image(&fmat, &meta -> im, &meta -> data_in);
+	
+	proj_mat = proj_shift(&fmat, &meta -> im, &meta -> view);
 	free(fmat.fmat);
+	draw_grid_image(proj_mat, &meta -> im, &meta -> data_in);
+	free(proj_mat);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
-	mlx_string_put(meta -> xp.mlx, meta -> xp.win, 100, 100, BLUE, "Test blablabla");
+	mlx_string_put(meta -> xp.mlx, meta -> xp.win, 1, 1, BLUE, "Test blablabla");
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
 	return ;

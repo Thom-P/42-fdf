@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 10:54:40 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/19 11:58:56 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@
 # define RIGHT_ARROW_KEY 124
 # define DOWN_ARROW_KEY 125
 # define UP_ARROW_KEY 126
+# define W_KEY 13
+# define A_KEY 0
+# define S_KEY 1
+# define D_KEY 2
+
+
 
 // Colors
 # define WHITE 16777215 //White
@@ -84,6 +90,8 @@ typedef struct	s_view
 	float	zoom;
 	float	z_scale;
 	float	d_theta;
+	int		off_x;
+	int		off_y;
 }				t_view;
 
 // int point 2D
@@ -140,8 +148,9 @@ void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
 void	transform_fmat(t_fmat *fmat, t_view *view);
 
 //Drawing
+int		*proj_shift(t_fmat *fmat, t_image *im, t_view *view);
 void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im);
-void	draw_grid_image(t_fmat *init_mat, t_image *im, t_imat *data_in);
+void	draw_grid_image(int *proj_mat, t_image *im, t_imat *data_in);
 void	draw_box_around_image(t_image *im);
 
 //Hooks
