@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 20:42:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:00:42 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,3 +111,36 @@ void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 	return ;
 }
 
+//get projected and shifted matrix
+int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
+{
+	int	*proj_mat;
+	int nb_pts;
+	int	i;
+
+	nb_pts = fmat -> n;
+	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
+	*is_in_im = (int *)malloc(nb_pts * sizeof(int));
+	if (proj_mat == NULL || *is_in_im == NULL)
+	{
+		free(proj_mat); //need clean fct
+		free(is_in_im);
+		free(fmat -> fmat); //shd also close window and all... create clean fct!
+		perror("In proj_mat");
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < nb_pts)
+	{
+		(*is_in_im)[i] = 1;
+		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x); // also recenter and shift
+		if (proj_mat[i] < 0 || proj_mat[i] > im -> nx - 1)
+			(*is_in_im)[i] = 0;
+		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny + view -> off_y);
+		if (proj_mat[i + nb_pts] < 0 || proj_mat[i + nb_pts] > im -> ny - 1)
+			(*is_in_im)[i] = 0;
+		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]); //to replace later for z-scale color
+		i++;
+	}
+	return (proj_mat);
+}

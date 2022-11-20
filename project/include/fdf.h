@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 12:43:48 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:01:06 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@ t_imat	get_input(char *f_name);
 //Processing
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
 void	transform_fmat(t_fmat *fmat, t_view *view);
+int		*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im);
 
 //Drawing
-int		*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im);
 void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im);
 void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in);
 void	draw_box_around_image(t_image *im);
