@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 20:06:46 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:16:33 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_diag);
 
-void	_assign_transfo_mat(float *transfo_mat, t_view *view);
+void		_assign_transfo_mat(float *transfo_mat, t_view *view);
 
+//need to free data before return?
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
 	int		n_pts;
@@ -36,10 +37,10 @@ void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 		exit(EXIT_FAILURE);
 	}
 	_fill_fmat(data_in, init_fmat, center, im_radius);
-	return ; //need to free data in here?
+	return ; 
 }
 
-static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float im_radius)
+static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *center, float im_rad)
 //normalisation so that model fits exactly within image (accounting x y only)
 //0.95 prefact to allow some margin
 //flip the z sign so that elevation goes from screen to user (z axis backward)
@@ -51,7 +52,7 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
  	int	nb_pts;
 
 	nb_pts = data_in -> m * data_in -> n;
-	scale_fact = 0.95 * im_radius / sqrt(center[0] * center[0] + center[1] * center[1]);
+	scale_fact = 0.95 * im_rad / sqrt(pow(center[0], 2) + pow(center[1], 2));
 	cc = 0;
 	i = 0;
 	while (i < data_in -> m)
@@ -59,10 +60,10 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *init_fmat, float *center, float 
 		j = 0;
 		while (j < data_in -> n)
 		{
-			(init_fmat -> fmat)[cc] = (j - center[0]) * scale_fact; //x
-			(init_fmat -> fmat)[cc + nb_pts] = (i - center[1]) * scale_fact; //y
-			(init_fmat -> fmat)[cc + 2 * nb_pts] =
-				-1. * (data_in -> imat)[i * data_in -> n + j] * scale_fact; //z
+			(fmat -> fmat)[cc] = (j - center[0]) * scale_fact;
+			(fmat -> fmat)[cc + nb_pts] = (i - center[1]) * scale_fact;
+			(fmat -> fmat)[cc + 2 * nb_pts] =
+				-1. * (data_in -> imat)[i * data_in -> n + j] * scale_fact;
 			j++;
 			cc++;
 		}
@@ -111,33 +112,33 @@ void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 }
 
 //get projected and shifted matrix
+//free(proj_mat); //need clean fct
+//free(is_in_im);
+//free(fmat -> fmat); //shd also close window and all... create clean fct!
+//perror("In proj_mat");
+//does recenter and shift
+//could add z row for color
 int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 {
-	int	*proj_mat;
+	int	*proj;
 	int	i;
 
-	proj_mat = (int *)malloc(2 * fmat -> n *sizeof(int));
+	proj = (int *)malloc(2 * fmat -> n *sizeof(int));
 	*is_in_im = (int *)malloc(fmat -> n * sizeof(int));
-	if (proj_mat == NULL || *is_in_im == NULL)
-	{
-		free(proj_mat); //need clean fct
-		free(is_in_im);
-		free(fmat -> fmat); //shd also close window and all... create clean fct!
-		perror("In proj_mat");
+	if (proj == NULL || *is_in_im == NULL)
 		exit(EXIT_FAILURE);
-	}
 	i = 0;
 	while (i < fmat -> n)
 	{
 		(*is_in_im)[i] = 1;
-		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x); // also recenter and shift
-		if (proj_mat[i] < 0 || proj_mat[i] > im -> nx - 1)
+		proj[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x);
+		if (proj[i] < 0 || proj[i] > im -> nx - 1)
 			(*is_in_im)[i] = 0;
-		proj_mat[i + fmat -> n] =  round((fmat -> fmat)[i + fmat -> n] + 0.5 * im -> ny + view -> off_y);
-		if (proj_mat[i + fmat -> n] < 0 || proj_mat[i + fmat -> n] > im -> ny - 1)
+		proj[i + fmat -> n] =  round((fmat -> fmat)[i + fmat -> n]
+			+ 0.5 * im -> ny + view -> off_y);
+		if (proj[i + fmat -> n] < 0 || proj[i + fmat -> n] > im -> ny - 1)
 			(*is_in_im)[i] = 0;
-		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]); //to replace later for z-scale color
 		i++;
 	}
-	return (proj_mat);
+	return (proj);
 }
