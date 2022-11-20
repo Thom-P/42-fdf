@@ -6,13 +6,11 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 19:53:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 19:58:51 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	_verify_arguments(int ac, char **av);
 
 static void	_init_view(t_view *view, t_image *im);
 
@@ -22,16 +20,23 @@ static void	_create_image(t_xptr *xp, t_image *im);
 
 //print_imat(meta.data_in);	
 //print_fmat(meta.init_fmat);
+//ft_putstr_fd("Loading ", 1);
+//ft_putstr_fd(av[1], 1);
+//ft_putstr_fd("...\n", 1);
 int	main(int ac, char **av)
 {
 	t_meta	meta;
 	char	*str;
 
-	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
-		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
-	_verify_arguments(ac, av);
+	if (ac != 2)
+	{
+		ft_putstr_fd("Incorrect number of arguments (expected 1).\n", 1);
+		exit (EXIT_FAILURE);
+	}
 	meta.data_in = get_input(av[1]);
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
+	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
+		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
 	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
@@ -65,20 +70,6 @@ void	process_and_render(t_meta *meta)
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
-	return ;
-}
-
-static void	_verify_arguments(int ac, char **av)
-{	
-	ft_putstr_fd("Starting Fil de Fer...\n", 1);
-	if (ac != 2)
-	{
-		ft_putstr_fd("Incorrect number of arguments (expected 1).\n", 1);
-		exit (EXIT_FAILURE);
-	}
-	ft_putstr_fd("Loading ", 1);
-	ft_putstr_fd(av[1], 1);
-	ft_putstr_fd("...\n", 1);
 	return ;
 }
 
