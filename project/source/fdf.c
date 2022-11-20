@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 12:38:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 12:30:25 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,23 @@ int	main(int ac, char **av)
 
 //dup init mat to always start back from init state and not prop error
 //nb: put data_in sizes in indep struct to avoid carrying data_in around?
-//apply zoom (eg +/- ?)  do both directly in proj op?
-//apply shift (arrows /maj for small)//need to free init ma
-//data in passed only for dimensions (only mat freed)t at closure?
-//replace destr and creat by a ima_clean fct to reset pix?
+//need to free init mat
+//data in passed only for dimensions (only mat freed)
 void	process_and_render(t_meta *meta)
 {
 	t_fmat	fmat;
 	int		*proj_mat;
+	int		*is_in_im;	
 	//add bool arr var here? as well as links to neighbs?
 
 	fmat = fmat_dup(&meta -> init_fmat);
 	transform_fmat(&fmat, &meta -> view);
 	
-	proj_mat = proj_shift(&fmat, &meta -> im, &meta -> view);
+	proj_mat = proj_shift(&fmat, &meta -> im, &meta -> view, &is_in_im);
 	free(fmat.fmat);
-	draw_grid_image(proj_mat, &meta -> im, &meta -> data_in);
+	draw_grid_image(proj_mat, is_in_im, &meta -> im, &meta -> data_in);
 	free(proj_mat);
+	free(is_in_im);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
