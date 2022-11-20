@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 19:34:49 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:57:12 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,9 @@ int	destroy_hook(void *xp);
 //Matrix utils
 t_fmat fmat_dup(t_fmat *fmat_in);
 void premult_fmat(t_fmat *B, t_fmat *A);
+
+//Mem utils
+void	free_word_arr(char **word_arr, int n);
 
 //Debug utils (to remove)
 void	print_imat(t_imat imat);

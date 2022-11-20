@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/14 22:34:04 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:56:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ t_imat	get_input(char *f_name)
 		exit(EXIT_FAILURE);
 	}
 	data_in.imat = _list2mat(&row_list, data_in.m, data_in.n);
-	if (close(fd))
+	if (close(fd) || data_in.imat == NULL)
 	{
 		perror(NULL);
+		free(data_in.imat);
 		exit(EXIT_FAILURE);
 	}
 	return (data_in);
@@ -114,7 +115,7 @@ static int	*_list2mat(t_list **row_list, int m, int n)
 
 	i = 0;
 	data_mat = (int *)malloc(sizeof(int) * m * n);
-	while (*row_list != NULL)
+	while (data_mat && *row_list != NULL)
 	{	
 		row = (*row_list)-> content;
 		j = 0;
@@ -144,7 +145,10 @@ static int	_parse_line(char *line, int **row)
 		n++;
 	*row = (int *)malloc(sizeof(int) * n);
 	if (*row == NULL)
+	{	
+		free_word_arr(word_arr, n);
 		return (-1);
+	}
 	n = 0;
 	while (word_arr[n] != NULL && *word_arr[n] != '\n')
 	{	
