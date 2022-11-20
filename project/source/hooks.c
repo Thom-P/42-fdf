@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 19:43:41 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:29:35 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	_rotate_view(int key, t_view *view);
 int	key_down_hook(int key, t_meta *meta)
 {
 	if (key == ESCAPE_KEY)
-		destroy_hook(&meta -> xp);
+		destroy_hook(meta);
 	else if (key == MAJ_KEY)
 		meta -> view.d_theta /= 3;
 	else if (key == I_KEY)
@@ -76,10 +76,12 @@ int	key_up_hook(int keycode, t_meta *meta)
 }
 
 //called when closing window or pressing escape key
-// free all mallocs? destroy image? other things
-int	destroy_hook(void *xp)
+// nb: if window closed during recomputing could have leaks
+int	destroy_hook(t_meta *meta)
 {
-	mlx_destroy_window(((t_xptr *)xp)-> mlx, ((t_xptr *)xp)-> win);
+	free(meta -> init_fmat.fmat);
+	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
+	mlx_destroy_window(meta -> xp.mlx, meta -> xp.win);
 	exit(0);
 	return (0);
 }

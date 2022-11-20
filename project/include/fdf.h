@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:16:44 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:30:02 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ void	draw_box_around_image(t_image *im);
 //Hooks
 int	key_down_hook(int keycode, t_meta *meta);
 int	key_up_hook(int keycode, t_meta *meta);
-int	destroy_hook(void *xp);
+int	destroy_hook(t_meta *meta);
 
 //Matrix utils
 t_fmat fmat_dup(t_fmat *fmat_in);
