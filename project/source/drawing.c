@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 13:07:02 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 13:22:13 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void			_put_pix_image(t_image *im, int x, int y, int color);
 
 int				*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im);
 
-static void		_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
+static void		_draw_edge(int *proj_mat, int lin_i1, int lin_i2, t_imat *data_in, t_image *im);
 
-static void		_draw_edge_down(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
+//static void		_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
+
+//static void		_draw_edge_down(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
 
 void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in)
 {
@@ -36,14 +38,14 @@ void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in)
 		while (j < data_in -> n - 1) //then put it in the while to stop trying to draw!!?
 		{
 			if (is_in_im[lin_ind] && is_in_im[lin_ind + 1])
-				_draw_edge_right(proj_mat, lin_ind, data_in, im); //can siplify further here
+				_draw_edge(proj_mat, lin_ind, lin_ind + 1, data_in, im); //can siplify further here
 			if (is_in_im[lin_ind] && is_in_im[lin_ind + data_in -> n])
-				_draw_edge_down(proj_mat, lin_ind, data_in, im);
+				_draw_edge(proj_mat, lin_ind, lin_ind + data_in -> n,data_in, im);
 			j++;
 			lin_ind++;
 		}
 		if (is_in_im[lin_ind] && is_in_im[lin_ind + data_in -> n])
-			_draw_edge_down(proj_mat, lin_ind, data_in, im);
+			_draw_edge(proj_mat, lin_ind, lin_ind + data_in -> n, data_in, im);
 		i++;
 		lin_ind++;
 	}
@@ -51,7 +53,7 @@ void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in)
 	while (j < data_in -> n - 1)
 	{
 		if (is_in_im[lin_ind] && is_in_im[lin_ind + 1])
-			_draw_edge_right(proj_mat, lin_ind, data_in, im);
+			_draw_edge(proj_mat, lin_ind, lin_ind + 1, data_in, im);
 		j++;
 		lin_ind++;
 	}
@@ -92,7 +94,22 @@ int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 	return (proj_mat);
 }
 
-static void	_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im)
+static void	_draw_edge(int *proj_mat, int lin_i1, int lin_i2, t_imat *data_in, t_image *im)
+{	
+	int nb_pts;
+	t_ipt2	p0;
+	t_ipt2	p1;
+
+	nb_pts = data_in -> m * data_in -> n;
+	p0.x = proj_mat[lin_i1];
+	p0.y = proj_mat[lin_i1 + nb_pts];
+	p1.x = proj_mat[lin_i2];
+	p1.y = proj_mat[lin_i2 + nb_pts];
+	draw_line_image(&p0, &p1, im);
+	return ;
+}
+
+/*static void	_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im)
 {	
 	int	nx;
 	int	ny;
@@ -132,7 +149,7 @@ static void	_draw_edge_down(int *proj_mat, int lin_ind, t_imat *data_in, t_image
 	//	return ;
 	draw_line_image(&p, &p_down, im);
 	return ;
-}
+}*/
 
 void draw_box_around_image(t_image *im)
 {	
