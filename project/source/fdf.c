@@ -6,13 +6,15 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 19:28:52 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 19:53:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 static void	_verify_arguments(int ac, char **av);
+
+static void	_init_view(t_view *view, t_image *im);
 
 static void	_create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
@@ -33,14 +35,7 @@ int	main(int ac, char **av)
 	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
-	meta.view.theta_z = THETA_Z_ISO;
-	meta.view.theta_x = THETA_X_ISO;
-	meta.view.zoom = 1;
-	meta.view.z_scale = 1;
-	meta.view.d_theta = M_PI / 20;
-	meta.view.off_x = 0;
-	meta.view.off_y = 0;
-	meta.view.d_offset = round(meta.im.nx / 20);
+	_init_view(&meta.view, &meta.im);
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
 	mlx_hook(meta.xp.win, KEY_UP, 0, &key_up_hook, &meta);
@@ -85,7 +80,20 @@ static void	_verify_arguments(int ac, char **av)
 	ft_putstr_fd(av[1], 1);
 	ft_putstr_fd("...\n", 1);
 	return ;
-}	
+}
+
+static void	_init_view(t_view *view, t_image *im)
+{	
+	view -> theta_z = THETA_Z_ISO;
+	view -> theta_x = THETA_X_ISO;
+	view -> zoom = 1;
+	view -> z_scale = 1;
+	view -> d_theta = M_PI / 20;
+	view -> off_x = 0;
+	view -> off_y = 0;
+	view -> d_offset = round(im -> nx / 20);
+	return ;
+}
 
 static void	_create_win(t_xptr *xp, int win_ny, int win_nx, char *title)
 {
