@@ -6,44 +6,44 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 15:14:09 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:24:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	_draw_edge_right(int *proj_mat, int cc, t_imat *data_in, t_image *im);
+static void	_draw_edge_r(int *proj_mat, int cc, t_imat *data_in, t_image *im);
 
-static void	_draw_edge_down(int *proj_mat, int cc, t_imat *data_in, t_image *im);
+static void	_draw_edge_d(int *proj_mat, int cc, t_imat *data_in, t_image *im);
 
-void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in)
+void	draw_grid_image(int *proj_mat, int *in_im, t_image *im, t_imat *data_in)
 {
-	int		i;
-	int 	j;
-	int		cc;
+	int	i;
+	int	j;
+	int	cc;
 
 	cc = 0;
 	while (cc < data_in -> m * data_in -> n)
 	{
-		if (!is_in_im[cc])
+		if (!in_im[cc])
 		{	
 			cc++;
 			continue ;
 		}
 		i = cc / data_in -> n;
 		j = cc % data_in -> n;
-		if (j < data_in -> n - 1  && is_in_im[cc + 1])
-			_draw_edge_right(proj_mat, cc, data_in, im);
-		if (i < data_in -> m - 1 && is_in_im[cc + data_in -> n])
-			_draw_edge_down(proj_mat, cc, data_in, im);
+		if (j < data_in -> n - 1 && in_im[cc + 1])
+			_draw_edge_r(proj_mat, cc, data_in, im);
+		if (i < data_in -> m - 1 && in_im[cc + data_in -> n])
+			_draw_edge_d(proj_mat, cc, data_in, im);
 		cc++;
 	}
 	return ;
 }
 
-static void	_draw_edge_right(int *proj_mat, int cc, t_imat *data_in, t_image *im)
+static void	_draw_edge_r(int *proj_mat, int cc, t_imat *data_in, t_image *im)
 {	
-	int nb_pts;
+	int		nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_right;
 
@@ -56,9 +56,9 @@ static void	_draw_edge_right(int *proj_mat, int cc, t_imat *data_in, t_image *im
 	return ;
 }
 
-static void	_draw_edge_down(int *proj_mat, int cc, t_imat *data_in, t_image *im)
+static void	_draw_edge_d(int *proj_mat, int cc, t_imat *data_in, t_image *im)
 {	
-	int nb_pts;
+	int		nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_down;
 
@@ -71,7 +71,7 @@ static void	_draw_edge_down(int *proj_mat, int cc, t_imat *data_in, t_image *im)
 	return ;
 }
 
-void draw_box_around_image(t_image *im)
+void	draw_box_around_image(t_image *im)
 {	
 	t_ipt2	top_left;
 	t_ipt2	top_right;
