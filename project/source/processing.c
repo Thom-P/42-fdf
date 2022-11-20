@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 15:00:42 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:06:46 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_diag);
 
-//void	_assign_transfo_mat(float *rotz_mat, float *rotx_mat, t_view *view);
 void	_assign_transfo_mat(float *transfo_mat, t_view *view);
 
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
@@ -115,12 +114,10 @@ void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 {
 	int	*proj_mat;
-	int nb_pts;
 	int	i;
 
-	nb_pts = fmat -> n;
-	proj_mat = (int *)malloc(2 * nb_pts *sizeof(int));
-	*is_in_im = (int *)malloc(nb_pts * sizeof(int));
+	proj_mat = (int *)malloc(2 * fmat -> n *sizeof(int));
+	*is_in_im = (int *)malloc(fmat -> n * sizeof(int));
 	if (proj_mat == NULL || *is_in_im == NULL)
 	{
 		free(proj_mat); //need clean fct
@@ -130,14 +127,14 @@ int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 		exit(EXIT_FAILURE);
 	}
 	i = 0;
-	while (i < nb_pts)
+	while (i < fmat -> n)
 	{
 		(*is_in_im)[i] = 1;
 		proj_mat[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x); // also recenter and shift
 		if (proj_mat[i] < 0 || proj_mat[i] > im -> nx - 1)
 			(*is_in_im)[i] = 0;
-		proj_mat[i + nb_pts] =  round((fmat -> fmat)[i + nb_pts] + 0.5 * im -> ny + view -> off_y);
-		if (proj_mat[i + nb_pts] < 0 || proj_mat[i + nb_pts] > im -> ny - 1)
+		proj_mat[i + fmat -> n] =  round((fmat -> fmat)[i + fmat -> n] + 0.5 * im -> ny + view -> off_y);
+		if (proj_mat[i + fmat -> n] < 0 || proj_mat[i + fmat -> n] > im -> ny - 1)
 			(*is_in_im)[i] = 0;
 		//proj_mat[i + 2 * nb_pts] =  round((fmat -> fmat)[i + 2 * nb_pts]); //to replace later for z-scale color
 		i++;
