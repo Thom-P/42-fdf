@@ -1,5 +1,5 @@
-gcc -Wall -Wextra -Werror -I../include/ -L../lib/ -lmlx -lft -framework OpenGL -framework AppKit *.c -g -fsanitize=address -o fdf
+#gcc -Wall -Wextra -Werror -I../include/ -L../lib/ -lmlx -lft -framework OpenGL -framework AppKit *.c -g -fsanitize=address -o fdf
 
 #gcc -Wall -Wextra -Werror -Wconversion -O2 -I../include/ -L../lib/ -lmlx -lft -framework OpenGL -framework AppKit *.c -o fdf
 
-#gcc -Wall -Wextra -Werror -O2 -I../include/ -L../lib/ -lmlx -lft -framework OpenGL -framework AppKit *.c -o fdf
+gcc -Wall -Wextra -Werror -O2 -I../include/ -L../lib/ -lmlx -lft -framework OpenGL -framework AppKit *.c -o fdf
