@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 15:01:06 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 18:45:16 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define KEY_UP 3
 
 # define ESCAPE_KEY 53
+# define MAJ_KEY 257
 # define I_KEY 34
 # define O_KEY 31
 # define K_KEY 40
