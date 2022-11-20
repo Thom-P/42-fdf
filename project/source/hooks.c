@@ -6,50 +6,59 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 18:57:10 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 19:35:05 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	key_down_hook(int keycode, t_meta *meta)
+static void	_shift_view(int key, t_view *view);
+
+int	key_down_hook(int key, t_meta *meta)
 {
 	float d_theta;
 
 	//fprintf(stderr, "%i\n", keycode);
 	d_theta = meta -> view.d_theta;
-	if (keycode == ESCAPE_KEY)
+	if (key == ESCAPE_KEY)
 		destroy_hook(&meta -> xp);
-	else if (keycode == MAJ_KEY)
+	else if (key == MAJ_KEY)
 		meta -> view.d_theta /= 3;
-	else if (keycode == I_KEY) //zoom in
+	else if (key == I_KEY) //zoom in
 		meta -> view.zoom *= 1.1; 	
-	else if (keycode == O_KEY) //zoom out
+	else if (key == O_KEY) //zoom out
 		meta -> view.zoom /= 1.1;
-	else if (keycode == K_KEY) //scale z +
+	else if (key == K_KEY) //scale z +
 		meta -> view.z_scale *= 1.1;
-	else if (keycode == L_KEY) //scale z -
+	else if (key == L_KEY) //scale z -
 		meta -> view.z_scale /= 1.1;
-	else if (keycode == LEFT_ARROW_KEY) 
+	else if (key == LEFT_ARROW_KEY) 
 		meta -> view.theta_z -= d_theta;
-	else if (keycode == RIGHT_ARROW_KEY)
+	else if (key == RIGHT_ARROW_KEY)
 		meta -> view.theta_z += d_theta;
-	else if (keycode == UP_ARROW_KEY)
+	else if (key == UP_ARROW_KEY)
 		meta -> view.theta_x += d_theta;
-	else if (keycode == DOWN_ARROW_KEY)
+	else if (key == DOWN_ARROW_KEY)
 		meta -> view.theta_x -= d_theta;
-	else if (keycode == A_KEY)
-		meta -> view.off_x += round(meta -> im.nx / 20);
-	else if (keycode == D_KEY)
-		meta -> view.off_x -= round(meta -> im.nx / 20);
-	else if (keycode == W_KEY)
-		meta -> view.off_y += round(meta -> im.ny / 20);
-	else if (keycode == S_KEY)
-		meta -> view.off_y -= round(meta -> im.ny / 20);
+	else if (key == A_KEY || key == D_KEY || key == W_KEY || key == S_KEY)
+		_shift_view(key, &meta -> view);
 	else 
 		return (0);
 	process_and_render(meta);
 	return (0);
+}
+
+static void	_shift_view(int key, t_view *view)
+{
+	if (key == A_KEY)
+		view -> off_x += view -> d_offset;
+	else if (key == D_KEY)
+		view -> off_x -= view -> d_offset;
+	else if (key == W_KEY)
+		view -> off_y += view -> d_offset;
+	else if (key == S_KEY)
+		view -> off_y -= view -> d_offset;
+	return ;
 }
 
 int	key_up_hook(int keycode, t_meta *meta)

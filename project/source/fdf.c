@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 15:36:48 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 19:28:52 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int ac, char **av)
 	meta.view.d_theta = M_PI / 20;
 	meta.view.off_x = 0;
 	meta.view.off_y = 0;
+	meta.view.d_offset = round(meta.im.nx / 20);
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
 	mlx_hook(meta.xp.win, KEY_UP, 0, &key_up_hook, &meta);

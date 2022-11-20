@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 18:45:16 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 19:34:49 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,11 @@
 # define S_KEY 1
 # define D_KEY 2
 
-
-
 // Colors
 # define WHITE 16777215 //White
 # define RED 16711680 //Red
 # define GREEN 65280 //Green
 # define BLUE 255 //Blue
-
 
 //# define WIN_NX 1280 //values for macbook pro full screen
 //# define WIN_NY 750
@@ -88,11 +85,12 @@ typedef struct	s_view
 {
 	float	theta_z;
 	float	theta_x;
+	float	d_theta;
 	float	zoom;
 	float	z_scale;
-	float	d_theta;
 	int		off_x;
 	int		off_y;
+	int		d_offset;
 }				t_view;
 
 // int point 2D
