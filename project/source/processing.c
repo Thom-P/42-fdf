@@ -6,22 +6,23 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 20:16:33 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 20:25:41 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	_fill_fmat(t_imat *data_in, t_fmat *init_mat, float *center, float im_diag);
+static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad);
 
 void		_assign_transfo_mat(float *transfo_mat, t_view *view);
 
 //need to free data before return?
+//im_rad: image size for scaling (chose ny, usually smaller)
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
 	int		n_pts;
-	float	center[2]; // to replace by float point struct
-	float	im_radius; //image size for scaling (chose ny, usually smaller)
+	float	center[2];
+	float	im_radius;
 
 	im_radius = 0.5 * (im -> ny - 1);
 	center[0] = 0.5 * (data_in -> n - 1);
@@ -37,22 +38,22 @@ void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 		exit(EXIT_FAILURE);
 	}
 	_fill_fmat(data_in, init_fmat, center, im_radius);
-	return ; 
+	return ;
 }
 
-static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *center, float im_rad)
 //normalisation so that model fits exactly within image (accounting x y only)
 //0.95 prefact to allow some margin
 //flip the z sign so that elevation goes from screen to user (z axis backward)
+static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad)
 {
-	int	cc;
-	int	i;
-	int	j;
+	int		cc;
+	int		i;
+	int		j;
 	float	scale_fact;
- 	int	nb_pts;
+	int		nb_pts;
 
 	nb_pts = data_in -> m * data_in -> n;
-	scale_fact = 0.95 * im_rad / sqrt(pow(center[0], 2) + pow(center[1], 2));
+	scale_fact = 0.95 * im_rad / sqrt(pow(ctr[0], 2) + pow(ctr[1], 2));
 	cc = 0;
 	i = 0;
 	while (i < data_in -> m)
@@ -60,10 +61,10 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *center, float im_ra
 		j = 0;
 		while (j < data_in -> n)
 		{
-			(fmat -> fmat)[cc] = (j - center[0]) * scale_fact;
-			(fmat -> fmat)[cc + nb_pts] = (i - center[1]) * scale_fact;
-			(fmat -> fmat)[cc + 2 * nb_pts] =
-				-1. * (data_in -> imat)[i * data_in -> n + j] * scale_fact;
+			(fmat -> fmat)[cc] = (j - ctr[0]) * scale_fact;
+			(fmat -> fmat)[cc + nb_pts] = (i - ctr[1]) * scale_fact;
+			(fmat -> fmat)[cc + 2 * nb_pts]
+				= -1. * (data_in -> imat)[i * data_in -> n + j] * scale_fact;
 			j++;
 			cc++;
 		}
@@ -88,16 +89,16 @@ void	transform_fmat(t_fmat *fmat, t_view *view)
 
 void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 {
-	float 	cz;
+	float	cz;
 	float	sz;
 	float	cx;
 	float	sx;
-	float 	zoom;
+	float	zoom;
 
-	cz = cosf(view -> theta_z); 
-	sz = sinf(view -> theta_z); 
-	cx = cosf(view -> theta_x); 
-	sx = sinf(view -> theta_x); 
+	cz = cosf(view -> theta_z);
+	sz = sinf(view -> theta_z);
+	cx = cosf(view -> theta_x);
+	sx = sinf(view -> theta_x);
 	zoom = view -> zoom;
 	transfo_mat[0] = zoom * cz;
 	transfo_mat[1] = zoom * -sz;
@@ -123,7 +124,7 @@ int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 	int	*proj;
 	int	i;
 
-	proj = (int *)malloc(2 * fmat -> n *sizeof(int));
+	proj = (int *)malloc(2 * fmat -> n * sizeof(int));
 	*is_in_im = (int *)malloc(fmat -> n * sizeof(int));
 	if (proj == NULL || *is_in_im == NULL)
 		exit(EXIT_FAILURE);
@@ -134,8 +135,8 @@ int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 		proj[i] = round((fmat -> fmat)[i] + 0.5 * im -> nx + view -> off_x);
 		if (proj[i] < 0 || proj[i] > im -> nx - 1)
 			(*is_in_im)[i] = 0;
-		proj[i + fmat -> n] =  round((fmat -> fmat)[i + fmat -> n]
-			+ 0.5 * im -> ny + view -> off_y);
+		proj[i + fmat -> n] = round((fmat -> fmat)[i + fmat -> n]
+				+ 0.5 * im -> ny + view -> off_y);
 		if (proj[i + fmat -> n] < 0 || proj[i + fmat -> n] > im -> ny - 1)
 			(*is_in_im)[i] = 0;
 		i++;
