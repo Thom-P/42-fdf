@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/19 12:11:55 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:39:45 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	key_up_hook(int keycode, t_meta *meta)
 	return (0);
 }
 
-//called when closing window from clicking cross (DESTROY_WIN event)
+//called when closing window or pressing escape key
 int	destroy_hook(void *xp)
 {
 	mlx_destroy_window(((t_xptr *)xp) -> mlx, ((t_xptr *)xp) -> win);
