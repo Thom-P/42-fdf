@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:30:02 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:45:47 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,19 @@
 //# define WIN_NX 2560 //values for 42 mac
 //# define WIN_NY 1395
 
-# define THETA_Z_ISO (45. / 180. * M_PI)
-# define THETA_X_ISO  (-(90. - 35.2644) / 180. * M_PI)
-	
 // Pointers to display session and window
-typedef struct	s_xptr
+typedef struct s_xptr
 {
 	void	*mlx;
 	void	*win;
 }				t_xptr;
 
 // Mlx_image info
-typedef struct	s_image
+typedef struct s_image
 {
 	void	*id;
-	char 	*addr;
-	int 	bpp;
+	char	*addr;
+	int		bpp;
 	int		line_size;
 	int		endian;
 	int		nx;
@@ -81,7 +78,7 @@ typedef struct	s_image
 }				t_image;
 
 // View/transform
-typedef struct	s_view
+typedef struct s_view
 {
 	float	theta_z;
 	float	theta_x;
@@ -101,15 +98,15 @@ typedef struct s_ipt2
 }				t_ipt2;
 
 // int matrix (size m, n)
-typedef struct	s_imat
+typedef struct s_imat
 {
 	int	m;
 	int	n;
-	int *imat;
+	int	*imat;
 }				t_imat;
 
 // float matrix (size m, n)
-typedef struct	s_fmat
+typedef struct s_fmat
 {
 	int		m;
 	int		n;
@@ -127,13 +124,13 @@ typedef struct s_draw
 }				t_draw;
 
 // Meta-struct of other structs to use in hooks
-typedef struct	s_meta
+typedef struct s_meta
 {
 	t_fmat		init_fmat;
 	t_xptr		xp;
 	t_image		im;
 	t_view		view;
-   	t_imat		data_in;	
+	t_imat		data_in;	
 }				t_meta;
 
 //main
@@ -149,17 +146,17 @@ int		*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im);
 
 //Drawing
 void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im);
-void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in);
+void	draw_grid_image(int *proj, int *is_in_im, t_image *im, t_imat *data_in);
 void	draw_box_around_image(t_image *im);
 
 //Hooks
-int	key_down_hook(int keycode, t_meta *meta);
-int	key_up_hook(int keycode, t_meta *meta);
-int	destroy_hook(t_meta *meta);
+int		key_down_hook(int keycode, t_meta *meta);
+int		key_up_hook(int keycode, t_meta *meta);
+int		destroy_hook(t_meta *meta);
 
 //Matrix utils
-t_fmat fmat_dup(t_fmat *fmat_in);
-void premult_fmat(t_fmat *B, t_fmat *A);
+t_fmat	fmat_dup(t_fmat *fmat_in);
+void	premult_fmat(t_fmat *B, t_fmat *A);
 
 //Mem utils
 void	free_word_arr(char **word_arr, int n);

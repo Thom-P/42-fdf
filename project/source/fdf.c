@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:23:32 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:45:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ void	process_and_render(t_meta *meta)
 }
 
 static void	_init_view(t_view *view, t_image *im)
-{	
-	view -> theta_z = THETA_Z_ISO;
-	view -> theta_x = THETA_X_ISO;
+{
+	view -> theta_z = 45. / 180. * M_PI;
+	view -> theta_x = -(90. - 35.2644) / 180. * M_PI;
 	view -> zoom = 1;
 	view -> z_scale = 1;
 	view -> d_theta = M_PI / 20;
