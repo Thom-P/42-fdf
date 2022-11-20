@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 13:22:13 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 13:40:49 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,44 +18,31 @@ void			_put_pix_image(t_image *im, int x, int y, int color);
 
 int				*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im);
 
-static void		_draw_edge(int *proj_mat, int lin_i1, int lin_i2, t_imat *data_in, t_image *im);
+static void	_draw_edge_right(int *proj_mat, int cc, t_imat *data_in, t_image *im);
 
-//static void		_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
-
-//static void		_draw_edge_down(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im);
+static void	_draw_edge_down(int *proj_mat, int cc, t_imat *data_in, t_image *im);
 
 void	draw_grid_image(int *proj_mat, int *is_in_im, t_image *im, t_imat *data_in)
 {
 	int		i;
 	int 	j;
-	int		lin_ind;
-	
-	lin_ind = 0;
-	i = 0;
-	while (i < data_in -> m - 1)	
+	int		cc;
+
+	cc = 0;
+	while (cc < data_in -> m * data_in -> n)
 	{
-		j = 0;
-		while (j < data_in -> n - 1) //then put it in the while to stop trying to draw!!?
-		{
-			if (is_in_im[lin_ind] && is_in_im[lin_ind + 1])
-				_draw_edge(proj_mat, lin_ind, lin_ind + 1, data_in, im); //can siplify further here
-			if (is_in_im[lin_ind] && is_in_im[lin_ind + data_in -> n])
-				_draw_edge(proj_mat, lin_ind, lin_ind + data_in -> n,data_in, im);
-			j++;
-			lin_ind++;
+		if (!is_in_im[cc])
+		{	
+			cc++;
+			continue ;
 		}
-		if (is_in_im[lin_ind] && is_in_im[lin_ind + data_in -> n])
-			_draw_edge(proj_mat, lin_ind, lin_ind + data_in -> n, data_in, im);
-		i++;
-		lin_ind++;
-	}
-	j = 0;
-	while (j < data_in -> n - 1)
-	{
-		if (is_in_im[lin_ind] && is_in_im[lin_ind + 1])
-			_draw_edge(proj_mat, lin_ind, lin_ind + 1, data_in, im);
-		j++;
-		lin_ind++;
+		i = cc / data_in -> n;
+		j = cc % data_in -> n;
+		if (j < data_in -> n - 1  && is_in_im[cc + 1])
+			_draw_edge_right(proj_mat, cc, data_in, im);
+		if (i < data_in -> m - 1 && is_in_im[cc + data_in -> n])
+			_draw_edge_down(proj_mat, cc, data_in, im);
+		cc++;
 	}
 	return ;
 }
@@ -94,62 +81,35 @@ int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
 	return (proj_mat);
 }
 
-static void	_draw_edge(int *proj_mat, int lin_i1, int lin_i2, t_imat *data_in, t_image *im)
+static void	_draw_edge_right(int *proj_mat, int cc, t_imat *data_in, t_image *im)
 {	
-	int nb_pts;
-	t_ipt2	p0;
-	t_ipt2	p1;
-
-	nb_pts = data_in -> m * data_in -> n;
-	p0.x = proj_mat[lin_i1];
-	p0.y = proj_mat[lin_i1 + nb_pts];
-	p1.x = proj_mat[lin_i2];
-	p1.y = proj_mat[lin_i2 + nb_pts];
-	draw_line_image(&p0, &p1, im);
-	return ;
-}
-
-/*static void	_draw_edge_right(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im)
-{	
-	int	nx;
-	int	ny;
 	int nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_right;
 
-	nx = data_in -> n; 
-	ny = data_in -> m; 
-	nb_pts = nx * ny;
-	p.x = proj_mat[lin_ind];
-	p.y = proj_mat[lin_ind + nb_pts];
-	p_right.x = proj_mat[lin_ind + 1];
-	p_right.y = proj_mat[lin_ind + 1 + nb_pts];
-	//if (p_right.x < 0 || p_right.y < 0 || p_right.x >= im -> nx || p_right.y >= im -> ny) // to remove now
-	//	return ;
+	nb_pts = data_in -> m * data_in -> n;
+	p.x = proj_mat[cc];
+	p.y = proj_mat[cc + nb_pts];
+	p_right.x = proj_mat[cc + 1];
+	p_right.y = proj_mat[cc + 1 + nb_pts];
 	draw_line_image(&p, &p_right, im);
 	return ;
 }
 
-static void	_draw_edge_down(int *proj_mat, int lin_ind, t_imat *data_in, t_image *im)
+static void	_draw_edge_down(int *proj_mat, int cc, t_imat *data_in, t_image *im)
 {	
-	int	nx;
-	int	ny;
 	int nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_down;
 
-	nx = data_in -> n; 
-	ny = data_in -> m; 
-	nb_pts = nx * ny;
-	p.x = proj_mat[lin_ind];
-	p.y = proj_mat[lin_ind + nb_pts];
-	p_down.x = proj_mat[lin_ind + nx];
-	p_down.y = proj_mat[lin_ind + nx + nb_pts];
-	//if (p_down.x < 0 || p_down.y < 0 || p_down.x >= im -> nx || p_down.y >= im -> ny) // to remove
-	//	return ;
+	nb_pts = data_in -> m * data_in -> n;
+	p.x = proj_mat[cc];
+	p.y = proj_mat[cc + nb_pts];
+	p_down.x = proj_mat[cc + data_in -> n];
+	p_down.y = proj_mat[cc + data_in -> n + nb_pts];
 	draw_line_image(&p, &p_down, im);
 	return ;
-}*/
+}
 
 void draw_box_around_image(t_image *im)
 {	
