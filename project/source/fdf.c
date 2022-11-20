@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 12:30:25 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:36:48 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,21 @@ static void	_create_image(t_xptr *xp, t_image *im);
 int	main(int ac, char **av)
 {
 	t_meta	meta;
+	char	*str;
 
+	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
+		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
 	_verify_arguments(ac, av);
 	meta.data_in = get_input(av[1]);
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
-	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS, Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE");
+	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
 	meta.view.theta_z = THETA_Z_ISO;
 	meta.view.theta_x = THETA_X_ISO;
 	meta.view.zoom = 1;
 	meta.view.z_scale = 1;
-	meta.view.d_theta = M_PI / 20;	
+	meta.view.d_theta = M_PI / 20;
 	meta.view.off_x = 0;
 	meta.view.off_y = 0;
 	process_and_render(&meta);
@@ -54,11 +57,9 @@ void	process_and_render(t_meta *meta)
 	t_fmat	fmat;
 	int		*proj_mat;
 	int		*is_in_im;	
-	//add bool arr var here? as well as links to neighbs?
 
 	fmat = fmat_dup(&meta -> init_fmat);
 	transform_fmat(&fmat, &meta -> view);
-	
 	proj_mat = proj_shift(&fmat, &meta -> im, &meta -> view, &is_in_im);
 	free(fmat.fmat);
 	draw_grid_image(proj_mat, is_in_im, &meta -> im, &meta -> data_in);

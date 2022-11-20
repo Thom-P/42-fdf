@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 09:22:54 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/15 17:23:31 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 15:26:41 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_imat(t_imat imat)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;
@@ -32,9 +32,10 @@ void	print_imat(t_imat imat)
 	}
 }
 
-void	print_fmat(t_fmat fmat)  //to remove after end
+void	print_fmat(t_fmat fmat)
+//to remove after end
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;
