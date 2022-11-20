@@ -1,8 +1,5 @@
 - implement color? based on z value? or slope angle?
-- rework condition of point inclusion in image before drawing (optimize by checking each point only once) 
-can create a bool array to check whether or not included
-- can pre-compute neighbors for edge tracing
 - bonus...
-- need to understand if have to free all alloc vars when 1 malloc fails
+- need to ask if have to free all alloc vars when 1 malloc fails
 - install valgrind and check leaks
-- replace destroy and create window by writing black pixels to see if faster...
+- replace destroy and create window by writing black pixels to see if faster?
