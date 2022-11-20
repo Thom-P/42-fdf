@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 20:25:41 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:18:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad);
 
 void		_assign_transfo_mat(float *transfo_mat, t_view *view);
 
-//need to free data before return?
 //im_rad: image size for scaling (chose ny, usually smaller)
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
@@ -119,15 +118,19 @@ void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 //perror("In proj_mat");
 //does recenter and shift
 //could add z row for color
-int	*proj_shift(t_fmat *fmat, t_image *im, t_view *view, int **is_in_im)
+int	*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im)
 {
-	int	*proj;
-	int	i;
+	int		*proj;
+	int		i;
+	t_image	*im;
+	t_view	*view;
 
+	im = &meta -> im;
+	view = &meta -> view;
 	proj = (int *)malloc(2 * fmat -> n * sizeof(int));
 	*is_in_im = (int *)malloc(fmat -> n * sizeof(int));
 	if (proj == NULL || *is_in_im == NULL)
-		exit(EXIT_FAILURE);
+		free_fmats_exit(fmat -> fmat, meta ->init_fmat.fmat);
 	i = 0;
 	while (i < fmat -> n)
 	{

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 19:59:53 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/20 21:14:41 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	main(int ac, char **av)
 	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
+	free(meta.data_in.imat);
 	_init_view(&meta.view, &meta.im);
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
@@ -61,7 +62,7 @@ void	process_and_render(t_meta *meta)
 
 	fmat = fmat_dup(&meta -> init_fmat);
 	transform_fmat(&fmat, &meta -> view);
-	proj_mat = proj_shift(&fmat, &meta -> im, &meta -> view, &is_in_im);
+	proj_mat = proj_shift(&fmat, meta, &is_in_im);
 	free(fmat.fmat);
 	draw_grid_image(proj_mat, is_in_im, &meta -> im, &meta -> data_in);
 	free(proj_mat);
