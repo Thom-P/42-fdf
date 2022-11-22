@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:45:47 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 13:16:15 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ t_fmat	fmat_dup(t_fmat *fmat_in);
 void	premult_fmat(t_fmat *B, t_fmat *A);
 
 //Mem utils
-void	free_word_arr(char **word_arr, int n);
+void	free_word_arr(char **word_arr);
 void	free_fmats_exit(float *fmat, float *init_fmat);
 
 //Debug utils (to remove)

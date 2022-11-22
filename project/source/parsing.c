@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 11:36:40 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 13:14:28 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,16 +148,15 @@ static int	_parse_line(char *line, int **row)
 	*row = (int *)malloc(sizeof(int) * n);
 	if (*row == NULL)
 	{	
-		free_word_arr(word_arr, n);
+		free_word_arr(word_arr);
 		return (-1);
 	}
 	n = 0;
 	while (word_arr[n] != NULL && *word_arr[n] != '\n')
 	{	
 		(*row)[n] = ft_atoi(word_arr[n]);
-		free(word_arr[n]);
 		n++;
 	}
-	free(word_arr);
+	free_word_arr(word_arr);
 	return (n);
 }

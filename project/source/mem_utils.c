@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 20:28:13 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:17:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 13:15:30 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	free_fmats_exit(float *fmat, float *init_fmat)
 	return ;
 }
 
-void	free_word_arr(char **word_arr, int n)
+void	free_word_arr(char **word_arr)
 {
 	int	i;
 
 	i = 0;
-	while (i < n)
+	while (word_arr[i] != NULL)
 	{
 		free(word_arr[i]);
 		i++;
