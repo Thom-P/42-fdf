@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 11:05:29 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 14:15:07 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	process_and_render(t_meta *meta)
 	transform_fmat(&fmat, &meta -> view);
 	proj_mat = proj_shift(&fmat, meta, &is_in_im);
 	free(fmat.fmat);
-	draw_grid_image(proj_mat, is_in_im, &meta -> im, &meta -> data_in);
+	draw_grid_image(proj_mat, is_in_im, meta);
 	free(proj_mat);
 	free(is_in_im);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
