@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 14:14:38 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 14:19:48 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct s_view
 	int		off_x;
 	int		off_y;
 	int		d_offset;
+	int		flag_cmap;
+	int		*cmap;
 }				t_view;
 
 // int point 2D

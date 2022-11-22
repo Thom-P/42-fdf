@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 14:15:07 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 14:24:50 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ int	main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	}
 	meta.data_in = get_input(av[1]);
+	
+	//to replace with a adhoc fct
+	meta.view.cmap = (int *)malloc(sizeof(int) * 3 * meta.data_in.m * meta.data_in.n);	
+
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
 	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
 		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
@@ -84,6 +88,7 @@ static void	_init_view(t_view *view, t_image *im)
 	view -> off_x = 0;
 	view -> off_y = 0;
 	view -> d_offset = round(im -> nx / 20);
+	view -> flag_cmap = 0;
 	return ;
 }
 
