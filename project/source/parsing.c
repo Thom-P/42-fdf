@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 10:55:55 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 11:36:40 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,33 +48,33 @@ t_imat	get_input(char *f_name)
 }
 
 static int	_parse_file(int fd, t_imat *data_in, t_list **row_list)
-//nb: on macbook, need err_msg to be initialized to NULL (not automatic!!)
+//nb: on macbook, err_msg not init to NULL (random prints if malloc fails?)
 {
 	int		*row;
 	t_list	*node;
 	char	*line;
 	char	*err_msg;
 
-	err_msg = NULL;
 	_parse_first_line(data_in, row_list, fd);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-			break ;
+			return (0);
 		if (_parse_line(line, &row) != data_in -> n)
-			err_msg = "Invalid format file!";
-		node = ft_lstnew(row);
-		if (node == NULL || err_msg != NULL)
 		{	
-			perror(err_msg);
-			free(row);
-			return (-1);
+			err_msg = "Invalid format file!";
+			break ;
 		}
+		node = ft_lstnew(row);
+		if (node == NULL)
+			break ;
 		ft_lstadd_back(row_list, node);
 		(data_in -> m)++;
 	}
-	return (0);
+	perror(err_msg);
+	free(row);
+	return (-1);
 }
 
 static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
