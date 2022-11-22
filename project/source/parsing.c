@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 20:56:37 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/22 10:55:55 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,16 +108,18 @@ static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
 
 static int	*_list2mat(t_list **row_list, int m, int n)
 {
-	int	*data_mat;
-	int	i;
-	int	j;
-	int	*row;
+	int		*data_mat;
+	int		i;
+	int		j;
+	int		*row;
+	t_list	*node;
 
+	node = *row_list;
 	i = 0;
 	data_mat = (int *)malloc(sizeof(int) * m * n);
-	while (data_mat && *row_list != NULL)
+	while (data_mat && node != NULL)
 	{	
-		row = (*row_list)-> content;
+		row = node -> content;
 		j = 0;
 		while (j < n)
 		{
@@ -125,7 +127,7 @@ static int	*_list2mat(t_list **row_list, int m, int n)
 			j++;
 		}
 		i++;
-		*row_list = (*row_list)-> next;
+		node = node -> next;
 	}
 	ft_lstclear(row_list, &free);
 	return (data_mat);
