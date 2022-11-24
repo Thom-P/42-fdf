@@ -1,6 +1,6 @@
 clear all; close all; clc;
 
-jet_mat = jet;
+jet_mat = jet(256);
 c_vec = round(jet_mat(:,1) * 255 + jet_mat(:,2) * 255 * 2^8 + jet_mat(:,3) * 255 * 2^16);
 
 fd = fopen('jet.cmap', 'wt+');
