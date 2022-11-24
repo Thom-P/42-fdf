@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/23 17:47:45 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/24 16:46:34 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	*init_color_map(t_imat *data_in)
 	
 	nb_pts =  data_in -> m * data_in -> n;
 	cmap = (int *)malloc(sizeof(int) * nb_pts);
+	//protect malloc here
 	z_min = (float)INT_MAX;
 	z_max = (float)INT_MIN;
 	i = 0;
@@ -76,11 +77,29 @@ int	*init_color_map(t_imat *data_in)
 			z_min = z_curr;
 		i++;
 	}
+	//read cmap file
+	char	*line;
+	int		cmap_vec[CMAP_N];
+	int		fd_cmap;
+
+	fd_cmap = open("jet.cmap", O_RDONLY);
+	i = 0;
+	while (i < CMAP_N)
+	{
+		line = get_next_line(fd_cmap);
+		cmap_vec[CMAP_N - 1 - i] = ft_atoi(line); //reverse fill cause reverse z to obtain proper jet map
+		free(line);
+		//fprintf(stderr, "i=%i  cmap[i]=%i\n", i, cmap_vec[i]);
+		i++;
+	}
+	close(fd_cmap);
+	//exit(0);
 	i = 0;
 	while (i < nb_pts)
 	{
 		z_curr = data_in -> imat[i];
-		cmap[i] = (int)round((float)RED + ((float)(z_curr - z_min) / (float)(z_max - z_min)) * (float)(WHITE - RED)); 
+		cmap[i] = cmap_vec[(int)round((float)(z_curr - z_min) / (float)(z_max - z_min) * (CMAP_N - 1))]; 
+		//cmap[i] = (int)round((float)RED + ((float)(z_curr - z_min) / (float)(z_max - z_min)) * (float)(WHITE - RED)); 
 		i++;
 	}
 	return (cmap);

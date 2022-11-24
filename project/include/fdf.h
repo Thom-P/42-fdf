@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/23 17:39:42 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/24 16:41:11 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@
 # define RED 16711680 //Red
 # define GREEN 65280 //Green
 # define BLUE 255 //Blue
+# define CMAP_N 256 //number of values in loaded colormaps
+
 
 //# define WIN_NX 1280 //values for macbook pro full screen
 //# define WIN_NY 750
