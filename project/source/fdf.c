@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/24 16:46:34 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 11:40:14 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	_init_view(t_view *view, t_image *im);
 static void	_create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 static void	_create_image(t_xptr *xp, t_image *im);
-
-int	*init_color_map(t_imat *data_in);
 
 //print_imat(meta.data_in);	
 //print_fmat(meta.init_fmat);
@@ -36,7 +34,7 @@ int	main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	}
 	meta.data_in = get_input(av[1]);
-	meta.view.cmap = init_color_map(&meta.data_in);
+	meta.view.cvec = init_color_map(&meta.data_in);
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
 	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
 		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
@@ -51,58 +49,6 @@ int	main(int ac, char **av)
 	mlx_hook(meta.xp.win, DESTROY_WIN, 0, &destroy_hook, &meta);
 	mlx_loop(meta.xp.mlx);
 	return (0);
-}
-
-int	*init_color_map(t_imat *data_in)
-{
-	int	*cmap;
-	int	z_min;
-	int	z_max;
-	int	z_curr;
-	int	nb_pts;
-	int	i;
-	
-	nb_pts =  data_in -> m * data_in -> n;
-	cmap = (int *)malloc(sizeof(int) * nb_pts);
-	//protect malloc here
-	z_min = (float)INT_MAX;
-	z_max = (float)INT_MIN;
-	i = 0;
-	while (i < nb_pts) //find min and max vals of z
-	{
-		z_curr = data_in -> imat[i]; 
-		if (z_curr > z_max)
-			z_max = z_curr;
-		if (z_curr < z_min)
-			z_min = z_curr;
-		i++;
-	}
-	//read cmap file
-	char	*line;
-	int		cmap_vec[CMAP_N];
-	int		fd_cmap;
-
-	fd_cmap = open("jet.cmap", O_RDONLY);
-	i = 0;
-	while (i < CMAP_N)
-	{
-		line = get_next_line(fd_cmap);
-		cmap_vec[CMAP_N - 1 - i] = ft_atoi(line); //reverse fill cause reverse z to obtain proper jet map
-		free(line);
-		//fprintf(stderr, "i=%i  cmap[i]=%i\n", i, cmap_vec[i]);
-		i++;
-	}
-	close(fd_cmap);
-	//exit(0);
-	i = 0;
-	while (i < nb_pts)
-	{
-		z_curr = data_in -> imat[i];
-		cmap[i] = cmap_vec[(int)round((float)(z_curr - z_min) / (float)(z_max - z_min) * (CMAP_N - 1))]; 
-		//cmap[i] = (int)round((float)RED + ((float)(z_curr - z_min) / (float)(z_max - z_min)) * (float)(WHITE - RED)); 
-		i++;
-	}
-	return (cmap);
 }
 
 //dup init mat to always start back from init state and not prop error

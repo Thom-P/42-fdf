@@ -1,5 +1,7 @@
-- implement color? based on z value? or slope angle?
+- add auto rescale z, and auto return to iso/ini
 - bonus...
-- need to ask if have to free all alloc vars when 1 malloc fails
 - install valgrind and check leaks
-- replace destroy and create window by writing black pixels to see if faster?
+- replace destroy and create window by writing black pixels to see if faster?`
+(probably not bottle neck, not many pix)
+- replace dup fmat at each render (only do once at beginning and update mat each time)
+- how to make parsing faster?

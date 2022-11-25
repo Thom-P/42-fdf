@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/24 16:41:11 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 13:02:16 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@
 # define BLUE 255 //Blue
 # define CMAP_N 256 //number of values in loaded colormaps
 
+# define WIN_NX 1280 //values for macbook pro full screen
+# define WIN_NY 750
 
-//# define WIN_NX 1280 //values for macbook pro full screen
-//# define WIN_NY 750
-
-# define WIN_NX 1920 //values for AOC screen
-# define WIN_NY 1030
+//# define WIN_NX 1920 //values for AOC screen
+//# define WIN_NY 1030
 
 //# define WIN_NX 2560 //values for 42 mac
 //# define WIN_NY 1395
@@ -91,7 +90,7 @@ typedef struct s_view
 	int		off_y;
 	int		d_offset;
 	int		flag_cmap;
-	int		*cmap;
+	int		*cvec;
 }				t_view;
 
 // int point 2D
@@ -142,6 +141,9 @@ void	process_and_render(t_meta *meta);
 
 //Parsing
 t_imat	get_input(char *f_name);
+
+//Color maps
+int		*init_color_map(t_imat *data_in);
 
 //Processing
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
