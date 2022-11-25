@@ -6,15 +6,15 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 13:51:57 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 16:32:59 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int color);
+static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int *cmap);
 
-static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int color);
+static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int *cmap);
 
 void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 {
@@ -35,20 +35,24 @@ void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 		i = cc / meta -> data_in.n;
 		j = cc % meta -> data_in.n;
 		if (j < meta -> data_in.n - 1 && in_im[cc + 1])
-			_draw_edge_r(proj_mat, cc, meta, cmap[meta -> view.i_color[cc]]);
+			_draw_edge_r(proj_mat, cc, meta, cmap);
 		if (i < meta -> data_in.m - 1 && in_im[cc + meta -> data_in.n])
-			_draw_edge_d(proj_mat, cc, meta, cmap[meta -> view.i_color[cc]]);
+			_draw_edge_d(proj_mat, cc, meta, cmap);
 		cc++;
 	}
 	return ;
 }
 
-static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int color)
+static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int *cmap)
 {	
 	int		nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_right;
+	int		*i_color;
+	int		color;
 
+	i_color = meta -> view.i_color;
+	color = cmap[(int)round(0.5 * (i_color[cc] + i_color[cc + 1]))];
 	nb_pts = meta -> data_in.m * meta -> data_in.n;
 	p.x = proj_mat[cc];
 	p.y = proj_mat[cc + nb_pts];
@@ -58,12 +62,16 @@ static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int color)
 	return ;
 }
 
-static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int color)
+static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int *cmap)
 {	
 	int		nb_pts;
 	t_ipt2	p;
 	t_ipt2	p_down;
+	int		*i_color;
+	int		color;
 
+	i_color = meta -> view.i_color;
+	color = cmap[(int)round(0.5 * (i_color[cc] + i_color[cc + meta -> data_in.n]))];
 	nb_pts = meta -> data_in.m * meta -> data_in.n;
 	p.x = proj_mat[cc];
 	p.y = proj_mat[cc + nb_pts];

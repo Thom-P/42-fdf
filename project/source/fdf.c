@@ -6,11 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 15:59:19 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 16:16:40 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+#include <time.h>  //to remove
 
 static void	_init_view(t_view *view, t_image *im);
 
@@ -61,18 +63,39 @@ void	process_and_render(t_meta *meta)
 	int		*proj_mat;
 	int		*is_in_im;	
 
+	clock_t t = clock();
 	fmat = fmat_dup(&meta -> init_fmat);
+	fprintf(stderr, "dt_dup =%lu\n", clock() - t);
+
+	t = clock();
 	transform_fmat(&fmat, &meta -> view);
+	fprintf(stderr, "dt_transfo =%lu\n", clock() - t);
+	
+	t = clock();
 	proj_mat = proj_shift(&fmat, meta, &is_in_im);
+	fprintf(stderr, "dt_proj =%lu\n", clock() - t);
+	
 	free(fmat.fmat);
+	
+	t = clock();
 	draw_grid_image(proj_mat, is_in_im, meta);
+	fprintf(stderr, "dt_draw =%lu\n", clock() - t);
 	free(proj_mat);
 	free(is_in_im);
+	
 	draw_box_around_image(&meta -> im);
+	
+	t = clock();
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
+	fprintf(stderr, "dt_put_im =%lu\n", clock() - t);
+	
+	t = clock();
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
+	fprintf(stderr, "dt_destroy_im =%lu\n", clock() - t);
+	
+
 	return ;
 }
 
