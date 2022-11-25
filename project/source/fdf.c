@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 13:40:46 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 15:59:19 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	process_and_render(t_meta *meta)
 	draw_grid_image(proj_mat, is_in_im, meta);
 	free(proj_mat);
 	free(is_in_im);
+	draw_box_around_image(&meta -> im);
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
@@ -114,6 +115,5 @@ static void	_create_image(t_xptr *xp, t_image *im)
 	im -> id = mlx_new_image(xp -> mlx, im -> nx, im -> ny);
 	im -> addr = mlx_get_data_addr(im -> id, &im -> bpp,
 			&im -> line_size, &im -> endian);
-	draw_box_around_image(im);
 	return ;
 }
