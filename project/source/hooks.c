@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 13:57:13 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 17:25:33 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,16 @@ static void	_shift_view(int key, t_view *view);
 
 static void	_rotate_view(int key, t_view *view);
 
+static void	_reset_view(t_view *view);
+
 //fprintf(stderr, "%i\n", key);
 int	key_down_hook(int key, t_meta *meta)
 {
 	if (key == ESCAPE_KEY)
 		destroy_hook(meta);
-	if (key == SPACE_KEY)
+	else if (key == R_KEY)
+		_reset_view(&meta -> view);
+	else if (key == SPACE_KEY)
 		meta -> view.i_cmap = (meta -> view.i_cmap + 1) % N_CMAP;
 	else if (key == MAJ_KEY)
 		meta -> view.d_theta /= 3;
@@ -67,6 +71,17 @@ static void	_shift_view(int key, t_view *view)
 		view -> off_y += view -> d_offset;
 	else if (key == S_KEY)
 		view -> off_y -= view -> d_offset;
+	return ;
+}
+
+static void	_reset_view(t_view *view)
+{
+	view -> theta_z = 45. / 180. * M_PI;
+	view -> theta_x = -(90. - 35.2644) / 180. * M_PI;
+	view -> zoom = 1;
+	view -> z_scale = 1;
+	view -> off_x = 0;
+	view -> off_y = 0;
 	return ;
 }
 

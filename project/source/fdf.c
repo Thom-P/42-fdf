@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 16:16:40 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 17:28:38 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	main(int ac, char **av)
 	meta.data_in = get_input(av[1]);
 	init_colors(&meta.data_in, &meta.view);
 	_create_win(&meta.xp, WIN_NY, WIN_NX, "***Fil de Fer***");
-	str = "Translation: WASD, (Slow) Rotation: (SHIFT) ARROWS,"
-		"Zoom In/Out: I/O, Z-scale +/-: K/L, Quit: ESCAPE";
+	str = "Reset iso: R, Move: WASD, (Slow) Rotate: (SHIFT) ARROWS,"
+		"Zoom In/Out: I/O, Z-scale +/-: K/L, Colormaps: SPACE, Quit: ESCAPE";
 	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta.xp, &meta.im);
 	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);

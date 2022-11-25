@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 16:32:59 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 17:18:16 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int *cmap)
 	int		color;
 
 	i_color = meta -> view.i_color;
-	color = cmap[(int)round(0.5 * (i_color[cc] + i_color[cc + meta -> data_in.n]))];
+	color = cmap[(int)round(0.5
+			* (i_color[cc] + i_color[cc + meta -> data_in.n]))];
 	nb_pts = meta -> data_in.m * meta -> data_in.n;
 	p.x = proj_mat[cc];
 	p.y = proj_mat[cc + nb_pts];

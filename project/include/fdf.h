@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 14:07:54 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 17:21:14 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 # define A_KEY 0
 # define S_KEY 1
 # define D_KEY 2
+# define R_KEY 15
 
 // Colors
 # define WHITE 16777215 //White
