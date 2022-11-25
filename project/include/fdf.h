@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 13:02:16 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 14:07:54 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 # define RIGHT_ARROW_KEY 124
 # define DOWN_ARROW_KEY 125
 # define UP_ARROW_KEY 126
+# define SPACE_KEY 49
 # define W_KEY 13
 # define A_KEY 0
 # define S_KEY 1
@@ -43,10 +44,11 @@
 
 // Colors
 # define WHITE 16777215 //White
-# define RED 16711680 //Red
-# define GREEN 65280 //Green
-# define BLUE 255 //Blue
-# define CMAP_N 256 //number of values in loaded colormaps
+//# define RED 16711680 //Red
+//# define GREEN 65280 //Green
+//# define BLUE 255 //Blue
+# define CMAP_DEPTH 256 //number of values in each colormaps
+# define N_CMAP 7 //number of different colormaps
 
 # define WIN_NX 1280 //values for macbook pro full screen
 # define WIN_NY 750
@@ -89,8 +91,9 @@ typedef struct s_view
 	int		off_x;
 	int		off_y;
 	int		d_offset;
-	int		flag_cmap;
-	int		*cvec;
+	int		i_cmap;
+	int		cmaps[N_CMAP][CMAP_DEPTH];
+	int		*i_color;
 }				t_view;
 
 // int point 2D
@@ -143,7 +146,7 @@ void	process_and_render(t_meta *meta);
 t_imat	get_input(char *f_name);
 
 //Color maps
-int		*init_color_map(t_imat *data_in);
+void	init_colors(t_imat *data_in, t_view *view);
 
 //Processing
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);

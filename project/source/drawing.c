@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 11:41:34 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 13:51:57 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 	int	i;
 	int	j;
 	int	cc;
+	int	*cmap;
 
+	cmap = &meta -> view.cmaps[meta -> view.i_cmap][0];
 	cc = 0;
 	while (cc < meta -> data_in.m * meta -> data_in.n)
 	{
@@ -33,9 +35,9 @@ void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 		i = cc / meta -> data_in.n;
 		j = cc % meta -> data_in.n;
 		if (j < meta -> data_in.n - 1 && in_im[cc + 1])
-			_draw_edge_r(proj_mat, cc, meta, meta -> view.cvec[cc]);
+			_draw_edge_r(proj_mat, cc, meta, cmap[meta -> view.i_color[cc]]);
 		if (i < meta -> data_in.m - 1 && in_im[cc + meta -> data_in.n])
-			_draw_edge_d(proj_mat, cc, meta, meta -> view.cvec[cc]);
+			_draw_edge_d(proj_mat, cc, meta, cmap[meta -> view.i_color[cc]]);
 		cc++;
 	}
 	return ;

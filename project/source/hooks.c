@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 11:41:57 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/25 13:57:13 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@ static void	_shift_view(int key, t_view *view);
 
 static void	_rotate_view(int key, t_view *view);
 
-//fprintf(stderr, "%i\n", keycode);
+//fprintf(stderr, "%i\n", key);
 int	key_down_hook(int key, t_meta *meta)
 {
 	if (key == ESCAPE_KEY)
 		destroy_hook(meta);
+	if (key == SPACE_KEY)
+		meta -> view.i_cmap = (meta -> view.i_cmap + 1) % N_CMAP;
 	else if (key == MAJ_KEY)
 		meta -> view.d_theta /= 3;
 	else if (key == I_KEY)
@@ -80,7 +82,7 @@ int	key_up_hook(int keycode, t_meta *meta)
 int	destroy_hook(t_meta *meta)
 {
 	free(meta -> init_fmat.fmat);
-	free(meta -> view.cvec);
+	free(meta -> view.i_color);
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	mlx_destroy_window(meta -> xp.mlx, meta -> xp.win);
 	exit(0);
