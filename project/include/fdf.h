@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 14:05:03 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 17:08:02 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ typedef struct s_draw
 typedef struct s_meta
 {
 	t_fmat		init_fmat;
+	t_fmat		curr_fmat;
 	t_xptr		xp;
 	t_image		im;
 	t_view		view;
@@ -153,7 +154,8 @@ void	init_colors(t_imat *data_in, t_view *view);
 
 //Processing
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
-void	transform_fmat(t_fmat *fmat, t_view *view);
+//void	transform_fmat(t_fmat *fmat, t_view *view);
+void	transform_fmat(t_fmat *curr_fmat, t_fmat *init_fmat, t_view *view);
 int		*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im);
 
 //Drawing
@@ -169,7 +171,8 @@ int		destroy_hook(t_meta *meta);
 
 //Matrix utils
 t_fmat	fmat_dup(t_fmat *fmat_in);
-void	premult_fmat(t_fmat *B, t_fmat *A);
+//void	premult_fmat(t_fmat *B, t_fmat *A);
+void	mult_fmat(t_fmat *C, t_fmat *A, t_fmat *B);
 
 //Mem utils
 void	free_word_arr(char **word_arr);

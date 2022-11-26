@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 11:39:45 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 17:14:28 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	key_up_hook(int keycode, t_meta *meta)
 int	destroy_hook(t_meta *meta)
 {
 	free(meta -> init_fmat.fmat);
+	free(meta -> curr_fmat.fmat);
 	free(meta -> view.i_color);
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	mlx_destroy_window(meta -> xp.mlx, meta -> xp.win);

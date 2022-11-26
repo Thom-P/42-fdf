@@ -6,13 +6,13 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:30:14 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/18 18:16:26 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 17:29:36 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static float	_dot_pro(float *a, float *b, int dim);
+//static float	_dot_pro(float *a, float *b, int dim);
 
 // Duplicate float matrix using malloc
 t_fmat	fmat_dup(t_fmat *fmat_in)
@@ -38,9 +38,10 @@ t_fmat	fmat_dup(t_fmat *fmat_in)
 	return (fmat_out);
 }
 
+
 /* In place (pre)multiplication of matrix A (3, n) by matrix B(3, 3)
 A = BxA */
-void	premult_fmat(t_fmat *B, t_fmat *A)
+/*void	premult_fmat(t_fmat *B, t_fmat *A)
 {
 	int		i;
 	int		j;
@@ -67,10 +68,42 @@ void	premult_fmat(t_fmat *B, t_fmat *A)
 		j++;
 	}
 	return ;
+}*/
+
+/* Get matrix C(m, n) by multiplication of matrix A(m, m) by matrix B(m, n)
+C = A*B */
+void	mult_fmat(t_fmat *C, t_fmat *A, t_fmat *B)
+{
+	int	m;
+	int	n;
+	int	i;
+	int	j;
+	int	k;
+
+	m = C -> m;
+	n = C -> n;
+	i = 0;
+	while (i < m)
+	{
+		j = 0;
+		while (j < n)
+		{
+			k = 0;
+			C -> fmat[i * n + j] = 0;
+			while (k < m)
+			{
+				C -> fmat[i * n + j] += A -> fmat[i * m + k] * B -> fmat[k * n + j];
+				k++;
+			}
+			j++;
+		}
+		i++;
+	}
+	return ;
 }
 
 // Dot product
-static float	_dot_pro(float *a, float *b, int dim)
+/*static float	_dot_pro(float *a, float *b, int dim)
 {
 	int		i;
 	float	res;
@@ -83,4 +116,4 @@ static float	_dot_pro(float *a, float *b, int dim)
 		i++;
 	}
 	return (res);
-}
+}*/

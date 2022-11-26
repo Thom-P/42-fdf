@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/20 21:18:15 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 17:20:28 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad);
 
-void		_assign_transfo_mat(float *transfo_mat, t_view *view);
+static void		_assign_transfo_mat(float *transfo_mat, t_view *view);
 
 //im_rad: image size for scaling (chose ny, usually smaller)
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
@@ -73,7 +73,8 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad)
 }
 
 //rotation and zoom/z-stretch
-void	transform_fmat(t_fmat *fmat, t_view *view)
+//void	transform_fmat(t_fmat *fmat, t_view *view)
+void	transform_fmat(t_fmat *curr_fmat, t_fmat *init_fmat, t_view *view)
 {
 	t_fmat	transfo;
 	float	transfo_mat[9];
@@ -82,11 +83,11 @@ void	transform_fmat(t_fmat *fmat, t_view *view)
 	transfo.n = 3;
 	_assign_transfo_mat(transfo_mat, view);
 	transfo.fmat = transfo_mat;
-	premult_fmat(&transfo, fmat);
+	mult_fmat(curr_fmat, &transfo, init_fmat);
 	return ;
 }
 
-void	_assign_transfo_mat(float *transfo_mat, t_view *view)
+static void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 {
 	float	cz;
 	float	sz;
