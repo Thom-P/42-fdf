@@ -1,8 +1,5 @@
-- add auto rescale z
 - work order in which segments are drawn, from back to from...(would need sort algo of pts based on z value)
-- bonus...
+- improve drawing and matrix multiplications
 - install valgrind and check leaks
-- replace destroy and create window by writing black pixels to see if faster?`
-(probably not bottle neck, not many pix)
-- replace dup fmat at each render (only do once at beginning and update mat each time)
 - how to make parsing faster?
+- stereo bonus...
