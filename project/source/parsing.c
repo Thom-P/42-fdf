@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 13:14:28 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 19:57:01 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_imat	get_input(char *f_name)
 		perror(NULL);
 		exit(EXIT_FAILURE);
 	}
+	ft_putstr_fd(f_name, 1);
+	ft_putstr_fd(" loading...\n", 1);
 	if (_parse_file(fd, &data_in, &row_list) == -1)
 	{
 		ft_lstclear(&row_list, &free);

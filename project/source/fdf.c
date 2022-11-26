@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 18:06:51 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 19:55:38 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ static void	_create_win(t_xptr *xp, int win_ny, int win_nx, char *title);
 
 static void	_create_image(t_xptr *xp, t_image *im);
 
-//print_imat(meta.data_in);	
-//print_fmat(meta.init_fmat);
-//ft_putstr_fd("Loading ", 1);
-//ft_putstr_fd(av[1], 1);
-//ft_putstr_fd("...\n", 1);
 int	main(int ac, char **av)
 {
 	t_meta	meta;
