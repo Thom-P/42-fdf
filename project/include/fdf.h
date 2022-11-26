@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 17:08:02 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:47:06 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <stdio.h>  //used for perror
 # include <stdlib.h>
-# include <limits.h> // to remove if INT_MAX not used
-# include <math.h> // nb: need gcc -lm on Linux?
+# include <limits.h>
+# include <math.h> //nb: need gcc -lm only on Linux?
 # include <fcntl.h>
 
 # include "mlx.h"
@@ -154,7 +154,6 @@ void	init_colors(t_imat *data_in, t_view *view);
 
 //Processing
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im);
-//void	transform_fmat(t_fmat *fmat, t_view *view);
 void	transform_fmat(t_fmat *curr_fmat, t_fmat *init_fmat, t_view *view);
 int		*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im);
 
@@ -162,7 +161,6 @@ int		*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im);
 void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im, int color);
 void	draw_grid_image(int *proj, int *is_in_im, t_meta *meta);
 void	draw_box_around_image(t_image *im);
-//void   	reset_image_black(t_image *im);
 
 //Hooks
 int		key_down_hook(int keycode, t_meta *meta);
@@ -171,7 +169,6 @@ int		destroy_hook(t_meta *meta);
 
 //Matrix utils
 t_fmat	fmat_dup(t_fmat *fmat_in);
-//void	premult_fmat(t_fmat *B, t_fmat *A);
 void	mult_fmat(t_fmat *C, t_fmat *A, t_fmat *B);
 
 //Mem utils
