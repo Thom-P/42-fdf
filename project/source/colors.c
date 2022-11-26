@@ -6,16 +6,18 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 10:56:03 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 10:36:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 19:38:56 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	_get_z_min_max(float *z_min_max, t_imat *data_in);
+static void	_get_z_min_max(float *z_min_max, t_imat *data_in);
 
-int		_read_cmap_file(int cmap[N_CMAP][CMAP_DEPTH]);
+static int	_read_cmap_file(int cmap[N_CMAP][CMAP_DEPTH]);
 
+/* Assign to each point a color index i_color [0 - CMAP_DEPTH - 1]
+based on its elevation to use for lookup in colormap table */
 void	init_colors(t_imat *data_in, t_view *view)
 {
 	int		*i_color;
@@ -44,9 +46,7 @@ void	init_colors(t_imat *data_in, t_view *view)
 	return ;
 }
 
-//load colormaps from file
-//fprintf(stderr, "i=%i  cmap[i]=%i\n", i, cmap_vec[i]);
-//reverse fill cause reverse z to obtain proper jet map
+/* Load N_CMAP colormaps from .cmap file */
 int	_read_cmap_file(int cmaps[N_CMAP][CMAP_DEPTH])
 {
 	char	*line;
@@ -68,7 +68,7 @@ int	_read_cmap_file(int cmaps[N_CMAP][CMAP_DEPTH])
 			perror("Invalid cmap file");
 			return (-1);
 		}
-		cmaps[i / CMAP_DEPTH][CMAP_DEPTH - 1 - i % CMAP_DEPTH] = ft_atoi(line);
+		cmaps[i / CMAP_DEPTH][i % CMAP_DEPTH] = ft_atoi(line);
 		free(line);
 		i++;
 	}
@@ -76,7 +76,7 @@ int	_read_cmap_file(int cmaps[N_CMAP][CMAP_DEPTH])
 	return (0);
 }
 
-//find min and max values of z in map
+// Fetch min and max values of z from model
 void	_get_z_min_max(float *z_min_max, t_imat *data_in)
 {
 	int		z_min;
