@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 17:18:16 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 14:01:09 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,3 +103,16 @@ void	draw_box_around_image(t_image *im)
 	draw_line_image(&bottom_left, &top_left, im, WHITE);
 	return ;
 }
+/*
+Removed because slower than destroy and create new image...
+// Reset each image byte to zero 
+void	reset_image_black(t_image *im)
+{
+	int	i;
+
+	i = 0;
+	while (i < im -> ny * im -> line_size)
+		*(im -> addr + i++) = 0;
+	return ;
+}
+*/

@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 11:32:43 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 14:02:40 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,38 +63,39 @@ void	process_and_render(t_meta *meta)
 	int		*proj_mat;
 	int		*is_in_im;	
 
-	//clock_t t = clock();
+	clock_t t;
+	t = clock();
 	fmat = fmat_dup(&meta -> init_fmat);
-	//fprintf(stderr, "dt_dup =%lu\n", clock() - t);
+	fprintf(stderr, "dt_dup =%lu\n", clock() - t);
 
-	//t = clock();
+	t = clock();
 	transform_fmat(&fmat, &meta -> view);
-	//fprintf(stderr, "dt_transfo =%lu\n", clock() - t);
+	fprintf(stderr, "dt_transfo =%lu\n", clock() - t);
 	
-	//t = clock();
+	t = clock();
 	proj_mat = proj_shift(&fmat, meta, &is_in_im);
-	//fprintf(stderr, "dt_proj =%lu\n", clock() - t);
+	fprintf(stderr, "dt_proj =%lu\n", clock() - t);
 	
 	free(fmat.fmat);
 	
-	//t = clock();
+	t = clock();
 	draw_grid_image(proj_mat, is_in_im, meta);
-	//fprintf(stderr, "dt_draw =%lu\n", clock() - t);
+	fprintf(stderr, "dt_draw =%lu\n", clock() - t);
 	
 	free(proj_mat);
 	free(is_in_im);
 	
 	draw_box_around_image(&meta -> im);
 	
-	//t = clock();
+	t = clock();
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
-	//fprintf(stderr, "dt_put_im =%lu\n", clock() - t);
+	fprintf(stderr, "dt_put_im =%lu\n", clock() - t);
 	
-	//t = clock();
+	t = clock();
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
-	//fprintf(stderr, "dt_destroy_im =%lu\n", clock() - t);
+	fprintf(stderr, "dt_destroy_im =%lu\n", clock() - t);
 	
 
 	return ;
@@ -120,11 +121,11 @@ static void	_create_win(t_xptr *xp, int win_ny, int win_nx, char *title)
 	void	*win;
 
 	mlx = mlx_init();
-	if (mlx == NULL)
+	if (mlx == NULL)  //need free and destriy
 		exit(-1);
 	win = mlx_new_window(mlx, win_nx, win_ny, title);
 	if (win == NULL)
-		exit(-1);
+		exit(-1); //free and destr
 	xp -> mlx = mlx;
 	xp -> win = win;
 	return ;
@@ -136,7 +137,7 @@ static void	_create_image(t_xptr *xp, t_image *im)
 	im -> ny = round(0.9 * WIN_NY);
 	im -> pos_x = round(0.5 * (WIN_NX - im -> nx));
 	im -> pos_y = round(0.5 * (WIN_NY - im -> ny));
-	im -> id = mlx_new_image(xp -> mlx, im -> nx, im -> ny);
+	im -> id = mlx_new_image(xp -> mlx, im -> nx, im -> ny); //pro, free and destr?
 	im -> addr = mlx_get_data_addr(im -> id, &im -> bpp,
 			&im -> line_size, &im -> endian);
 	return ;

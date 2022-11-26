@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 15:10:51 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 14:05:26 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 13:47:12 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d)
 	return (0);
 }
 
-void	_put_pix_image(t_image *im, int x, int y, int color)
+static void	_put_pix_image(t_image *im, int x, int y, int color)
 // Only works for 4 bytes = 32 bit depth ? Could dev a byte wise method...
 {
 	char	*pix_addr;
