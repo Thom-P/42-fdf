@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 20:28:13 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/22 13:15:30 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:22:26 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_fmats_exit(float *fmat, float *init_fmat)
 	return ;
 }
 
+// Free memory allocated by ft_split
 void	free_word_arr(char **word_arr)
 {
 	int	i;

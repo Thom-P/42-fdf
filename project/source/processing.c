@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42lausann>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:37:22 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 17:20:28 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:42:37 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad);
 
-static void		_assign_transfo_mat(float *transfo_mat, t_view *view);
+static void	_assign_transfo_mat(float *transfo_mat, t_view *view);
 
-//im_rad: image size for scaling (chose ny, usually smaller)
+// Convert initial int data into 3D float matrix (x, y, z)
 void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 {
 	int		n_pts;
 	float	center[2];
-	float	im_radius;
+	float	im_size;
 
-	im_radius = 0.5 * (im -> ny - 1);
+	im_size = 0.5 * (im -> ny - 1);
 	center[0] = 0.5 * (data_in -> n - 1);
 	center[1] = 0.5 * (data_in -> m - 1);
 	n_pts = data_in -> m * data_in -> n;
@@ -36,14 +36,14 @@ void	create_init_fmat(t_imat *data_in, t_fmat *init_fmat, t_image *im)
 		perror("In create_init_mat");
 		exit(EXIT_FAILURE);
 	}
-	_fill_fmat(data_in, init_fmat, center, im_radius);
+	_fill_fmat(data_in, init_fmat, center, im_size);
 	return ;
 }
 
-//normalisation so that model fits exactly within image (accounting x y only)
-//0.95 prefact to allow some margin
-//flip the z sign so that elevation goes from screen to user (z axis backward)
-static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad)
+/* Norm. distances so that model fits within image (diagonal should fit in ny)
+(0.95 prefactor to allow some margin)
+Flip the z sign so that elev. goes from screen to user (z axis pointing back)*/
+static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_size)
 {
 	int		cc;
 	int		i;
@@ -52,7 +52,7 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad)
 	int		nb_pts;
 
 	nb_pts = data_in -> m * data_in -> n;
-	scale_fact = 0.95 * im_rad / sqrt(pow(ctr[0], 2) + pow(ctr[1], 2));
+	scale_fact = 0.95 * im_size / sqrt(pow(ctr[0], 2) + pow(ctr[1], 2));
 	cc = 0;
 	i = 0;
 	while (i < data_in -> m)
@@ -72,8 +72,7 @@ static void	_fill_fmat(t_imat *data_in, t_fmat *fmat, float *ctr, float im_rad)
 	return ;
 }
 
-//rotation and zoom/z-stretch
-//void	transform_fmat(t_fmat *fmat, t_view *view)
+// Apply rotation and zoom/z-stretch
 void	transform_fmat(t_fmat *curr_fmat, t_fmat *init_fmat, t_view *view)
 {
 	t_fmat	transfo;
@@ -87,6 +86,7 @@ void	transform_fmat(t_fmat *curr_fmat, t_fmat *init_fmat, t_view *view)
 	return ;
 }
 
+// Implement rotation and zoom/z-stretch matrix
 static void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 {
 	float	cz;
@@ -112,13 +112,7 @@ static void	_assign_transfo_mat(float *transfo_mat, t_view *view)
 	return ;
 }
 
-//get projected and shifted matrix
-//free(proj_mat); //need clean fct
-//free(is_in_im);
-//free(fmat -> fmat); //shd also close window and all... create clean fct!
-//perror("In proj_mat");
-//does recenter and shift
-//could add z row for color
+// Get (x, y) projected, recentered, and shifted (from WASD) matrix
 int	*proj_shift(t_fmat *fmat, t_meta *meta, int **is_in_im)
 {
 	int		*proj;

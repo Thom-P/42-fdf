@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 14:12:57 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 19:57:01 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:27:18 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int		_parse_line(char *line, int **row);
 
 static int		*_list2mat(t_list **row_list, int m, int n);
 
+// Get data from .fdf file into int matrix data_in
 t_imat	get_input(char *f_name)
 {
 	int		fd;
@@ -49,8 +50,8 @@ t_imat	get_input(char *f_name)
 	return (data_in);
 }
 
+// Data from each line are stored in a linked list (unknown file dimension)
 static int	_parse_file(int fd, t_imat *data_in, t_list **row_list)
-//nb: on macbook, err_msg not init to NULL (random prints if malloc fails?)
 {
 	int		*row;
 	t_list	*node;
@@ -108,33 +109,7 @@ static void	_parse_first_line(t_imat *data_in, t_list **row_list, int fd)
 	return ;
 }
 
-static int	*_list2mat(t_list **row_list, int m, int n)
-{
-	int		*data_mat;
-	int		i;
-	int		j;
-	int		*row;
-	t_list	*node;
-
-	node = *row_list;
-	i = 0;
-	data_mat = (int *)malloc(sizeof(int) * m * n);
-	while (data_mat && node != NULL)
-	{	
-		row = node -> content;
-		j = 0;
-		while (j < n)
-		{
-			data_mat[i * n + j] = row[j];
-			j++;
-		}
-		i++;
-		node = node -> next;
-	}
-	ft_lstclear(row_list, &free);
-	return (data_mat);
-}
-
+// Convert a char line into an int array
 static int	_parse_line(char *line, int **row)
 {
 	char	**word_arr;
@@ -161,4 +136,32 @@ static int	_parse_line(char *line, int **row)
 	}
 	free_word_arr(word_arr);
 	return (n);
+}
+
+// Convert the linked list into a matrix
+static int	*_list2mat(t_list **row_list, int m, int n)
+{
+	int		*data_mat;
+	int		i;
+	int		j;
+	int		*row;
+	t_list	*node;
+
+	node = *row_list;
+	i = 0;
+	data_mat = (int *)malloc(sizeof(int) * m * n);
+	while (data_mat && node != NULL)
+	{	
+		row = node -> content;
+		j = 0;
+		while (j < n)
+		{
+			data_mat[i * n + j] = row[j];
+			j++;
+		}
+		i++;
+		node = node -> next;
+	}
+	ft_lstclear(row_list, &free);
+	return (data_mat);
 }

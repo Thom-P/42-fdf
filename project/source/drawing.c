@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 10:18:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 14:01:09 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:16:57 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int *cmap);
 
 static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int *cmap);
 
+// Draw every edge into image buffer
 void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 {
 	int	i;
@@ -43,6 +44,7 @@ void	draw_grid_image(int *proj_mat, int *in_im, t_meta *meta)
 	return ;
 }
 
+// Draw edge from point to right (+x) neighbor
 static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int *cmap)
 {	
 	int		nb_pts;
@@ -62,6 +64,7 @@ static void	_draw_edge_r(int *proj_mat, int cc, t_meta *meta, int *cmap)
 	return ;
 }
 
+// Draw edge from point to downward (+y) neighbor
 static void	_draw_edge_d(int *proj_mat, int cc, t_meta *meta, int *cmap)
 {	
 	int		nb_pts;
@@ -103,16 +106,3 @@ void	draw_box_around_image(t_image *im)
 	draw_line_image(&bottom_left, &top_left, im, WHITE);
 	return ;
 }
-/*
-Removed because slower than destroy and create new image...
-// Reset each image byte to zero 
-void	reset_image_black(t_image *im)
-{
-	int	i;
-
-	i = 0;
-	while (i < im -> ny * im -> line_size)
-		*(im -> addr + i++) = 0;
-	return ;
-}
-*/

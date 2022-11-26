@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 17:14:28 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:19:54 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	_rotate_or_shift_view(int key, t_view *view);
 
 static void	_reset_or_zscale_view(int key, t_view *view, t_imat *data_in);
 
-//fprintf(stderr, "%i\n", key);
+// Called on every keyboard down press
 int	key_down_hook(int key, t_meta *meta)
 {
 	if (key == ESCAPE_KEY)
@@ -42,6 +42,14 @@ int	key_down_hook(int key, t_meta *meta)
 	else
 		return (0);
 	process_and_render(meta);
+	return (0);
+}
+
+// Called on every key release, used only to increase rotation rate
+int	key_up_hook(int keycode, t_meta *meta)
+{
+	if (keycode == MAJ_KEY)
+		meta -> view.d_theta *= 3;
 	return (0);
 }
 
@@ -89,15 +97,7 @@ static void	_reset_or_zscale_view(int key, t_view *view, t_imat *data_in)
 	return ;
 }
 
-int	key_up_hook(int keycode, t_meta *meta)
-{
-	if (keycode == MAJ_KEY)
-		meta -> view.d_theta *= 3;
-	return (0);
-}
-
-//called when closing window or pressing escape key
-// nb: if window closed during recomputing could have leaks
+// Called when closing window or pressing escape key
 int	destroy_hook(t_meta *meta)
 {
 	free(meta -> init_fmat.fmat);

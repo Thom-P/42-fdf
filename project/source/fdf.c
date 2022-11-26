@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 19:55:38 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 20:11:58 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ int	main(int ac, char **av)
 	return (0);
 }
 
-//dup init mat to always start back from init state and not prop error
-//nb: put data_in sizes in indep struct to avoid carrying data_in around?
-//need to free init mat
-//data in passed only for dimensions (only mat freed)
 void	process_and_render(t_meta *meta)
 {
 	t_fmat	*fmat;
@@ -63,13 +59,13 @@ void	process_and_render(t_meta *meta)
 	clock_t t;
 	
 	fmat = &meta -> curr_fmat;
-	t = clock();
+	//t = clock();
 	transform_fmat(fmat, &meta -> init_fmat, &meta -> view);
-	fprintf(stderr, "dt_transfo =%lu\n", clock() - t);
+	//fprintf(stderr, "dt_transfo =%lu\n", clock() - t);
 	
-	t = clock();
+	//t = clock();
 	proj_mat = proj_shift(fmat, meta, &is_in_im);
-	fprintf(stderr, "dt_proj =%lu\n", clock() - t);
+	//fprintf(stderr, "dt_proj =%lu\n", clock() - t);
 	
 	t = clock();
 	draw_grid_image(proj_mat, is_in_im, meta);
@@ -80,15 +76,15 @@ void	process_and_render(t_meta *meta)
 	
 	draw_box_around_image(&meta -> im);
 	
-	t = clock();
+	//t = clock();
 	mlx_put_image_to_window(meta -> xp.mlx, meta -> xp.win,
 		meta -> im.id, meta -> im.pos_x, meta -> im.pos_y);
-	fprintf(stderr, "dt_put_im =%lu\n", clock() - t);
+	//fprintf(stderr, "dt_put_im =%lu\n", clock() - t);
 	
-	t = clock();
+	//t = clock();
 	mlx_destroy_image(meta -> xp.mlx, meta -> im.id);
 	_create_image(&meta -> xp, &meta -> im);
-	fprintf(stderr, "dt_destroy_im =%lu\n", clock() - t);
+	//fprintf(stderr, "dt_destroy_im =%lu\n", clock() - t);
 	return ;
 }
 
