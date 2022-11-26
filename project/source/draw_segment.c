@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 15:10:51 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 13:47:12 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 19:51:04 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	_put_pix_image(t_image *im, int x, int y, int color);
 
 // Bresenham's line algo using integer computations only
 void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im, int color)
-//nb: could add in box check for p1 and p0
 {
 	t_draw	d;
 	t_ipt2	p0_cpy;
@@ -45,7 +44,7 @@ void	draw_line_image(t_ipt2 *p0, t_ipt2 *p1, t_image *im, int color)
 	return ;
 }
 
-// copy of t_p0 is provided so that point is not modified during draw
+// A copy of p0 is provided so that point is not modified during drawing
 static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d)
 {
 	int	e2;
@@ -71,7 +70,6 @@ static int	_get_next_pix(t_ipt2 *p0, t_ipt2 *p1, t_draw *d)
 }
 
 static void	_put_pix_image(t_image *im, int x, int y, int color)
-// Only works for 4 bytes = 32 bit depth ? Could dev a byte wise method...
 {
 	char	*pix_addr;
 
