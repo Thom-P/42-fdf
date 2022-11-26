@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:45:44 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 17:21:14 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 10:41:24 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define S_KEY 1
 # define D_KEY 2
 # define R_KEY 15
+# define Z_KEY 6
 
 // Colors
 # define WHITE 16777215 //White
@@ -89,6 +90,7 @@ typedef struct s_view
 	float	d_theta;
 	float	zoom;
 	float	z_scale;
+	float	z_min_max[2];
 	int		off_x;
 	int		off_y;
 	int		d_offset;

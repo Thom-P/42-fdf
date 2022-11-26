@@ -1,4 +1,5 @@
-- add auto rescale z, and auto return to iso/ini
+- add auto rescale z
+- work order in which segments are drawn, from back to from...(would need sort algo of pts based on z value)
 - bonus...
 - install valgrind and check leaks
 - replace destroy and create window by writing black pixels to see if faster?`

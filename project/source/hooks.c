@@ -6,25 +6,23 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 17:37:35 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 17:25:33 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 11:39:45 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	_shift_view(int key, t_view *view);
+static void	_rotate_or_shift_view(int key, t_view *view);
 
-static void	_rotate_view(int key, t_view *view);
-
-static void	_reset_view(t_view *view);
+static void	_reset_or_zscale_view(int key, t_view *view, t_imat *data_in);
 
 //fprintf(stderr, "%i\n", key);
 int	key_down_hook(int key, t_meta *meta)
 {
 	if (key == ESCAPE_KEY)
 		destroy_hook(meta);
-	else if (key == R_KEY)
-		_reset_view(&meta -> view);
+	else if (key == R_KEY || key == Z_KEY)
+		_reset_or_zscale_view(key, &meta -> view, &meta -> data_in);
 	else if (key == SPACE_KEY)
 		meta -> view.i_cmap = (meta -> view.i_cmap + 1) % N_CMAP;
 	else if (key == MAJ_KEY)
@@ -38,17 +36,16 @@ int	key_down_hook(int key, t_meta *meta)
 	else if (key == L_KEY)
 		meta -> view.z_scale /= 1.1;
 	else if (key == LEFT_ARROW_KEY || key == RIGHT_ARROW_KEY
-		|| key == UP_ARROW_KEY || key == DOWN_ARROW_KEY)
-		_rotate_view(key, &meta -> view);
-	else if (key == A_KEY || key == D_KEY || key == W_KEY || key == S_KEY)
-		_shift_view(key, &meta -> view);
+		|| key == UP_ARROW_KEY || key == DOWN_ARROW_KEY || key == A_KEY
+		|| key == D_KEY || key == W_KEY || key == S_KEY)
+		_rotate_or_shift_view(key, &meta -> view);
 	else
 		return (0);
 	process_and_render(meta);
 	return (0);
 }
 
-static void	_rotate_view(int key, t_view *view)
+static void	_rotate_or_shift_view(int key, t_view *view)
 {	
 	if (key == LEFT_ARROW_KEY)
 		view -> theta_z -= view -> d_theta;
@@ -58,12 +55,7 @@ static void	_rotate_view(int key, t_view *view)
 		view -> theta_x += view -> d_theta;
 	else if (key == DOWN_ARROW_KEY)
 		view -> theta_x -= view -> d_theta;
-	return ;
-}
-
-static void	_shift_view(int key, t_view *view)
-{
-	if (key == A_KEY)
+	else if (key == A_KEY)
 		view -> off_x += view -> d_offset;
 	else if (key == D_KEY)
 		view -> off_x -= view -> d_offset;
@@ -74,14 +66,26 @@ static void	_shift_view(int key, t_view *view)
 	return ;
 }
 
-static void	_reset_view(t_view *view)
+static void	_reset_or_zscale_view(int key, t_view *view, t_imat *data_in)
 {
-	view -> theta_z = 45. / 180. * M_PI;
-	view -> theta_x = -(90. - 35.2644) / 180. * M_PI;
-	view -> zoom = 1;
-	view -> z_scale = 1;
-	view -> off_x = 0;
-	view -> off_y = 0;
+	float	delta_z;
+	float	delta_x;
+
+	if (key == R_KEY)
+	{
+		view -> theta_z = 45. / 180. * M_PI;
+		view -> theta_x = -(90. - 35.2644) / 180. * M_PI;
+		view -> zoom = 1;
+		view -> z_scale = 1;
+		view -> off_x = 0;
+		view -> off_y = 0;
+	}
+	else if (key == Z_KEY)
+	{
+		delta_z = (float)fabsf(view -> z_min_max[1] - view -> z_min_max[0]);
+		delta_x = (float) data_in -> n - 1;
+		view -> z_scale = 10. / 100 * delta_x / delta_z;
+	}
 	return ;
 }
 

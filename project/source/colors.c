@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 10:56:03 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/25 13:42:38 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/26 10:36:30 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@ void	_get_z_min_max(float *z_min_max, t_imat *data_in);
 
 int		_read_cmap_file(int cmap[N_CMAP][CMAP_DEPTH]);
 
-//cmap[i] = (int)round((float)RED + ((float)(z_curr - z_min) 
-// / (float)(z_max - z_min)) * (float)(WHITE - RED)); 
 void	init_colors(t_imat *data_in, t_view *view)
 {
 	int		*i_color;
-	float	z_min_max[2];
+	float	*z_min_max;
 	float	z_curr;
 	int		nb_pts;
 
+	z_min_max = view -> z_min_max;
 	nb_pts = data_in -> m * data_in -> n;
 	i_color = (int *)malloc(sizeof(int) * nb_pts);
 	if (i_color == NULL || _read_cmap_file(view -> cmaps) == -1)
