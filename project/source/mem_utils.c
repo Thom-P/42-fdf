@@ -6,16 +6,17 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 20:28:13 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 20:22:26 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/27 18:52:33 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	free_fmats_exit(float *fmat, float *init_fmat)
+void	free_and_exit(float *fmat, float *init_fmat, int *i_color)
 {
 	free(fmat);
 	free(init_fmat);
+	free(i_color);
 	exit(EXIT_FAILURE);
 	return ;
 }

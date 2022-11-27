@@ -6,14 +6,14 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 15:30:14 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 20:42:06 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/27 18:50:44 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 // Duplicate float matrix using malloc
-t_fmat	fmat_dup(t_fmat *fmat_in)
+t_fmat	fmat_dup(t_fmat *fmat_in, t_view *view)
 {
 	t_fmat	fmat_out;
 	int		i;
@@ -25,6 +25,7 @@ t_fmat	fmat_dup(t_fmat *fmat_in)
 	{
 		perror("In fmat_dup");
 		free(fmat_in -> fmat);
+		free(view -> i_color);
 		exit(EXIT_FAILURE);
 	}
 	i = 0;

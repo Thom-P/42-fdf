@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/27 15:44:47 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/27 18:49:53 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	main(int ac, char **av)
 		"Zoom In/Out: I/O, Z-scale +/-/Auto: K/L/Z, Colors: SPACE, Quit: ESC";
 	mlx_string_put(meta.xp.mlx, meta.xp.win, 1, 1, WHITE, str);
 	_create_image(&meta, &meta.im);
-	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im);
+	create_init_fmat(&meta.data_in, &meta.init_fmat, &meta.im, &meta.view);
 	free(meta.data_in.imat);
-	meta.curr_fmat = fmat_dup(&meta.init_fmat);
+	meta.curr_fmat = fmat_dup(&meta.init_fmat, &meta.view);
 	_init_view(&meta.view, &meta.im);
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);

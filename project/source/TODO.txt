@@ -1,4 +1,3 @@
-- add free of i_color if create_init_mat or dup or proj fails...
 - work order in which segments are drawn, from back to from...(would need sort algo of pts based on z value)
 - improve drawing and matrix multiplications
 - install valgrind and check leaks
