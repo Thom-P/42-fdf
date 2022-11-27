@@ -6,7 +6,7 @@
 /*   By: tplanes <tplanes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:44:28 by tplanes           #+#    #+#             */
-/*   Updated: 2022/11/26 21:25:28 by tplanes          ###   ########.fr       */
+/*   Updated: 2022/11/27 15:44:47 by tplanes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int ac, char **av)
 		exit (EXIT_FAILURE);
 	}
 	meta.data_in = get_input(av[1]);
+	init_colors(&meta.data_in, &meta.view);
 	_create_win(&meta, WIN_NY, WIN_NX, "***Fil de Fer***");
 	str = "Reset iso: R, Move: WASD, (Slow) Rotate: (SHIFT) ARROWS, "
 		"Zoom In/Out: I/O, Z-scale +/-/Auto: K/L/Z, Colors: SPACE, Quit: ESC";
@@ -38,7 +39,6 @@ int	main(int ac, char **av)
 	free(meta.data_in.imat);
 	meta.curr_fmat = fmat_dup(&meta.init_fmat);
 	_init_view(&meta.view, &meta.im);
-	init_colors(&meta.data_in, &meta.view);
 	process_and_render(&meta);
 	mlx_hook(meta.xp.win, KEY_DOWN, 0, &key_down_hook, &meta);
 	mlx_hook(meta.xp.win, KEY_UP, 0, &key_up_hook, &meta);
@@ -91,12 +91,14 @@ static void	_create_win(t_meta *meta, int win_ny, int win_nx, char *title)
 	if (mlx == NULL)
 	{	
 		free(meta -> data_in.imat);
+		free(meta -> view.i_color);
 		exit(EXIT_FAILURE);
 	}
 	win = mlx_new_window(mlx, win_nx, win_ny, title);
 	if (win == NULL)
 	{	
 		free(meta -> data_in.imat);
+		free(meta -> view.i_color);
 		exit(EXIT_FAILURE);
 	}
 	meta -> xp.mlx = mlx;
@@ -114,6 +116,7 @@ static void	_create_image(t_meta *meta, t_image *im)
 	if (im -> id == NULL)
 	{
 		free(meta -> data_in.imat);
+		free(meta -> view.i_color);
 		mlx_destroy_window(meta -> xp.mlx, meta -> xp.win);
 		exit(EXIT_FAILURE);
 	}
