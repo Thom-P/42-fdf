@@ -4,3 +4,5 @@ This school 42 project objective is to create a visualizer for a Digital Elevati
 * shift the data
 * increase or decrease the z-scale
 * change the colorscale (z-dependent)
+
+![Screenshot](Screenshot.png)
